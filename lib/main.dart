@@ -53,13 +53,13 @@ class App extends StatelessWidget {
         colorBehindNavBar: Colors.white,
       ),
       itemAnimationProperties: ItemAnimationProperties(
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
+        duration: Duration(milliseconds: 200),
+        curve: Curves.ease,
       ),
       screenTransitionAnimation: ScreenTransitionAnimation(
         animateTabTransition: true,
-        curve: Curves.easeInOut,
-        duration: Duration(milliseconds: 300),
+        curve: Curves.ease,
+        duration: Duration(milliseconds: 200),
       ),
       navBarStyle: NavBarStyle.style6,
       screens: [Home(), Trips(), Profil(), CreateTrip(), Wallet()],

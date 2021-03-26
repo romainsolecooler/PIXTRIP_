@@ -34,6 +34,8 @@ class Messages extends Translations {
           'add_trip__add_first_info_placeholder': 'Info principale',
           'add_trip__add_second_info_placeholder': 'Anecdote',
           'add_trip__add_third_info_placeholder': 'Votre avis',
+          'wallet__page_separator': 'Déjà utilisé',
+          'coupon_details__info_position': 'Info et Position',
         },
       };
 }

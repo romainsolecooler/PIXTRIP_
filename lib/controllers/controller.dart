@@ -50,4 +50,13 @@ class Controller extends GetxController {
   void setAddThirdInfo(String text) {
     addThirdInfo.value = text;
   }
+
+  ////////////
+  // WALLET //
+  ////////////
+  final couponId = ''.obs;
+
+  void setCouponId(String id) {
+    couponId.value = id;
+  }
 }

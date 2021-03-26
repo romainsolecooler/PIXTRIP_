@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^3.26.0
   persistent_bottom_nav_bar: ^4.0.0
+  qr_flutter: ^4.0.0
 
 dev_dependencies:
   flutter_test:
