@@ -1,14 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import 'package:pixtrip/common/app_bar.dart';
-
-import 'package:pixtrip/pages/trips.dart';
+import 'package:pixtrip/common/utils.dart';
+import 'package:pixtrip/components/home/tutorial.dart';
+import 'package:pixtrip/controllers/controller.dart';
 
 const EdgeInsets padding = EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0);
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      return;
+      Get.dialog(
+        Tutorial(),
+        barrierColor: Colors.transparent,
+        barrierDismissible: false,
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,15 +38,15 @@ class Home extends StatelessWidget {
             child: Column(
               children: [
                 _HomeTrip(
-                  image: 'https://picsum.photos/50?image=1',
+                  image: 'https://source.unsplash.com/random',
                   title: 'Saint-Cyprien',
                 ),
                 _HomeTrip(
-                  image: 'https://picsum.photos/50?image=2',
+                  image: 'https://source.unsplash.com/random',
                   title: 'Sainte-Marie',
                 ),
                 _HomeTrip(
-                  image: 'https://picsum.photos/50?image=3',
+                  image: 'https://source.unsplash.com/random',
                   title: 'Canet en Roussillon',
                 )
               ],
@@ -60,11 +78,15 @@ class _HomeTrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Controller c = Get.find();
+
     return Expanded(
       child: Container(
         margin: EdgeInsets.only(top: 8.0),
         child: InkWell(
-          onTap: () => pushNewScreen(context, screen: Trips(tripId: 'toto')),
+          onTap: () {
+            c.setAppBarController(1);
+          },
           child: Padding(
             padding: padding,
             child: Row(
@@ -73,7 +95,10 @@ class _HomeTrip extends StatelessWidget {
                 Flexible(
                   flex: 2,
                   child: Padding(
-                    child: Placeholder(),
+                    child: LoadImageWithLoader(
+                      url: image,
+                      blurred: true,
+                    ),
                     padding: padding,
                     /* child: Image.network(
                       image,
@@ -94,7 +119,7 @@ class _HomeTrip extends StatelessWidget {
                     decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
-                          color: Colors.grey,
+                          color: Theme.of(context).dividerColor,
                         ),
                       ),
                     ),
@@ -143,11 +168,15 @@ class _PageDivider extends StatelessWidget {
 class _ChooseTrip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Controller c = Get.find();
+
     return Expanded(
       child: Container(
         margin: EdgeInsets.only(top: 8.0),
         child: InkWell(
-          onTap: () => pushNewScreen(context, screen: Trips()),
+          onTap: () {
+            c.setAppBarController(1);
+          },
           child: Padding(
             padding: padding,
             child: Row(
@@ -156,11 +185,10 @@ class _ChooseTrip extends StatelessWidget {
                 Flexible(
                   flex: 1,
                   child: Padding(
-                    child: Placeholder(),
                     padding: padding,
-                    /* child: Image.network(
-                      image,
-                    ), */
+                    child: LoadAssetsImage(
+                      source: 'assets/images/google_maps.jpg',
+                    ),
                   ),
                 ),
                 SizedBox(width: 10),
@@ -187,7 +215,7 @@ class _ChooseTrip extends StatelessWidget {
                     decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
-                          color: Colors.grey,
+                          color: Theme.of(context).dividerColor,
                         ),
                       ),
                     ),

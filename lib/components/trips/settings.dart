@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pixtrip/components/trips/sliders/difficulty_slider.dart';
-import 'package:pixtrip/components/trips/sliders/distance_slider.dart';
-import 'package:pixtrip/components/trips/sliders/time_slider.dart';
+import 'package:pixtrip/components/trips/sliders/sliders.dart';
+
 import 'package:pixtrip/controllers/controller.dart';
 
 class TripsSettings extends StatelessWidget {

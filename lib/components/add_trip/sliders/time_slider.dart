@@ -3,21 +3,20 @@ import 'package:get/get.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
 
-class DistanceSlider extends StatelessWidget {
+class TimeSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetX<Controller>(
       builder: (controller) {
-        String label =
-            'slider__distance_${controller.sliderDistance.value.toString()}'.tr;
+        String label = 'slider__time_${controller.addTime.value.toString()}'.tr;
         return Column(
           children: [
             Slider(
-              onChanged: (value) => controller.setSliderDistance(value.toInt()),
-              value: controller.sliderDistance.value.toDouble(),
+              onChanged: (value) => controller.setAddTime(value.toInt()),
+              value: controller.addTime.value.toDouble(),
               min: 0,
-              max: 6,
-              divisions: 6,
+              max: 3,
+              divisions: 3,
               activeColor: Theme.of(context).primaryColor,
             ),
             Text(label),

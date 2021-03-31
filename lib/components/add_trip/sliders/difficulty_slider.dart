@@ -3,21 +3,22 @@ import 'package:get/get.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
 
-class DistanceSlider extends StatelessWidget {
+class DifficultySlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetX<Controller>(
       builder: (controller) {
         String label =
-            'slider__distance_${controller.sliderDistance.value.toString()}'.tr;
+            'slider__difficulty_${controller.addDifficulty.value.toString()}'
+                .tr;
         return Column(
           children: [
             Slider(
-              onChanged: (value) => controller.setSliderDistance(value.toInt()),
-              value: controller.sliderDistance.value.toDouble(),
+              onChanged: (value) => controller.setAddDifficulty(value.toInt()),
+              value: controller.addDifficulty.value.toDouble(),
               min: 0,
-              max: 6,
-              divisions: 6,
+              max: 5,
+              divisions: 5,
               activeColor: Theme.of(context).primaryColor,
             ),
             Text(label),

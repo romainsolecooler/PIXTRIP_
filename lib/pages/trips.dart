@@ -23,7 +23,6 @@ class _TripsState extends State<Trips> {
   @override
   void initState() {
     super.initState();
-    print(widget.tripId != null);
     Future.delayed(Duration.zero, () {
       if (widget.tripId != null) {
         Get.dialog(Trip(), barrierColor: Colors.transparent);

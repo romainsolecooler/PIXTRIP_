@@ -1,13 +1,31 @@
 import 'package:get/get.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class Controller extends GetxController {
   var fetch = GetConnect();
+
+  //////////////////////////////////
+  // PERSISTENT APPBAR CONTROLLER //
+  //////////////////////////////////
+  final appBarController = PersistentTabController(
+    initialIndex: 0,
+  ).obs;
+
+  void setAppBarController(int index) {
+    appBarController.value.index = index;
+  }
+
+  /////////////////////////
+  // TUTORIAL CONTROLLER //
+  /////////////////////////
+  final carouselController = CarouselController().obs;
 
   ////////////
   // TRIPS //
   ///////////
   final settingsCityName = ''.obs;
-  final sliderDistance = 4.0.obs;
+  final sliderDistance = 4.obs;
   final sliderTime = 3.obs;
   final sliderDifficulty = 2.obs;
 
@@ -15,7 +33,7 @@ class Controller extends GetxController {
     settingsCityName.value = city;
   }
 
-  void setSliderDistance(double value) {
+  void setSliderDistance(int value) {
     sliderDistance.value = value;
   }
 
@@ -31,6 +49,9 @@ class Controller extends GetxController {
   // ADD TRIP //
   //////////////
   final addCityName = ''.obs;
+  final addDistance = 2.obs;
+  final addTime = 3.obs;
+  final addDifficulty = 2.obs;
   final addFirstInfo = ''.obs;
   final addSecondInfo = ''.obs;
   final addThirdInfo = ''.obs;
@@ -49,6 +70,18 @@ class Controller extends GetxController {
 
   void setAddThirdInfo(String text) {
     addThirdInfo.value = text;
+  }
+
+  void setAddDistance(int value) {
+    addDistance.value = value;
+  }
+
+  void setAddTime(int value) {
+    addTime.value = value;
+  }
+
+  void setAddDifficulty(int value) {
+    addDifficulty.value = value;
   }
 
   ////////////

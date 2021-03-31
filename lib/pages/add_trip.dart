@@ -4,6 +4,7 @@ import 'package:pixtrip/common/app_bar.dart';
 import 'package:pixtrip/components/add_trip/add_photo.dart';
 import 'package:pixtrip/components/add_trip/textfields.dart';
 import 'package:pixtrip/components/add_trip/position.dart';
+import 'package:pixtrip/components/add_trip/sliders/sliders.dart';
 
 class CreateTrip extends StatelessWidget {
   @override
@@ -29,6 +30,10 @@ class CreateTrip extends StatelessWidget {
               CityName(),
               SizedBox(height: 25),
               AddPosition(),
+              SizedBox(height: 25),
+              DistanceSlider(),
+              TimeSlider(),
+              DifficultySlider(),
               _CustomDivider(),
               FirstInfo(),
               SizedBox(height: 25),

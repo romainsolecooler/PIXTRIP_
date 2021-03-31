@@ -8,7 +8,7 @@ import 'package:pixtrip/common/messages.dart';
 import 'package:pixtrip/pages/home.dart';
 import 'package:pixtrip/pages/trips.dart';
 import 'package:pixtrip/pages/profil.dart';
-import 'package:pixtrip/pages/create_trip.dart';
+import 'package:pixtrip/pages/add_trip.dart';
 import 'package:pixtrip/pages/wallet.dart';
 
 void main() {
@@ -27,10 +27,6 @@ void main() {
 }
 
 class App extends StatelessWidget {
-  final PersistentTabController _controller = PersistentTabController(
-    initialIndex: 0,
-  );
-
   final Color _navBarItemActiveColor = Color(0xffd6bdfa);
   final Color _navBarItemAInactiveColor = Color(0xffd6bdfa);
 
@@ -40,7 +36,7 @@ class App extends StatelessWidget {
 
     return PersistentTabView(
       context,
-      controller: _controller,
+      controller: c.appBarController.value,
       confineInSafeArea: true,
       backgroundColor: Theme.of(context).primaryColor,
       handleAndroidBackButtonPress: true,
@@ -61,7 +57,7 @@ class App extends StatelessWidget {
         curve: Curves.ease,
         duration: Duration(milliseconds: 200),
       ),
-      navBarStyle: NavBarStyle.style6,
+      navBarStyle: NavBarStyle.style12,
       screens: [Home(), Trips(), Profil(), CreateTrip(), Wallet()],
       items: [
         PersistentBottomNavBarItem(
