@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
@@ -11,7 +12,13 @@ import 'package:pixtrip/pages/profil.dart';
 import 'package:pixtrip/pages/add_trip.dart';
 import 'package:pixtrip/pages/wallet.dart';
 
-void main() {
+import 'package:pixtrip/login.dart';
+
+void main() async {
+  await GetStorage.init();
+  final box = GetStorage();
+  Widget homeWidget = box.read('user') != null ? App() : Login();
+  homeWidget = App();
   runApp(GetMaterialApp(
     title: 'Pixtrip',
     popGesture: false,
@@ -22,7 +29,7 @@ void main() {
       primarySwatch: Colors.purple,
     ),
     translations: Messages(),
-    home: App(),
+    home: homeWidget,
   ));
 }
 
