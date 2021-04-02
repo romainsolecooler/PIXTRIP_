@@ -5,6 +5,31 @@ import 'package:carousel_slider/carousel_slider.dart';
 class Controller extends GetxController {
   var fetch = GetConnect();
 
+  //////////
+  // USER //
+  //////////
+
+  ///////////
+  // LOGIN //
+  ///////////
+  final loginPseudoMail = ''.obs;
+  final loginPassword = ''.obs;
+  final stayConnected = false.obs;
+
+  void setLoginPseudoMail(String text) {
+    loginPseudoMail.value = text;
+    print(loginPseudoMail.value);
+  }
+
+  void setLoginPassword(String text) {
+    loginPassword.value = text;
+  }
+
+  void setStayConnected(bool newValue) {
+    stayConnected.value = newValue;
+    print(stayConnected.value);
+  }
+
   //////////////////////////////////
   // PERSISTENT APPBAR CONTROLLER //
   //////////////////////////////////

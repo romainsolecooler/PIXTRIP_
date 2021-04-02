@@ -14,26 +14,62 @@ import 'package:pixtrip/pages/profil.dart';
 import 'package:pixtrip/pages/add_trip.dart';
 import 'package:pixtrip/pages/wallet.dart';
 
-import 'package:pixtrip/login.dart';
+import 'package:pixtrip/not_logged/login/login.dart';
 
 void main() async {
   await GetStorage.init();
   final box = GetStorage();
   Widget homeWidget = box.read('user') != null ? App() : Login();
-  homeWidget = App();
-  runApp(GetMaterialApp(
-    title: 'Pixtrip',
-    popGesture: false,
-    defaultTransition: Transition.cupertino,
-    locale: Locale('fr', 'FR'),
-    fallbackLocale: Locale('fr', 'FR'),
-    theme: ThemeData(
-      textTheme: GoogleFonts.comfortaaTextTheme(),
-      primarySwatch: MaterialColor(0xff1243a6, blueColor),
-    ),
-    translations: Messages(),
-    home: homeWidget,
-  ));
+  runApp(Pixtrip(homeWidget: homeWidget));
+}
+
+class Pixtrip extends StatelessWidget {
+  const Pixtrip({
+    Key key,
+    @required this.homeWidget,
+  }) : super(key: key);
+
+  final Widget homeWidget;
+
+  @override
+  Widget build(BuildContext context) {
+    OutlineInputBorder outlineInputBorder = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Theme.of(context).dividerColor,
+        width: 1.0,
+      ),
+      borderRadius: BorderRadius.circular(20.0),
+    );
+
+    return GetMaterialApp(
+      title: 'Pixtrip',
+      popGesture: false,
+      defaultTransition: Transition.cupertino,
+      locale: Locale('fr', 'FR'),
+      fallbackLocale: Locale('fr', 'FR'),
+      theme: ThemeData(
+        textTheme: GoogleFonts.comfortaaTextTheme(),
+        primarySwatch: MaterialColor(0xff1243a6, blueColor),
+        inputDecorationTheme: InputDecorationTheme(
+          focusedBorder: outlineInputBorder,
+          enabledBorder: outlineInputBorder,
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 20.0,
+            vertical: 22.0,
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            )),
+          ),
+        ),
+      ),
+      translations: Messages(),
+      home: homeWidget,
+    );
+  }
 }
 
 class App extends StatelessWidget {
