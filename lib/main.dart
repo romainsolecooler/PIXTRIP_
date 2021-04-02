@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/common/messages.dart';
+import 'package:pixtrip/common/custom_colors.dart';
 
 import 'package:pixtrip/pages/home.dart';
 import 'package:pixtrip/pages/trips.dart';
@@ -26,7 +28,8 @@ void main() async {
     locale: Locale('fr', 'FR'),
     fallbackLocale: Locale('fr', 'FR'),
     theme: ThemeData(
-      primarySwatch: Colors.purple,
+      textTheme: GoogleFonts.comfortaaTextTheme(),
+      primarySwatch: MaterialColor(0xff1243a6, blueColor),
     ),
     translations: Messages(),
     home: homeWidget,
@@ -34,18 +37,20 @@ void main() async {
 }
 
 class App extends StatelessWidget {
-  final Color _navBarItemActiveColor = Color(0xffd6bdfa);
-  final Color _navBarItemAInactiveColor = Color(0xffd6bdfa);
-
   @override
   Widget build(BuildContext context) {
+    final Color _navBarItemActiveColor =
+        Theme.of(context).textTheme.bodyText1.color;
+    final Color _navBarItemAInactiveColor =
+        Theme.of(context).textTheme.bodyText1.color;
+
     Controller c = Get.put(Controller());
 
     return PersistentTabView(
       context,
       controller: c.appBarController.value,
       confineInSafeArea: true,
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       handleAndroidBackButtonPress: true,
       resizeToAvoidBottomInset: true,
       stateManagement: true,
@@ -64,7 +69,7 @@ class App extends StatelessWidget {
         curve: Curves.ease,
         duration: Duration(milliseconds: 200),
       ),
-      navBarStyle: NavBarStyle.style12,
+      navBarStyle: NavBarStyle.style6,
       screens: [Home(), Trips(), Profil(), CreateTrip(), Wallet()],
       items: [
         PersistentBottomNavBarItem(
