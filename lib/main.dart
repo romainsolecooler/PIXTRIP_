@@ -20,6 +20,8 @@ void main() async {
   await GetStorage.init();
   final box = GetStorage();
   Widget homeWidget = box.read('user') != null ? App() : Login();
+  homeWidget = App();
+  Get.put(Controller());
   runApp(Pixtrip(homeWidget: homeWidget));
 }
 
@@ -41,6 +43,15 @@ class Pixtrip extends StatelessWidget {
       borderRadius: BorderRadius.circular(20.0),
     );
 
+    InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
+      focusedBorder: outlineInputBorder,
+      enabledBorder: outlineInputBorder,
+      contentPadding: EdgeInsets.symmetric(
+        horizontal: 20.0,
+        vertical: 22.0,
+      ),
+    );
+
     return GetMaterialApp(
       title: 'Pixtrip',
       popGesture: false,
@@ -50,14 +61,7 @@ class Pixtrip extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.comfortaaTextTheme(),
         primarySwatch: MaterialColor(0xff1243a6, blueColor),
-        inputDecorationTheme: InputDecorationTheme(
-          focusedBorder: outlineInputBorder,
-          enabledBorder: outlineInputBorder,
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 20.0,
-            vertical: 22.0,
-          ),
-        ),
+        inputDecorationTheme: inputDecorationTheme,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
             shape: MaterialStateProperty.all(RoundedRectangleBorder(
@@ -80,7 +84,7 @@ class App extends StatelessWidget {
     final Color _navBarItemAInactiveColor =
         Theme.of(context).textTheme.bodyText1.color;
 
-    Controller c = Get.put(Controller());
+    Controller c = Get.find();
 
     return PersistentTabView(
       context,

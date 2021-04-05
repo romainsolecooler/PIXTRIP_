@@ -12,7 +12,7 @@ class _TripsListState extends State<TripsList> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width / 2 - 20;
-    int max = 50;
+    int max = 11;
 
     List<Widget> children = [];
 

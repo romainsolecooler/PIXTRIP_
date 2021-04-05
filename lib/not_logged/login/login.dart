@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:pixtrip/common/app_bar.dart';
-import 'package:pixtrip/not_logged/login/continue_with.dart';
 
+import 'package:pixtrip/not_logged/continue_with.dart';
+import 'package:pixtrip/not_logged/forgot_password/forgot_password.dart';
 import 'package:pixtrip/not_logged/login/inputs.dart';
+import 'package:pixtrip/not_logged/register/register.dart';
 
 class Login extends StatelessWidget {
   @override
@@ -20,13 +22,13 @@ class Login extends StatelessWidget {
             PseudoMail(),
             SizedBox(height: 25.0),
             Password(),
-            SizedBox(height: 20),
+            SizedBox(height: 20.0),
             StayConnected(),
-            SizedBox(height: 20),
+            SizedBox(height: 20.0),
             Continue(),
             ContinueWith(),
             SizedBox(height: 25.0),
-            ForgotPassword(),
+            GoToForgotPassword(),
           ],
         ),
       ),
@@ -54,12 +56,12 @@ class CreateAccount extends StatelessWidget {
           decoration: TextDecoration.underline,
         ),
       ),
-      onPressed: () => print('oto'),
+      onPressed: () => Get.to(Register()),
     );
   }
 }
 
-class ForgotPassword extends StatelessWidget {
+class GoToForgotPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
@@ -69,7 +71,7 @@ class ForgotPassword extends StatelessWidget {
           decoration: TextDecoration.underline,
         ),
       ),
-      onPressed: () => print('oto'),
+      onPressed: () => Get.to(ForgotPassword()),
     );
   }
 }

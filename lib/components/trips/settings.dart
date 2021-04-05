@@ -63,15 +63,24 @@ class __SettingsTextFieldState extends State<_SettingsTextField> {
   Widget build(BuildContext context) {
     Controller c = Get.find();
 
-    return CupertinoTextField(
-      padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 12.0),
-      placeholder: 'trips__city_name'.tr,
-      textAlign: TextAlign.center,
-      cursorColor: Theme.of(context).primaryColor,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(50)),
-        border: Border.all(color: Theme.of(context).dividerColor),
+    OutlineInputBorder outlineInputBorder = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Theme.of(context).dividerColor,
+        width: 1.0,
       ),
+      borderRadius: BorderRadius.circular(50.0),
+    );
+
+    return TextField(
+      textAlign: TextAlign.center,
+      decoration: InputDecoration(
+        isDense: true,
+        contentPadding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 13.0),
+        hintText: 'trips__city_name'.tr,
+        focusedBorder: outlineInputBorder,
+        enabledBorder: outlineInputBorder,
+      ),
+      style: Theme.of(context).textTheme.bodyText1,
       onChanged: (text) => c.setSettingsCityName(text),
       controller: _controller,
     );

@@ -30,6 +30,39 @@ class Controller extends GetxController {
     print(stayConnected.value);
   }
 
+  //////////////
+  // REGISTER //
+  //////////////
+  final registerEmail = ''.obs;
+  final registerPseudo = ''.obs;
+  final registerPassword = ''.obs;
+  final registerAcceptedConditions = false.obs;
+
+  void setRegisterEmail(String text) {
+    registerEmail.value = text;
+  }
+
+  void setRegisterPseudo(String text) {
+    registerPseudo.value = text;
+  }
+
+  void setRegisterPassword(String text) {
+    registerPassword.value = text;
+  }
+
+  void setRegisterAcceptedConditions(bool newValue) {
+    registerAcceptedConditions.value = newValue;
+  }
+
+  /////////////////////
+  // FORGOT PASSWORD //
+  /////////////////////
+  final forgotPasswordMail = ''.obs;
+
+  void setForgotPasswordMail(String text) {
+    forgotPasswordMail.value = text;
+  }
+
   //////////////////////////////////
   // PERSISTENT APPBAR CONTROLLER //
   //////////////////////////////////

@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
 
 Controller c = Get.find();
 
-class PseudoMail extends StatefulWidget {
+class Mail extends StatefulWidget {
   @override
-  _PseudoMailState createState() => _PseudoMailState();
+  _MailState createState() => _MailState();
 }
 
-class _PseudoMailState extends State<PseudoMail> {
+class _MailState extends State<Mail> {
   TextEditingController _controller;
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
     _controller = TextEditingController();
-    _controller.text = c.loginPseudoMail.value;
+    _controller.text = c.registerEmail.value;
   }
 
   @override
   void dispose() {
+    // TODO: implement dispose
     _controller.dispose();
     super.dispose();
   }
@@ -32,11 +33,46 @@ class _PseudoMailState extends State<PseudoMail> {
     return TextField(
       textAlign: TextAlign.left,
       decoration: InputDecoration(
-        hintText: 'login__pseudo_mail'.tr,
+        hintText: 'register__mail'.tr,
+        prefixIcon: Icon(Icons.email),
+      ),
+      onChanged: (text) => c.setRegisterEmail(text),
+    );
+  }
+}
+
+class Pseudo extends StatefulWidget {
+  @override
+  _PseudoState createState() => _PseudoState();
+}
+
+class _PseudoState extends State<Pseudo> {
+  TextEditingController _controller;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller = TextEditingController();
+    _controller.text = c.registerPseudo.value;
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      textAlign: TextAlign.left,
+      decoration: InputDecoration(
+        hintText: 'register__pseudo'.tr,
         prefixIcon: Icon(Icons.perm_identity),
       ),
-      onChanged: (text) => c.setLoginPseudoMail(text),
-      controller: _controller,
+      onChanged: (text) => c.setRegisterPseudo(text),
     );
   }
 }
@@ -53,13 +89,15 @@ class _PasswordState extends State<Password> {
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
     _controller = TextEditingController();
-    _controller.text = c.loginPassword.value;
+    _controller.text = c.registerPassword.value;
   }
 
   @override
   void dispose() {
+    // TODO: implement dispose
     _controller.dispose();
     super.dispose();
   }
@@ -76,32 +114,31 @@ class _PasswordState extends State<Password> {
 
     return TextField(
       textAlign: TextAlign.left,
-      cursorColor: Theme.of(context).primaryColor,
       decoration: InputDecoration(
-        hintText: 'login__password'.tr,
+        hintText: 'register__password'.tr,
         suffixIcon: IconButton(
           icon: Icon(suffixIcon),
           onPressed: () => toggleObscureText(),
         ),
       ),
       obscureText: obscureText,
-      onChanged: (text) => c.setLoginPassword(text),
+      onChanged: (text) => c.setRegisterEmail(text),
       controller: _controller,
     );
   }
 }
 
-class StayConnected extends StatelessWidget {
+class AcceptConditions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SizedBox(width: 10),
+        SizedBox(width: 10.0),
         Obx(() => Checkbox(
-              onChanged: (value) => c.setStayConnected(value),
-              value: c.stayConnected.value,
+              onChanged: (value) => c.registerAcceptedConditions(value),
+              value: c.registerAcceptedConditions.value,
             )),
-        Text('login__stay_connected'.tr),
+        Text('register__accept_conditions'.tr),
       ],
     );
   }

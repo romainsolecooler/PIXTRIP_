@@ -48,7 +48,7 @@ class LoadImageWithLoader extends StatelessWidget {
             );
             break;
           case LoadState.failed:
-            return Text('Error while loading image.');
+            return Text('Error while loading image. fail');
             break;
           default:
             return Text('Error while loading image.');

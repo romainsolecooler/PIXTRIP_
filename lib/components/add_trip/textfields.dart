@@ -28,14 +28,10 @@ class _CityNameState extends State<CityName> {
   @override
   Widget build(BuildContext context) {
     Controller c = Get.find();
-    return CupertinoTextField(
-      padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20.0),
-      placeholder: 'add_trip__add_city_placeholder'.tr,
+    return TextField(
       textAlign: TextAlign.center,
-      cursorColor: Theme.of(context).primaryColor,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(25)),
-        border: Border.all(color: Theme.of(context).dividerColor),
+      decoration: InputDecoration(
+        hintText: 'add_trip__add_city_placeholder'.tr,
       ),
       onChanged: (text) => c.setAddCityName(text),
       controller: _controller,
@@ -67,14 +63,10 @@ class _FirstInfoState extends State<FirstInfo> {
   @override
   Widget build(BuildContext context) {
     Controller c = Get.find();
-    return CupertinoTextField(
-      padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20.0),
-      placeholder: 'add_trip__add_first_info_placeholder'.tr,
+    return TextField(
       textAlign: TextAlign.center,
-      cursorColor: Theme.of(context).primaryColor,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(25)),
-        border: Border.all(color: Theme.of(context).dividerColor),
+      decoration: InputDecoration(
+        hintText: 'add_trip__add_first_info_placeholder'.tr,
       ),
       onChanged: (text) => c.setAddFirstInfo(text),
       controller: _controller,
@@ -106,14 +98,10 @@ class _SecondInfoState extends State<SecondInfo> {
   @override
   Widget build(BuildContext context) {
     Controller c = Get.find();
-    return CupertinoTextField(
-      padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20.0),
-      placeholder: 'add_trip__add_second_info_placeholder'.tr,
+    return TextField(
       textAlign: TextAlign.center,
-      cursorColor: Theme.of(context).primaryColor,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(25)),
-        border: Border.all(color: Theme.of(context).dividerColor),
+      decoration: InputDecoration(
+        hintText: 'add_trip__add_second_info_placeholder'.tr,
       ),
       onChanged: (text) => c.setAddSecondInfo(text),
       controller: _controller,
@@ -145,14 +133,10 @@ class _ThirdInfoState extends State<ThirdInfo> {
   @override
   Widget build(BuildContext context) {
     Controller c = Get.find();
-    return CupertinoTextField(
-      padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20.0),
-      placeholder: 'add_trip__add_third_info_placeholder'.tr,
+    return TextField(
       textAlign: TextAlign.center,
-      cursorColor: Theme.of(context).primaryColor,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(25)),
-        border: Border.all(color: Theme.of(context).dividerColor),
+      decoration: InputDecoration(
+        hintText: 'add_trip__add_third_info_placeholder'.tr,
       ),
       onChanged: (text) => c.setAddThirdInfo(text),
       controller: _controller,
