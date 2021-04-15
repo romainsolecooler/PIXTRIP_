@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
 
@@ -80,9 +81,15 @@ class NextButton extends StatelessWidget {
 
     Controller c = Get.find();
 
+    void closeTutorial() {
+      Get.back();
+      final box = GetStorage();
+      box.write('tutorial', true);
+    }
+
     return ElevatedButton(
       onPressed: () => last
-          ? Get.back()
+          ? closeTutorial()
           : c.carouselController.value.nextPage(
               duration: Duration(milliseconds: 300),
               curve: Curves.easeInOut,

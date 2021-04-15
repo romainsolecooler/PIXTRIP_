@@ -122,7 +122,7 @@ class _PasswordState extends State<Password> {
         ),
       ),
       obscureText: obscureText,
-      onChanged: (text) => c.setRegisterEmail(text),
+      onChanged: (text) => c.setRegisterPassword(text),
       controller: _controller,
     );
   }

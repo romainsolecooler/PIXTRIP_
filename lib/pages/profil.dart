@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+
 import 'package:pixtrip/common/app_bar.dart';
+import 'package:pixtrip/controllers/controller.dart';
+import 'package:pixtrip/views/profil/profil_details.dart';
+
+Controller c = Get.find();
 
 class Profil extends StatelessWidget {
   @override
@@ -13,19 +20,17 @@ class Profil extends StatelessWidget {
               padding: const EdgeInsets.all(15.0),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    backgroundColor: Theme.of(context).primaryColor,
-                    child: Text('NM'),
-                  ),
-                  SizedBox(width: 15),
+                  CircleAvatar(),
+                  SizedBox(width: 15.0),
                   Text(
-                    'Nathan Martzolff',
+                    c.userPseudo.value,
                     style: Theme.of(context).textTheme.headline6,
                   ),
                   Expanded(child: SizedBox()),
                   IconButton(
                     icon: Icon(Icons.settings),
-                    onPressed: () => print('Go to profil settings'),
+                    onPressed: () =>
+                        pushNewScreen(context, screen: ProfilDetails()),
                   ),
                 ],
               ),

@@ -4,6 +4,7 @@ class Messages extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'fr_FR': {
+          'error_title': 'Erreur',
           'login__go_register': 'Créer un compte',
           'login__pseudo_mail': 'Pseudo / Adresse Email',
           'login__password': 'Mot de passe',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'package:pixtrip/common/app_bar.dart';
 import 'package:pixtrip/common/utils.dart';
@@ -8,49 +9,67 @@ import 'package:pixtrip/controllers/controller.dart';
 
 const EdgeInsets padding = EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0);
 
+Controller c = Get.find();
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  bool _loading = false;
+
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
-      return;
-      Get.dialog(
-        Tutorial(),
-        barrierColor: Colors.transparent,
-        barrierDismissible: false,
-      );
-    });
+    c.checkHttpResponse(
+        url: 'trip/get_home_trips.php',
+        data: {},
+        loading: () => setState(() => _loading = true),
+        error: () => setState(() => _loading = false),
+        callBack: (data) {
+          c.setHomeTrips(data);
+          setState(() => _loading = false);
+        });
+    final box = GetStorage();
+    if (box.read('tutorial') == null) {
+      Future.delayed(Duration.zero, () {
+        Get.dialog(
+          Tutorial(),
+          barrierColor: Colors.transparent,
+          barrierDismissible: false,
+        );
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> children = [];
+
+    for (final item in c.homeTrips) {
+      children.add(HomeTrip(
+        image: 'https://pixtrip.fr/images/trips/${item['image']}',
+        title: item['city'],
+      ));
+    }
+
+    Widget hometrips = _loading
+        ? Center(child: CircularProgressIndicator.adaptive())
+        : Column(children: children);
+
     return Scaffold(
       appBar: appBar,
       body: Column(
         children: [
           Flexible(
             flex: 2,
-            child: Column(
-              children: [
-                _HomeTrip(
-                  image: 'https://source.unsplash.com/random',
-                  title: 'Saint-Cyprien',
-                ),
-                _HomeTrip(
-                  image: 'https://source.unsplash.com/random',
-                  title: 'Sainte-Marie',
-                ),
-                _HomeTrip(
-                  image: 'https://source.unsplash.com/random',
-                  title: 'Canet en Roussillon',
-                )
-              ],
-            ),
+            child: hometrips,
           ),
           Flexible(
             flex: 1,
@@ -70,11 +89,11 @@ class _HomeState extends State<Home> {
   }
 }
 
-class _HomeTrip extends StatelessWidget {
+class HomeTrip extends StatelessWidget {
   final String image;
   final String title;
 
-  const _HomeTrip({Key key, this.image, this.title}) : super(key: key);
+  const HomeTrip({Key key, this.image, this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

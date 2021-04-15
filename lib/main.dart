@@ -19,9 +19,20 @@ import 'package:pixtrip/not_logged/login/login.dart';
 void main() async {
   await GetStorage.init();
   final box = GetStorage();
-  Widget homeWidget = box.read('user') != null ? App() : Login();
-  homeWidget = App();
-  Get.put(Controller());
+  Map<String, dynamic> user = box.read('user');
+  Widget homeWidget;
+  Controller c = Get.put(Controller());
+  c.fetch.baseUrl = 'https://pixtrip.fr/api/';
+  c.fetch.defaultContentType = 'application/json';
+  if (user != null) {
+    homeWidget = App();
+    c.setUserId(user['u_id']);
+    c.setUserMail(user['email']);
+    c.setUserPseudo(user['pseudo']);
+  } else {
+    homeWidget = Login();
+  }
+  // c.fetch.defaultDecoder = (data) => jsonDecode(data);
   runApp(Pixtrip(homeWidget: homeWidget));
 }
 
@@ -102,11 +113,11 @@ class App extends StatelessWidget {
       ),
       itemAnimationProperties: ItemAnimationProperties(
         duration: Duration(milliseconds: 200),
-        curve: Curves.ease,
+        curve: Curves.easeInOut,
       ),
       screenTransitionAnimation: ScreenTransitionAnimation(
         animateTabTransition: true,
-        curve: Curves.ease,
+        curve: Curves.easeInOut,
         duration: Duration(milliseconds: 200),
       ),
       navBarStyle: NavBarStyle.style6,
