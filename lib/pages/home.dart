@@ -22,15 +22,17 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    c.checkHttpResponse(
-        url: 'trip/get_home_trips.php',
-        data: {},
-        loading: () => setState(() => _loading = true),
-        error: () => setState(() => _loading = false),
-        callBack: (data) {
-          c.setHomeTrips(data);
-          setState(() => _loading = false);
-        });
+    if (c.homeTrips.length == 0) {
+      c.checkHttpResponse(
+          url: 'trip/get_home_trips.php',
+          data: {},
+          loading: () => setState(() => _loading = true),
+          error: () => setState(() => _loading = false),
+          callBack: (data) {
+            c.setHomeTrips(data);
+            setState(() => _loading = false);
+          });
+    }
     final box = GetStorage();
     if (box.read('tutorial') == null) {
       Future.delayed(Duration.zero, () {
@@ -54,8 +56,7 @@ class _HomeState extends State<Home> {
 
     for (final item in c.homeTrips) {
       children.add(HomeTrip(
-        image: 'https://pixtrip.fr/images/trips/${item['image']}',
-        title: item['city'],
+        element: item,
       ));
     }
 
@@ -90,10 +91,9 @@ class _HomeState extends State<Home> {
 }
 
 class HomeTrip extends StatelessWidget {
-  final String image;
-  final String title;
+  final Map<String, dynamic> element;
 
-  const HomeTrip({Key key, this.image, this.title}) : super(key: key);
+  const HomeTrip({Key key, this.element}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -104,6 +104,8 @@ class HomeTrip extends StatelessWidget {
         margin: EdgeInsets.only(top: 8.0),
         child: InkWell(
           onTap: () {
+            c.setTripSelectedFromHome(true);
+            c.setTrip(element);
             c.setAppBarController(1);
           },
           child: Padding(
@@ -115,13 +117,10 @@ class HomeTrip extends StatelessWidget {
                   flex: 2,
                   child: Padding(
                     child: LoadImageWithLoader(
-                      url: image,
+                      url: 'trips/${element['image']}',
                       blurred: true,
                     ),
                     padding: padding,
-                    /* child: Image.network(
-                      image,
-                    ), */
                   ),
                 ),
                 SizedBox(width: 10),
@@ -131,7 +130,7 @@ class HomeTrip extends StatelessWidget {
                     padding: EdgeInsets.all(8.0),
                     child: Center(
                       child: Text(
-                        title,
+                        element['city'],
                         textAlign: TextAlign.center,
                       ),
                     ),

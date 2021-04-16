@@ -104,7 +104,7 @@ class App extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       handleAndroidBackButtonPress: true,
       resizeToAvoidBottomInset: true,
-      stateManagement: true,
+      stateManagement: false,
       hideNavigationBarWhenKeyboardShows: true,
       popAllScreensOnTapOfSelectedTab: true,
       popActionScreens: PopActionScreensType.all,

@@ -126,6 +126,42 @@ class Controller extends GetxController {
   /////////////////////////
   final carouselController = CarouselController().obs;
 
+  //////////
+  // TRIP //
+  //////////
+  final tripSelectedFromHome = false.obs;
+  final tripId = 0.obs;
+  final tripCity = ''.obs;
+  final tripImage = ''.obs;
+  final tripDifficulty = 0.obs;
+  final tripTime = 0.obs;
+  final tripDistance = 0.obs;
+  final tripLatitude = 0.0.obs;
+  final tripLongitude = 0.0.obs;
+  final tripAltitude = 0.0.obs;
+  final tripAnecdote_1 = ''.obs;
+  final tripAnecdote_2 = ''.obs;
+  final tripAnecdote_3 = ''.obs;
+
+  void setTripSelectedFromHome(bool newValue) {
+    tripSelectedFromHome.value = newValue;
+  }
+
+  void setTrip(Map<String, dynamic> trip) {
+    tripId.value = trip['id'];
+    tripCity.value = trip['city'];
+    tripImage.value = trip['image'];
+    tripDifficulty.value = trip['difficulty'];
+    tripTime.value = trip['time'];
+    tripDistance.value = trip['distance'];
+    tripLatitude.value = trip['latitude'];
+    tripLongitude.value = trip['longitude'];
+    tripAltitude.value = trip['altitude'];
+    tripAnecdote_1.value = trip['anecdote_1'];
+    tripAnecdote_2.value = trip['anecdote_2'];
+    tripAnecdote_3.value = trip['anecdote_3'];
+  }
+
   ////////////
   // TRIPS //
   ///////////

@@ -5,6 +5,8 @@ import 'package:pixtrip/components/trips/sliders/sliders.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
 
+Controller c = Get.find();
+
 class TripsSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,6 @@ class __SettingsTextFieldState extends State<_SettingsTextField> {
   @override
   void initState() {
     super.initState();
-    Controller c = Get.find();
     _controller.text = c.settingsCityName.value;
   }
 
@@ -132,20 +133,41 @@ class _CurrentPositionButton extends StatelessWidget {
   }
 }
 
-class _ValidateSettings extends StatelessWidget {
+class _ValidateSettings extends StatefulWidget {
+  @override
+  __ValidateSettingsState createState() => __ValidateSettingsState();
+}
+
+class __ValidateSettingsState extends State<_ValidateSettings> {
+  bool _loading = false;
+
+  void updateSettings() {
+    c.checkHttpResponse(
+        url: 'trip/get_all_trips.php',
+        data: {
+          'distance': c.sliderDistance.value,
+          'difficulty': c.sliderDifficulty.value,
+          'time': c.sliderTime.value,
+        },
+        loading: () => setState(() => _loading = true),
+        error: () => setState(() => _loading = false),
+        callBack: (data) {
+          c.setTripsList(data);
+          Get.back();
+          setState(() => _loading = false);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 25.0),
-      child: ElevatedButton(
-        onPressed: () => Get.back(),
-        child: Text('trips__validate'.tr),
-        style: ButtonStyle(
-          shape: MaterialStateProperty.all(RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-          )),
-        ),
-      ),
-    );
+    return _loading
+        ? Center(child: CircularProgressIndicator.adaptive())
+        : Container(
+            margin: EdgeInsets.only(top: 25.0),
+            child: ElevatedButton(
+              onPressed: () => updateSettings(),
+              child: Text('trips__validate'.tr),
+            ),
+          );
   }
 }

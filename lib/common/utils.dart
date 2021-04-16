@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:extended_image/extended_image.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class LoadImageWithLoader extends StatelessWidget {
   final String url;
@@ -12,48 +12,38 @@ class LoadImageWithLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double sigma = blurred ? 10.0 : 0.0;
+    double sigma = blurred ? 5.0 : 0.0;
 
-    return ExtendedImage.network(
-      url,
-      cache: true,
-      loadStateChanged: (ExtendedImageState state) {
-        switch (state.extendedImageLoadState) {
-          case LoadState.loading:
-            return Center(child: CircularProgressIndicator.adaptive());
-            break;
-          case LoadState.completed:
-            return Stack(
-              children: [
-                ExtendedRawImage(
-                  image: state.extendedImageInfo.image,
-                  width: double.infinity,
-                  height: double.infinity,
-                  fit: BoxFit.cover,
-                ),
-                Positioned.fill(
-                  child: ClipRect(
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(
-                        sigmaX: sigma,
-                        sigmaY: sigma,
-                      ),
-                      child: Container(
-                        color: Colors.black.withOpacity(0),
-                      ),
-                    ),
+    return CachedNetworkImage(
+      imageUrl: 'https://pixtrip.fr/images/$url',
+      placeholder: (context, url) => Center(child: LinearProgressIndicator()),
+      errorWidget: (context, url, error) => Icon(Icons.error),
+      imageBuilder: (context, imageProvider) {
+        return Stack(
+          children: [
+            Image(
+              image: imageProvider,
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.cover,
+            ),
+            Positioned.fill(
+              child: ClipRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(
+                    sigmaX: sigma,
+                    sigmaY: sigma,
+                  ),
+                  child: Container(
+                    color: Colors.black.withOpacity(0),
                   ),
                 ),
-              ],
-            );
-            break;
-          case LoadState.failed:
-            return Text('Error while loading image. fail');
-            break;
-          default:
-            return Text('Error while loading image.');
-        }
+              ),
+            ),
+          ],
+        );
       },
+      fadeOutDuration: Duration.zero,
     );
   }
 }

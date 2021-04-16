@@ -18,15 +18,17 @@ class _TripsListState extends State<TripsList> {
   @override
   void initState() {
     super.initState();
-    c.checkHttpResponse(
-        url: 'trip/get_all_trips.php',
-        data: {},
-        loading: () => setState(() => _loading = true),
-        error: () => setState(() => _loading = false),
-        callBack: (data) {
-          c.setTripsList(data);
-          setState(() => _loading = false);
-        });
+    if (c.tripsList.length == 0) {
+      c.checkHttpResponse(
+          url: 'trip/get_all_trips.php',
+          data: {},
+          loading: () => setState(() => _loading = true),
+          error: () => setState(() => _loading = false),
+          callBack: (data) {
+            c.setTripsList(data);
+            setState(() => _loading = false);
+          });
+    }
   }
 
   @override
@@ -36,42 +38,52 @@ class _TripsListState extends State<TripsList> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width / 2 - 20;
-
-    List<Widget> children = [];
-
-    for (int i = 0; i < c.tripsList.length; i++) {
-      final item = c.tripsList[i];
-      String imageUrl = 'https://pixtrip.fr/images/trips/${item['image']}';
-      children.add(ClipRRect(
-        borderRadius: BorderRadius.circular(10.0),
-        child: SizedBox(
-          width: screenWidth,
-          height: screenWidth,
-          child: InkWell(
-            onTap: () => Get.dialog(
-              Trip(),
-              barrierColor: Colors.transparent,
-            ),
-            borderRadius: BorderRadius.circular(10),
-            child: LoadImageWithLoader(
-              url: imageUrl,
-              blurred: true,
-            ),
-          ),
-        ),
-      ));
-    }
-
     return _loading
         ? Center(child: CircularProgressIndicator.adaptive())
         : SingleChildScrollView(
-            child: Wrap(
-              spacing: _spacing,
-              runSpacing: _spacing,
-              children: children,
+            child: Obx(
+              () => Wrap(
+                spacing: _spacing,
+                runSpacing: _spacing,
+                children: c.tripsList.map((element) {
+                  return Element(element: element);
+                }).toList(),
+              ),
             ),
           );
+  }
+}
+
+class Element extends StatelessWidget {
+  final Map<String, dynamic> element;
+
+  const Element({Key key, this.element}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width / 2 - 20;
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10.0),
+      child: SizedBox(
+        width: screenWidth,
+        height: screenWidth,
+        child: InkWell(
+          onTap: () {
+            c.setTrip(element);
+            Get.dialog(
+              Trip(),
+              barrierColor: Colors.transparent,
+            );
+          },
+          borderRadius: BorderRadius.circular(10),
+          child: LoadImageWithLoader(
+            url: 'trips/${element['image']}',
+            blurred: true,
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -93,22 +105,32 @@ class Trip extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
-                child: Placeholder(
-                  fallbackHeight: 200.0,
+                child: SizedBox(
+                  width: Get.width * 0.8,
+                  height: Get.height * 0.25,
+                  child: Obx(
+                    () => LoadImageWithLoader(
+                      url: 'trips/${c.tripImage.value}',
+                      blurred: true,
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 30.0),
-              Text(
-                'Perpignan',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headline6,
+              Obx(
+                () => Text(
+                  c.tripCity.value,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headline6,
+                ),
               ),
               SizedBox(height: 30.0),
-              Text('Distance : 5 km'),
+              Obx(() => Text('slider__distance_${c.tripDistance.value}'.tr)),
               _CustomDivider(),
-              Text('Temps : entre 1h et 2h'),
+              Obx(() => Text('slider__time_${c.tripTime.value}'.tr)),
               _CustomDivider(),
-              Text('Difficulté : Ok avec de la motivation'),
+              Obx(() =>
+                  Text('slider__difficulty_${c.tripDifficulty.value}'.tr)),
               SizedBox(height: 30.0),
               _GoButton(),
             ],
