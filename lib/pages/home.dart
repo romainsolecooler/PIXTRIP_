@@ -22,6 +22,16 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    final box = GetStorage();
+    if (box.read('tutorial') == null) {
+      Future.delayed(Duration.zero, () {
+        Get.dialog(
+          Tutorial(),
+          barrierColor: Colors.transparent,
+          barrierDismissible: false,
+        );
+      });
+    }
     if (c.homeTrips.length == 0) {
       c.checkHttpResponse(
           url: 'trip/get_home_trips.php',
@@ -32,16 +42,6 @@ class _HomeState extends State<Home> {
             c.setHomeTrips(data);
             setState(() => _loading = false);
           });
-    }
-    final box = GetStorage();
-    if (box.read('tutorial') == null) {
-      Future.delayed(Duration.zero, () {
-        Get.dialog(
-          Tutorial(),
-          barrierColor: Colors.transparent,
-          barrierDismissible: false,
-        );
-      });
     }
   }
 

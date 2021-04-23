@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:auth_buttons/auth_buttons.dart';
 
 class ContinueWith extends StatelessWidget {
   @override
@@ -19,18 +20,23 @@ class ContinueWith extends StatelessWidget {
 }
 
 class OAuthRow extends StatelessWidget {
+  final AuthButtonStyle _authButtonStyle = AuthButtonStyle(
+    buttonType: AuthButtonType.icon,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Placeholder(
-          fallbackWidth: 50,
-          fallbackHeight: 50,
+        GoogleAuthButton(
+          onPressed: () {},
+          darkMode: false,
+          style: _authButtonStyle,
         ),
-        Placeholder(
-          fallbackWidth: 50,
-          fallbackHeight: 50,
+        FacebookAuthButton(
+          onPressed: () {},
+          style: _authButtonStyle,
         ),
       ],
     );

@@ -10,6 +10,7 @@ import 'package:pixtrip/not_logged/continue_with.dart';
 import 'package:pixtrip/not_logged/forgot_password/forgot_password.dart';
 import 'package:pixtrip/not_logged/login/inputs.dart';
 import 'package:pixtrip/not_logged/register/register.dart';
+import 'package:pixtrip/not_logged/stay_connected.dart';
 
 Controller c = Get.find();
 
@@ -18,23 +19,25 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar,
-      body: Padding(
-        padding: EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 10.0),
-        child: Column(
-          children: [
-            CreateAccount(),
-            SizedBox(height: 30.0),
-            PseudoMail(),
-            SizedBox(height: 25.0),
-            Password(),
-            SizedBox(height: 20.0),
-            StayConnected(),
-            SizedBox(height: 20.0),
-            Continue(),
-            ContinueWith(),
-            SizedBox(height: 25.0),
-            GoToForgotPassword(),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 10.0),
+          child: Column(
+            children: [
+              CreateAccount(),
+              SizedBox(height: 30.0),
+              PseudoMail(),
+              SizedBox(height: 25.0),
+              Password(),
+              SizedBox(height: 20.0),
+              StayConnected(),
+              SizedBox(height: 20.0),
+              Continue(),
+              ContinueWith(),
+              SizedBox(height: 25.0),
+              GoToForgotPassword(),
+            ],
+          ),
         ),
       ),
     );
@@ -62,12 +65,16 @@ class _ContinueState extends State<Continue> {
         c.setUserId(data['u_id']);
         c.setUserMail(data['email']);
         c.setUserPseudo(data['pseudo']);
+        c.setUserImage(data['image']);
+        c.setUserAge(data['age']);
         if (c.stayConnected.value) {
           final box = GetStorage();
           box.write('user', {
             'id': data['u_id'],
             'mail': data['email'],
             'pseudo': data['pseudo'],
+            'image': data['image'],
+            'age': data['age'],
           });
         }
         Get.offAll(() => App());
@@ -77,13 +84,12 @@ class _ContinueState extends State<Continue> {
 
   @override
   Widget build(BuildContext context) {
-    Widget child = _loading
+    return _loading
         ? CircularProgressIndicator.adaptive()
-        : Text('login__continue'.tr);
-    return ElevatedButton(
-      onPressed: () => connectUser(),
-      child: child,
-    );
+        : ElevatedButton(
+            onPressed: () => connectUser(),
+            child: Text('login__continue'.tr),
+          );
   }
 }
 

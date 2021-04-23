@@ -13,6 +13,9 @@ Map<int, Color> redColor = {
   900: Color.fromRGBO(242, 58, 41, 1.0),
 };
 
+MaterialStateProperty materialStateColorRed =
+    MaterialStateProperty.all<Color>(Color(0xfff23a29));
+
 Map<int, Color> darkBlueColor = {
   50: Color.fromRGBO(10, 33, 71, .1),
   100: Color.fromRGBO(10, 33, 71, .2),

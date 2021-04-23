@@ -19,7 +19,6 @@ class DifficultySlider extends StatelessWidget {
               min: 0,
               max: 5,
               divisions: 5,
-              activeColor: Theme.of(context).primaryColor,
             ),
             Text(label),
           ],

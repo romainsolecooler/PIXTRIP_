@@ -4,6 +4,7 @@ import 'package:pixtrip/common/app_bar.dart';
 import 'package:pixtrip/components/add_trip/add_photo.dart';
 import 'package:pixtrip/components/add_trip/textfields.dart';
 import 'package:pixtrip/components/add_trip/position.dart';
+import 'package:pixtrip/components/add_trip/buttons.dart';
 import 'package:pixtrip/components/add_trip/sliders/sliders.dart';
 
 class CreateTrip extends StatelessWidget {
@@ -16,20 +17,11 @@ class CreateTrip extends StatelessWidget {
           padding: const EdgeInsets.all(15.0),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Placeholder(fallbackHeight: 200),
-                    AddPhotoButton(),
-                  ],
-                ),
-              ),
+              AddPhoto(),
               SizedBox(height: 35),
               CityName(),
               SizedBox(height: 25),
-              AddPosition(),
+              //AddPosition(),
               SizedBox(height: 25),
               DistanceSlider(),
               TimeSlider(),
@@ -40,6 +32,8 @@ class CreateTrip extends StatelessWidget {
               SecondInfo(),
               SizedBox(height: 25),
               ThirdInfo(),
+              SizedBox(height: 30),
+              AddTripButton(),
             ],
           ),
         ),

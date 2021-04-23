@@ -42,13 +42,21 @@ class _TripsListState extends State<TripsList> {
         ? Center(child: CircularProgressIndicator.adaptive())
         : SingleChildScrollView(
             child: Obx(
-              () => Wrap(
-                spacing: _spacing,
-                runSpacing: _spacing,
-                children: c.tripsList.map((element) {
-                  return Element(element: element);
-                }).toList(),
-              ),
+              () {
+                if (c.tripSelectedFromHome.value) {
+                  Future.delayed(Duration.zero, () {
+                    Get.dialog(Trip(), barrierColor: Colors.transparent);
+                    c.setTripSelectedFromHome(false);
+                  });
+                }
+                return Wrap(
+                  spacing: _spacing,
+                  runSpacing: _spacing,
+                  children: c.tripsList.map((element) {
+                    return Element(element: element);
+                  }).toList(),
+                );
+              },
             ),
           );
   }

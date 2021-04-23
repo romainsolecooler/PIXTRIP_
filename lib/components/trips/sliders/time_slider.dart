@@ -18,7 +18,6 @@ class TimeSlider extends StatelessWidget {
               min: 0,
               max: 3,
               divisions: 3,
-              activeColor: Theme.of(context).primaryColor,
             ),
             Text(label),
           ],

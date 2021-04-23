@@ -8,7 +8,7 @@ class Controller extends GetxController {
 
   void checkHttpResponse(
       {String url,
-      Map<String, dynamic> data,
+      dynamic data,
       Function loading,
       Function callBack,
       Function error}) {
@@ -30,12 +30,29 @@ class Controller extends GetxController {
     });
   }
 
+  void printUserData() {
+    print('user data : ');
+    print('user mail : ${userMail.value}');
+    print('user pseudo : ${userPseudo.value}');
+    print('user age : ${userAge.value}');
+    print('user image : ${userImage.value}');
+  }
+
+  void printProfilData() {
+    print('user data : ');
+    print('user mail : ${profilEmail.value}');
+    print('user pseudo : ${profilPseudo.value}');
+    print('user age : ${profilAge.value}');
+  }
+
   //////////
   // USER //
   //////////
   final userId = ''.obs;
   final userMail = ''.obs;
   final userPseudo = ''.obs;
+  final userImage = ''.obs;
+  final userAge = 0.obs;
 
   void setUserId(String id) {
     userId.value = id;
@@ -47,6 +64,17 @@ class Controller extends GetxController {
 
   void setUserPseudo(String pseudo) {
     userPseudo.value = pseudo;
+  }
+
+  void setUserImage(String image) {
+    if (image != '') {
+      userImage.value = 'https://pixtrip.fr/images/users/$image';
+    }
+  }
+
+  void setUserAge(int age) {
+    userAge.value = age;
+    print(userAge.value);
   }
 
   ///////////
@@ -166,10 +194,15 @@ class Controller extends GetxController {
   // TRIPS //
   ///////////
   final settingsCityName = ''.obs;
+  final settingsCurrentPosition = false.obs;
   final sliderDistance = 4.obs;
   final sliderTime = 3.obs;
   final sliderDifficulty = 2.obs;
   final tripsList = <dynamic>[].obs;
+
+  void setSettingsCurrentPosition(bool newValue) {
+    settingsCurrentPosition.value = newValue;
+  }
 
   void setSettingsCityName(String city) {
     settingsCityName.value = city;
@@ -189,6 +222,35 @@ class Controller extends GetxController {
 
   void setTripsList(List<dynamic> trips) {
     tripsList.value = trips;
+  }
+
+  ////////////
+  // PROFIL //
+  ////////////
+  final profilPseudo = ''.obs;
+  final profilEmail = ''.obs;
+  final profilAge = 0.obs;
+  final profilOldPassword = ''.obs;
+  final profilNewPassword = ''.obs;
+
+  void setProfilPseudo(String pseudo) {
+    profilPseudo.value = pseudo;
+  }
+
+  void setProfilEmail(String email) {
+    profilEmail.value = email;
+  }
+
+  void setProfilAge(int age) {
+    profilAge.value = age;
+  }
+
+  void setProfilOldPassword(String oldPassword) {
+    profilOldPassword.value = oldPassword;
+  }
+
+  void setProfilNewPassword(String newPassword) {
+    profilNewPassword.value = newPassword;
   }
 
   //////////////
@@ -233,7 +295,21 @@ class Controller extends GetxController {
   ////////////
   // WALLET //
   ////////////
+  final usedCoupons = <dynamic>[].obs;
+  final usedCouponsLoaded = false.obs;
+  final unusedCoupons = <dynamic>[].obs;
+  final unusedCouponsLoaded = false.obs;
   final couponId = ''.obs;
+
+  void setUsedCoupons(List<dynamic> couponsList) {
+    usedCoupons.value = couponsList;
+    usedCouponsLoaded.value = true;
+  }
+
+  void setUnusedCoupons(List<dynamic> couponsList) {
+    unusedCoupons.value = couponsList;
+    unusedCouponsLoaded.value = true;
+  }
 
   void setCouponId(String id) {
     couponId.value = id;

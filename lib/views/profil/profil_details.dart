@@ -1,19 +1,42 @@
 import 'package:flutter/material.dart';
+
 import 'package:pixtrip/common/app_bar.dart';
+
+import 'package:pixtrip/components/profil/user_image.dart';
+import 'package:pixtrip/components/profil/inputs.dart';
+import 'package:pixtrip/components/profil/buttons.dart';
+
+const double indent = 15.0;
+const double dividerIndent = indent * 2;
 
 class ProfilDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar,
-      body: Center(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(15.0),
-              child: UserRow(),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(indent),
+            child: Column(
+              children: [
+                UserRow(),
+                Divider(
+                  indent: dividerIndent,
+                  endIndent: dividerIndent,
+                  height: 50,
+                ),
+                SizedBox(height: 25.0),
+                Email(),
+                SizedBox(height: 20.0),
+                Password(),
+                SizedBox(height: 20.0),
+                Age(),
+                SizedBox(height: 60.0),
+                ValidateProfilChange(),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -27,27 +50,7 @@ class UserRow extends StatelessWidget {
       children: [
         UserImage(),
         SizedBox(width: 15.0),
-      ],
-    );
-  }
-}
-
-class UserImage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        CircleAvatar(
-          child: Text('NM'),
-        ),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: IconButton(
-            icon: Icon(Icons.photo_camera),
-            onPressed: () => null,
-          ),
-        ),
+        Pseudo(),
       ],
     );
   }

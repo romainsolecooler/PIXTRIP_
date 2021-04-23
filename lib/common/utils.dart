@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class LoadImageWithLoader extends StatelessWidget {
   final String url;
@@ -62,4 +63,25 @@ class LoadAssetsImage extends StatelessWidget {
       fit: BoxFit.cover,
     );
   }
+}
+
+void checkPermissions({Function success, Function callBack}) async {
+  Map<Permission, PermissionStatus> statuses = await [
+    Permission.location,
+    Permission.photos,
+  ].request();
+  bool _permission = true;
+  statuses.forEach((key, value) {
+    if (value != PermissionStatus.granted) {
+      print(key);
+      print(value);
+      _permission = false;
+    }
+  });
+  if (!_permission) {
+    callBack();
+    return;
+  }
+  success();
+  return;
 }

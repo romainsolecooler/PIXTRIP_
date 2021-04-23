@@ -106,27 +106,52 @@ class _SettingsDivider extends StatelessWidget {
 }
 
 class _CurrentPositionButton extends StatelessWidget {
+  final Duration _duration = Duration(milliseconds: 300);
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: TextButton.icon(
-        icon: Icon(
-          Icons.my_location,
-          color: Colors.black,
-        ),
-        label: Text(
-          'trips__current_position'.tr,
-          style: TextStyle(
-            color: Colors.black,
+    ever(c.settingsCurrentPosition, (_) => print("$_ has been changed"));
+
+    return InkWell(
+      onTap: () =>
+          c.setSettingsCurrentPosition(!c.settingsCurrentPosition.value),
+      borderRadius: BorderRadius.circular(50.0),
+      splashColor: Theme.of(context).primaryColor.withOpacity(0.3),
+      child: Obx(
+        () => AnimatedContainer(
+          duration: _duration,
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(vertical: 7.0, horizontal: 20.0),
+          decoration: BoxDecoration(
+            border: Border.all(color: Theme.of(context).dividerColor),
+            borderRadius: BorderRadius.circular(50.0),
+            color: c.settingsCurrentPosition.value
+                ? Theme.of(context).colorScheme.secondary
+                : Colors.black.withOpacity(0),
           ),
-        ),
-        onPressed: () => print('current position taped narvalo'),
-        style: ButtonStyle(
-          shape: MaterialStateProperty.all(RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-            side: BorderSide(color: Colors.grey),
-          )),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Icon(
+                  Icons.my_location,
+                  color: c.settingsCurrentPosition.value
+                      ? Colors.white
+                      : Colors.black,
+                ),
+              ),
+              AnimatedDefaultTextStyle(
+                duration: _duration,
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: c.settingsCurrentPosition.value
+                          ? Colors.white
+                          : Colors.black,
+                    ),
+                child: Text('trips__current_position'.tr),
+              )
+            ],
+          ),
         ),
       ),
     );

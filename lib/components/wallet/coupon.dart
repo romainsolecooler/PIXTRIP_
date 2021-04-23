@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:pixtrip/common/utils.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
 
@@ -13,6 +14,7 @@ class Coupon extends StatelessWidget {
   final int i;
   final String title;
   final String data;
+  final String image;
 
   const Coupon({
     Key key,
@@ -21,6 +23,7 @@ class Coupon extends StatelessWidget {
     this.i,
     this.title,
     this.data = '',
+    this.image,
   }) : super(key: key);
 
   void openCouponDetails(BuildContext context) {
@@ -31,6 +34,7 @@ class Coupon extends StatelessWidget {
             title: title,
             opened: true,
             data: data,
+            image: image,
           ),
         ));
   }
@@ -52,7 +56,7 @@ class Coupon extends StatelessWidget {
                 children: [
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Square(i: i),
+                    child: CouponImage(image: image),
                   ),
                   Text(title),
                 ],
@@ -65,21 +69,22 @@ class Coupon extends StatelessWidget {
   }
 }
 
-class Square extends StatelessWidget {
-  final int i;
+class CouponImage extends StatelessWidget {
+  final String image;
+  final double _imageSize = 50.0;
 
-  const Square({Key key, this.i}) : super(key: key);
+  const CouponImage({Key key, this.image}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 50,
-      height: 50,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-      ),
-      child: Center(
-        child: Text('$i'),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(5.0),
+      child: SizedBox(
+        width: _imageSize,
+        height: _imageSize,
+        child: LoadImageWithLoader(
+          url: 'coupons/$image',
+        ),
       ),
     );
   }

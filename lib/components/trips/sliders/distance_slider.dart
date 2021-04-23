@@ -18,7 +18,6 @@ class DistanceSlider extends StatelessWidget {
               min: 0,
               max: 6,
               divisions: 6,
-              activeColor: Theme.of(context).primaryColor,
             ),
             Text(label),
           ],

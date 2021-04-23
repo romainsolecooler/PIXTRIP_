@@ -7,28 +7,33 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/common/messages.dart';
 import 'package:pixtrip/common/custom_colors.dart';
+import 'package:pixtrip/common/utils.dart';
 
 import 'package:pixtrip/pages/home.dart';
 import 'package:pixtrip/pages/trips.dart';
 import 'package:pixtrip/pages/profil.dart';
 import 'package:pixtrip/pages/add_trip.dart';
 import 'package:pixtrip/pages/wallet.dart';
+import 'package:pixtrip/pages/permissions.dart';
 
 import 'package:pixtrip/not_logged/login/login.dart';
+
+Controller c = Get.put(Controller());
 
 void main() async {
   await GetStorage.init();
   final box = GetStorage();
   Map<String, dynamic> user = box.read('user');
   Widget homeWidget;
-  Controller c = Get.put(Controller());
   c.fetch.baseUrl = 'https://pixtrip.fr/api/';
   c.fetch.defaultContentType = 'application/json';
   if (user != null) {
     homeWidget = App();
-    c.setUserId(user['u_id']);
-    c.setUserMail(user['email']);
+    c.setUserId(user['id']);
+    c.setUserMail(user['mail']);
     c.setUserPseudo(user['pseudo']);
+    c.setUserImage(user['image']);
+    c.setUserAge(user['age']);
   } else {
     homeWidget = Login();
   }
@@ -73,11 +78,23 @@ class Pixtrip extends StatelessWidget {
         textTheme: GoogleFonts.comfortaaTextTheme(),
         primarySwatch: MaterialColor(0xff1243a6, blueColor),
         inputDecorationTheme: inputDecorationTheme,
+        sliderTheme: SliderThemeData(
+          thumbColor: redColor[900],
+          activeTrackColor: redColor[900],
+          inactiveTrackColor: redColor[400],
+          inactiveTickMarkColor: redColor[900],
+          activeTickMarkColor: Colors.white,
+          overlayColor: redColor[100],
+        ),
+        checkboxTheme: CheckboxThemeData(
+          fillColor: materialStateColorRed,
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
             shape: MaterialStateProperty.all(RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             )),
+            backgroundColor: materialStateColorRed,
           ),
         ),
       ),
@@ -87,7 +104,28 @@ class Pixtrip extends StatelessWidget {
   }
 }
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      checkPermissions(
+        success: () => null,
+        callBack: () => Get.offAll(Permissions()),
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Color _navBarItemActiveColor =
@@ -118,7 +156,7 @@ class App extends StatelessWidget {
       screenTransitionAnimation: ScreenTransitionAnimation(
         animateTabTransition: true,
         curve: Curves.easeInOut,
-        duration: Duration(milliseconds: 200),
+        duration: Duration(milliseconds: 300),
       ),
       navBarStyle: NavBarStyle.style6,
       screens: [Home(), Trips(), Profil(), CreateTrip(), Wallet()],

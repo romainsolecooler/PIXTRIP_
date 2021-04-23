@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import 'package:pixtrip/common/app_bar.dart';
+import 'package:pixtrip/components/profil/user_image.dart';
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/views/profil/profil_details.dart';
 
@@ -20,11 +21,13 @@ class Profil extends StatelessWidget {
               padding: const EdgeInsets.all(15.0),
               child: Row(
                 children: [
-                  CircleAvatar(),
+                  UserImage(isEditable: false),
                   SizedBox(width: 15.0),
-                  Text(
-                    c.userPseudo.value,
-                    style: Theme.of(context).textTheme.headline6,
+                  Obx(
+                    () => Text(
+                      c.userPseudo.value,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
                   ),
                   Expanded(child: SizedBox()),
                   IconButton(

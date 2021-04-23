@@ -10,23 +10,7 @@ import 'package:pixtrip/controllers/controller.dart';
 
 Controller c = Get.find();
 
-class Trips extends StatefulWidget {
-  @override
-  _TripsState createState() => _TripsState();
-}
-
-class _TripsState extends State<Trips> {
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration.zero, () {
-      if (c.tripSelectedFromHome.value) {
-        Get.dialog(Trip(), barrierColor: Colors.transparent);
-        c.setTripSelectedFromHome(false);
-      }
-    });
-  }
-
+class Trips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
