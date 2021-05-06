@@ -17,21 +17,25 @@ class CouponDetails extends StatelessWidget {
 
     return Scaffold(
       appBar: appBar,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(height: 30.0),
-            coupon,
-            _PageDivider(),
-            InfoPosition(),
-            SizedBox(height: 50.0),
-            QrImage(
-              data: coupon.data,
-              size: _size,
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(height: 30.0),
+              coupon,
+              _PageDivider(),
+              InfoPosition(),
+              SizedBox(height: 50.0),
+              QrImage(
+                data: coupon.data,
+                size: _size,
+              ),
+              SizedBox(height: 10.0),
+              Text('coupon_details_code'.trParams({'code': coupon.data})),
+            ],
+          ),
         ),
       ),
     );

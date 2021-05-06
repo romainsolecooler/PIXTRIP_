@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/controllers/controller.dart';
+import 'package:pixtrip/pages/map.dart';
 
 Controller c = Get.find();
 
@@ -153,7 +154,9 @@ class _GoButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () => print('faire le trip'),
+      onPressed: () {
+        Get.offAll(() => PixtripMap());
+      },
       child: Text('trips__go'.tr),
       style: ButtonStyle(
         shape: MaterialStateProperty.all(RoundedRectangleBorder(

@@ -28,6 +28,6 @@ class UsedCoupons extends StatelessWidget {
             },
             separatorBuilder: (context, index) => Separator(),
           )
-        : EmptyList('wallet__empty_unused_coupons'.tr);
+        : EmptyList('wallet__empty_used_coupons'.tr);
   }
 }

@@ -98,6 +98,7 @@ class Messages extends Translations {
               "Vous n'avez aucun coupon à utiliser.",
           'wallet__empty_used_coupons': "Vous n'avez utilisé aucun coupon.",
           'coupon_details__info_position': 'Info et Position',
+          'coupon_details_code': 'Code du coupon : @code',
         },
       };
 }
