@@ -5,6 +5,9 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_compass/flutter_compass.dart';
+import 'package:pixtrip/controllers/controller.dart';
+
+Controller c = Get.find();
 
 class AddPhoto extends StatefulWidget {
   @override
@@ -21,14 +24,10 @@ class _AddPhotoState extends State<AddPhoto> {
   Future getImage() async {
     print('getting image');
 
-    CompassEvent tmp = await FlutterCompass.events.first;
-    print('heading ------------');
-    print(tmp);
-
     Position position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.best,
     );
-    print(position);
+    print(position.altitude);
 
     final pickedFile = await _picker.getImage(source: ImageSource.camera);
 
@@ -37,7 +36,11 @@ class _AddPhotoState extends State<AddPhoto> {
       setState(() {
         _image = File(pickedFile.path);
         _position = position;
-        _lastRead = tmp;
+        //_lastRead = tmp;
+        c.setAddTripImage(_image);
+        c.setAddLatitude(position.latitude);
+        c.setAddLongitude(position.longitude);
+        c.setAddAltitude(position.altitude);
       });
     } else {
       print('no image selected');
@@ -72,18 +75,6 @@ class _AddPhotoState extends State<AddPhoto> {
             fit: StackFit.expand,
             children: [
               background,
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(_position != null
-                    ? _position.latitude.toString()
-                    : 'No position yet'),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(22.0),
-                child: Text(_lastRead != null
-                    ? _lastRead.headingForCameraMode.toString()
-                    : 'No heading yet'),
-              ),
               Align(child: addPhotoButton()),
             ],
           ),

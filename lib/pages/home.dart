@@ -79,7 +79,7 @@ class _HomeState extends State<Home> {
                 _PageDivider(),
                 _ChooseTrip(),
                 SizedBox(
-                  height: 20.0,
+                  height: 10.0,
                 )
               ],
             ),
@@ -167,7 +167,7 @@ class _PageDivider extends StatelessWidget {
           child: Divider(),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 10.0),
+          padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
           child: Text('home__or'.tr),
         ),
         Flexible(
@@ -190,7 +190,7 @@ class _ChooseTrip extends StatelessWidget {
 
     return Expanded(
       child: Container(
-        margin: EdgeInsets.only(top: 8.0),
+        margin: EdgeInsets.only(top: 0.0),
         child: InkWell(
           onTap: () {
             c.setAppBarController(1);

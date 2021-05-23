@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,6 +18,7 @@ import 'package:pixtrip/pages/wallet.dart';
 import 'package:pixtrip/pages/permissions.dart';
 
 import 'package:pixtrip/not_logged/login/login.dart';
+import 'package:pixtrip/views/travel/trip_details.dart';
 
 Controller c = Get.put(Controller());
 
@@ -68,6 +70,11 @@ class Pixtrip extends StatelessWidget {
       ),
     );
 
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
     return GetMaterialApp(
       title: 'Pixtrip',
       popGesture: false,
@@ -75,7 +82,7 @@ class Pixtrip extends StatelessWidget {
       locale: Locale('fr', 'FR'),
       fallbackLocale: Locale('fr', 'FR'),
       theme: ThemeData(
-        textTheme: GoogleFonts.comfortaaTextTheme(),
+        fontFamily: 'Comfortaa',
         primarySwatch: MaterialColor(0xff1243a6, blueColor),
         inputDecorationTheme: inputDecorationTheme,
         sliderTheme: SliderThemeData(
@@ -159,7 +166,17 @@ class _AppState extends State<App> {
         duration: Duration(milliseconds: 300),
       ),
       navBarStyle: NavBarStyle.style6,
-      screens: [Home(), Trips(), Profil(), CreateTrip(), Wallet()],
+      onItemSelected: (id) {
+        print('seledted item : $id');
+        c.setFinishedTrip(false);
+      },
+      screens: [
+        Home(),
+        Trips(),
+        Profil(),
+        CreateTrip(),
+        Wallet(),
+      ],
       items: [
         PersistentBottomNavBarItem(
           icon: Icon(Icons.home),

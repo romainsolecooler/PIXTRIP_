@@ -1,6 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:loading_transition_button/loading_transition_button.dart';
+import 'package:pixtrip/common/animated_button.dart';
 
 import 'package:pixtrip/common/app_bar.dart';
 import 'package:pixtrip/controllers/controller.dart';
@@ -51,6 +54,7 @@ class Continue extends StatefulWidget {
 
 class _ContinueState extends State<Continue> {
   bool _loading = false;
+  LoadingButtonController _controller;
 
   void connectUser() {
     c.checkHttpResponse(
@@ -83,7 +87,21 @@ class _ContinueState extends State<Continue> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _controller = LoadingButtonController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    /* return AnimatedButton(
+      callBack: () => connectUser(),
+    ); */
     return _loading
         ? CircularProgressIndicator.adaptive()
         : ElevatedButton(

@@ -5,6 +5,7 @@ class Messages extends Translations {
   Map<String, Map<String, String>> get keys => {
         'fr_FR': {
           'error_title': 'Erreur',
+          'sucess_title': 'Succés !',
           'permissions__error':
               'Pixtrip a besoin des autorisations demandées précédemment pour pouvoir fonctionner.',
           'permissions__change_permissions': 'Changer les autorisations',
@@ -92,13 +93,36 @@ class Messages extends Translations {
           'add_trip__add_second_info_placeholder': 'Anecdote',
           'add_trip__add_third_info_placeholder': 'Votre avis',
           'add_trip_add_button': 'VALIDER',
+          'add_trip__empty_form':
+              'Veuillez remplir tous les champs du formulaire.',
+          'add_trip__sucess':
+              "Votre trip va être soumis à validation par l'équipe de Pixtrip.\nIl sera bientôt disponible.",
           'wallet__empty': 'Vous ne possédez aucun coupon.',
+          'add_trip__fail':
+              "Une erreur est survenue lors de l'ajout de votre trip.",
           'wallet__page_separator': 'Déjà utilisé',
           'wallet__empty_unused_coupons':
               "Vous n'avez aucun coupon à utiliser.",
           'wallet__empty_used_coupons': "Vous n'avez utilisé aucun coupon.",
           'coupon_details__info_position': 'Info et Position',
           'coupon_details_code': 'Code du coupon : @code',
+          'travel__give_up_trip': 'Abandonner le trip',
+          'travel__take_photo': 'Prendre une photo',
+          'travel__popup_give_up_trip_title':
+              'Etes-vous sûr de vouloir abandonner le Trip ?',
+          'travel__popup_give_up_trip_button': 'ABANDONNER',
+          'travel__get_in_zone':
+              'Rentrez dans la zone pour rejoindre votre Trip !',
+          'travel__compass_text':
+              'Prenez en photo le monument pour terminer le Trip !',
+          'travel__sucess_title': 'Bravo !',
+          'travel__sucess_text': 'Vous êtes arrivés à bon port !',
+          'travel__fail_title': 'La photo ne correspond pas...',
+          'travel__fail_text': 'Ne baissez pas les bras, vous y êtes presque !',
+          'travel__fail_continue_trip': 'POURSUIVRE LE TRIP',
+          'trip_details__steps': 'Nombre de pas',
+          'trip_details__traveled_distance': 'Distance parcourue',
+          'trip_details__travel_realised': 'Parcours réalisé',
         },
       };
 }

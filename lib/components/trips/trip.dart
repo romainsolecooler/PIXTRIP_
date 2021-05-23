@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/controllers/controller.dart';
-import 'package:pixtrip/pages/map.dart';
+import 'package:pixtrip/pages/travel.dart';
+import 'package:pixtrip/views/travel/trip_details.dart';
 
 Controller c = Get.find();
 
@@ -22,7 +23,7 @@ class _TripsListState extends State<TripsList> {
     if (c.tripsList.length == 0) {
       c.checkHttpResponse(
           url: 'trip/get_all_trips.php',
-          data: {},
+          data: {'user_id': c.userId.value},
           loading: () => setState(() => _loading = true),
           error: () => setState(() => _loading = false),
           callBack: (data) {
@@ -66,7 +67,18 @@ class _TripsListState extends State<TripsList> {
 class Element extends StatelessWidget {
   final Map<String, dynamic> element;
 
-  const Element({Key key, this.element}) : super(key: key);
+  const Element({
+    Key key,
+    @required this.element,
+  }) : super(key: key);
+
+  void onTap() {
+    c.setTrip(element);
+    Get.dialog(
+      Trip(element: element),
+      barrierColor: Colors.transparent,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,17 +90,11 @@ class Element extends StatelessWidget {
         width: screenWidth,
         height: screenWidth,
         child: InkWell(
-          onTap: () {
-            c.setTrip(element);
-            Get.dialog(
-              Trip(),
-              barrierColor: Colors.transparent,
-            );
-          },
+          onTap: () => onTap(),
           borderRadius: BorderRadius.circular(10),
           child: LoadImageWithLoader(
             url: 'trips/${element['image']}',
-            blurred: true,
+            blurred: element['user_id'] != null ? false : true,
           ),
         ),
       ),
@@ -97,6 +103,13 @@ class Element extends StatelessWidget {
 }
 
 class Trip extends StatelessWidget {
+  final Map<String, dynamic> element;
+
+  const Trip({
+    Key key,
+    @required this.element,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -117,29 +130,24 @@ class Trip extends StatelessWidget {
                 child: SizedBox(
                   width: Get.width * 0.8,
                   height: Get.height * 0.25,
-                  child: Obx(
-                    () => LoadImageWithLoader(
-                      url: 'trips/${c.tripImage.value}',
-                      blurred: true,
-                    ),
+                  child: LoadImageWithLoader(
+                    url: 'trips/${element['image']}',
+                    blurred: element['user_id'] != null ? false : true,
                   ),
                 ),
               ),
               SizedBox(height: 30.0),
-              Obx(
-                () => Text(
-                  c.tripCity.value,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline6,
-                ),
+              Text(
+                element['city'],
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headline6,
               ),
               SizedBox(height: 30.0),
-              Obx(() => Text('slider__distance_${c.tripDistance.value}'.tr)),
+              Text('slider__distance_${element['distance']}'.tr),
               _CustomDivider(),
-              Obx(() => Text('slider__time_${c.tripTime.value}'.tr)),
+              Text('slider__time_${element['time']}'.tr),
               _CustomDivider(),
-              Obx(() =>
-                  Text('slider__difficulty_${c.tripDifficulty.value}'.tr)),
+              Text('slider__difficulty_${element['difficulty']}'.tr),
               SizedBox(height: 30.0),
               _GoButton(),
             ],

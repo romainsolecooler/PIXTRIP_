@@ -1,8 +1,15 @@
 import 'dart:ui';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+var dio = Dio(BaseOptions(
+  baseUrl: 'https://pixtrip.fr/api/',
+));
+var logger = Logger();
 
 class LoadImageWithLoader extends StatelessWidget {
   final String url;

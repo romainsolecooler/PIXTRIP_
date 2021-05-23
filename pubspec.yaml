@@ -41,6 +41,17 @@ dependencies:
   auth_buttons: ^1.0.1
   image_picker: ^0.7.4
   image_picker_widget: ^1.0.2
+  flutter_map: ^0.12.0
+  flutter_map_location_marker: ^0.0.8
+  latlong: ^0.6.1
+  lottie: 0.1.4
+  rive: ^0.7.7
+  flutter_svg: ^0.22.0
+  vector_math: ^2.1.0
+  sensors: ^2.0.0
+  loading_transition_button: ^0.0.1
+  dio: ^4.0.0
+  logger: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +71,19 @@ flutter:
   assets:
     - assets/images/
     - assets/images/tutorial/
+    - assets/animations/
+
+  fonts:
+    - family: Comfortaa
+      fonts:
+        - asset: assets/fonts/Comfortaa-Regular.ttf
+        - asset: assets/fonts/Comfortaa-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Comfortaa-Light.ttf
+          weight: 200
+    - family: Moderna
+      fonts:
+        - asset: assets/fonts/moderna.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -74,7 +76,6 @@ class Controller extends GetxController {
 
   void setUserAge(int age) {
     userAge.value = age;
-    print(userAge.value);
   }
 
   ///////////
@@ -170,6 +171,12 @@ class Controller extends GetxController {
   final tripAnecdote_1 = ''.obs;
   final tripAnecdote_2 = ''.obs;
   final tripAnecdote_3 = ''.obs;
+  final finishedTrip = false.obs;
+  final currentUserLatitude = 0.0.obs;
+  final currentUserLongitude = 0.0.obs;
+  final currentUserAltitude = 0.0.obs;
+  final couponList = <dynamic>[].obs;
+  final positionList = <dynamic>[].obs;
 
   void setTripSelectedFromHome(bool newValue) {
     tripSelectedFromHome.value = newValue;
@@ -188,6 +195,29 @@ class Controller extends GetxController {
     tripAnecdote_1.value = trip['anecdote_1'];
     tripAnecdote_2.value = trip['anecdote_2'];
     tripAnecdote_3.value = trip['anecdote_3'];
+  }
+
+  void setFinishedTrip(bool finished) {
+    finishedTrip.value = finished;
+  }
+
+  void setCurrentUserposition(
+      double latitude, double longitude, double altitude) {
+    currentUserLatitude.value = latitude;
+    currentUserLongitude.value = longitude;
+    currentUserAltitude.value = altitude;
+  }
+
+  void addPositionList(dynamic position) {
+    positionList.add(position);
+  }
+
+  void setCouponList(List<dynamic> coupons) {
+    couponList.value = coupons;
+  }
+
+  void setPositionList(List<dynamic> positions) {
+    positionList.value = positions;
   }
 
   ////////////
@@ -256,6 +286,10 @@ class Controller extends GetxController {
   //////////////
   // ADD TRIP //
   //////////////
+  final addTripImage = File('').obs;
+  final addLatitude = 0.0.obs;
+  final addLongitude = 0.0.obs;
+  final addAltitude = 0.0.obs;
   final addCityName = ''.obs;
   final addDistance = 2.obs;
   final addTime = 3.obs;
@@ -263,6 +297,22 @@ class Controller extends GetxController {
   final addFirstInfo = ''.obs;
   final addSecondInfo = ''.obs;
   final addThirdInfo = ''.obs;
+
+  void setAddTripImage(File file) {
+    addTripImage.value = file;
+  }
+
+  void setAddLatitude(double latitude) {
+    addLatitude.value = latitude;
+  }
+
+  void setAddLongitude(double longitude) {
+    addLongitude.value = longitude;
+  }
+
+  void setAddAltitude(double longitude) {
+    addAltitude.value = longitude;
+  }
 
   void setAddCityName(String city) {
     addCityName.value = city;
@@ -292,6 +342,20 @@ class Controller extends GetxController {
     addDifficulty.value = value;
   }
 
+  void deletedAddTripInfos() {
+    addTripImage.value = File('');
+    addLatitude.value = 0.0;
+    addLongitude.value = 0.0;
+    addAltitude.value = 0.0;
+    addCityName.value = '';
+    addFirstInfo.value = '';
+    addSecondInfo.value = '';
+    addThirdInfo.value = '';
+    addDistance.value = 2;
+    addTime.value = 3;
+    addDifficulty.value = 1;
+  }
+
   ////////////
   // WALLET //
   ////////////
@@ -313,5 +377,23 @@ class Controller extends GetxController {
 
   void setCouponId(String id) {
     couponId.value = id;
+  }
+
+  /////////////
+  // COMPASS //
+  /////////////
+  final photoPath = ''.obs;
+
+  void setPhotoPath(String path) {
+    photoPath.value = path;
+  }
+
+  //////////////////
+  // TRIP DETAILS //
+  //////////////////
+  final anecdoteIndex = 0.obs;
+
+  void setAnecdoteIndex(int index) {
+    anecdoteIndex.value = index;
   }
 }

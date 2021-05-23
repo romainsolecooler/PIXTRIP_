@@ -4,13 +4,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pixtrip/common/custom_colors.dart';
 
 AppBar appBar = AppBar(
-  title: Text('pixtrip',
-      style: GoogleFonts.comfortaa(
-        textStyle: TextStyle(
-          fontSize: 40,
-          fontWeight: FontWeight.bold,
-        ),
-      )),
+  title: Text(
+    'pixtrip',
+    style: TextStyle(
+      fontFamily: 'Moderna',
+      fontSize: 40,
+    ),
+  ),
   brightness: Brightness.dark,
   backgroundColor: blueColor[900],
   flexibleSpace: Overlay(),
