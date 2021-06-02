@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:pixtrip/common/app_bar.dart';
+import 'package:pixtrip/common/utils.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
 
@@ -64,18 +65,49 @@ class _MailState extends State<Mail> {
   }
 }
 
-class GetBackPassword extends StatelessWidget {
+class GetBackPassword extends StatefulWidget {
+  @override
+  _GetBackPasswordState createState() => _GetBackPasswordState();
+}
+
+class _GetBackPasswordState extends State<GetBackPassword> {
+  bool _loading = false;
+  void getBackPassword() async {
+    setState(() => _loading = true);
+    var response = await dio.post(
+      'user/forgot_password.php',
+      data: {'email': c.forgotPasswordMail.value},
+    );
+    var data = response.data;
+    logger.d(data);
+    String title = data['error'] ? 'error_title' : 'sucess_title';
+    String text = data['error']
+        ? 'forgot_password__error_text'
+        : 'forgot_password__sucess_text';
+    setState(() => _loading = false);
+    Get.defaultDialog(
+      title: title.tr,
+      content: Text(text.tr),
+    );
+  }
+
+  @override
+  void dispose() {
+    c.setForgotPasswordMail('');
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Center(
-        child: ElevatedButton(
-          child: Text('forgot_password__get_back_password'.tr.toUpperCase()),
-          onPressed: () => Get.defaultDialog(
-              title: 'Mail envoyé !',
-              content: Text(
-                  "Un mail vient d'être envoyé à votre adresse mail. Merci de suivre les instructions.")),
-        ),
+        child: _loading
+            ? CircularProgressIndicator.adaptive()
+            : ElevatedButton(
+                child:
+                    Text('forgot_password__get_back_password'.tr.toUpperCase()),
+                onPressed: () => getBackPassword(),
+              ),
       ),
     );
   }

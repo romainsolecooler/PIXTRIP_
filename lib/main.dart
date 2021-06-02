@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
@@ -18,24 +17,26 @@ import 'package:pixtrip/pages/wallet.dart';
 import 'package:pixtrip/pages/permissions.dart';
 
 import 'package:pixtrip/not_logged/login/login.dart';
-import 'package:pixtrip/views/travel/trip_details.dart';
 
 Controller c = Get.put(Controller());
 
 void main() async {
   await GetStorage.init();
   final box = GetStorage();
-  Map<String, dynamic> user = box.read('user');
+  String user = box.read('user');
   Widget homeWidget;
   c.fetch.baseUrl = 'https://pixtrip.fr/api/';
   c.fetch.defaultContentType = 'application/json';
   if (user != null) {
+    var response = await dio.post('user/get_user.php', data: {'u_id': user});
+    var data = response.data;
     homeWidget = App();
-    c.setUserId(user['id']);
-    c.setUserMail(user['mail']);
-    c.setUserPseudo(user['pseudo']);
-    c.setUserImage(user['image']);
-    c.setUserAge(user['age']);
+    c.setUserId(user);
+    c.setUserMail(data['email']);
+    c.setUserPseudo(data['pseudo']);
+    c.setUserImage(data['image']);
+    c.setUserAge(data['age']);
+    c.setTutorialStep(data['tutorial']);
   } else {
     homeWidget = Login();
   }
@@ -166,8 +167,7 @@ class _AppState extends State<App> {
         duration: Duration(milliseconds: 300),
       ),
       navBarStyle: NavBarStyle.style6,
-      onItemSelected: (id) {
-        print('seledted item : $id');
+      onItemSelected: (_) {
         c.setFinishedTrip(false);
       },
       screens: [

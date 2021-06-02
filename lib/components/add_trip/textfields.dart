@@ -70,6 +70,8 @@ class _FirstInfoState extends State<FirstInfo> {
       ),
       onChanged: (text) => c.setAddFirstInfo(text),
       controller: _controller,
+      keyboardType: TextInputType.multiline,
+      maxLines: null,
     );
   }
 }
@@ -105,6 +107,8 @@ class _SecondInfoState extends State<SecondInfo> {
       ),
       onChanged: (text) => c.setAddSecondInfo(text),
       controller: _controller,
+      keyboardType: TextInputType.multiline,
+      maxLines: null,
     );
   }
 }
@@ -140,6 +144,8 @@ class _ThirdInfoState extends State<ThirdInfo> {
       ),
       onChanged: (text) => c.setAddThirdInfo(text),
       controller: _controller,
+      keyboardType: TextInputType.multiline,
+      maxLines: null,
     );
   }
 }

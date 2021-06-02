@@ -22,8 +22,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    final box = GetStorage();
-    if (box.read('tutorial') == null) {
+    if (c.tutorialStep.value == 0) {
       Future.delayed(Duration.zero, () {
         Get.dialog(
           Tutorial(),
@@ -97,8 +96,6 @@ class HomeTrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Controller c = Get.find();
-
     return Expanded(
       child: Container(
         margin: EdgeInsets.only(top: 8.0),

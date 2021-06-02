@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:pixtrip/common/app_bar.dart';
+import 'package:pixtrip/common/custom_colors.dart';
 import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/views/travel/parcour.dart';
@@ -21,10 +22,10 @@ class _TripDetailsState extends State<TripDetails> {
     //c.setFinishedTrip(false);
     if (c.finishedTrip.value) {
       postPositions();
+      getTripCoupons();
     } else {
       getPositions();
     }
-    getTripCoupons();
   }
 
   void postPositions() async {
@@ -54,6 +55,13 @@ class _TripDetailsState extends State<TripDetails> {
       'trip_id': c.tripId.value,
     });
     c.setCouponList(response.data);
+  }
+
+  @override
+  void dispose() {
+    print('dispose');
+    c.setChosenCoupon('', '');
+    super.dispose();
   }
 
   @override
@@ -128,9 +136,44 @@ class _Actions extends StatefulWidget {
 
 class __ActionsState extends State<_Actions> {
   bool _showAnecdotes = true;
+  bool _faved = false;
+  bool _loadingFaved = false;
+
+  void toggleFaved() async {
+    setState(() => _loadingFaved = true);
+    var response = await dio.post('trip/toggle_fav.php', data: {
+      'user_id': c.userId.value,
+      'trip_id': c.tripId.value,
+    });
+    var data = response.data;
+    setState(() {
+      _loadingFaved = false;
+      _faved = data['faved'];
+    });
+  }
+
+  @override
+  void initState() {
+    isFaved();
+    super.initState();
+  }
+
+  void isFaved() async {
+    setState(() => _loadingFaved = true);
+    var response = await dio.post('trip/is_faved.php', data: {
+      'user_id': c.userId.value,
+      'trip_id': c.tripId.value,
+    });
+    setState(() {
+      _loadingFaved = false;
+      _faved = response.data;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget info = _showAnecdotes ? _Anecdotes() : _Infos();
+    IconData favedIcon = _faved ? Icons.favorite : Icons.favorite_border;
 
     return Expanded(
       child: Column(
@@ -138,10 +181,12 @@ class __ActionsState extends State<_Actions> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              IconButton(
-                icon: Icon(Icons.favorite_border),
-                onPressed: () => print('add to fav'),
-              ),
+              _loadingFaved
+                  ? CircularProgressIndicator.adaptive()
+                  : IconButton(
+                      icon: Icon(favedIcon),
+                      onPressed: () => toggleFaved(),
+                    ),
               IconButton(
                 icon: Icon(Icons.assignment),
                 onPressed: () =>
@@ -161,48 +206,116 @@ class __ActionsState extends State<_Actions> {
   }
 }
 
-class _Anecdotes extends StatelessWidget {
+class _Anecdotes extends StatefulWidget {
+  @override
+  __AnecdotesState createState() => __AnecdotesState();
+}
+
+class __AnecdotesState extends State<_Anecdotes> {
   final CarouselController _controller = CarouselController();
+  bool _showCoupons = false;
+
+  void showCouponList(bool newValue) {
+    setState(() => _showCoupons = newValue);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        IconButton(
-          icon: Icon(Icons.keyboard_arrow_left),
-          onPressed: () => _controller.previousPage(
-            duration: Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-          ),
-        ),
-        Expanded(
-          child: Obx(
-            () => CarouselSlider(
-              items: [
-                _Anecdote(anecdote: c.tripAnecdote_1.value),
-                _Anecdote(anecdote: c.tripAnecdote_2.value),
-                _Anecdote(anecdote: c.tripAnecdote_3.value),
-                if (c.tripAnecdote_3.value != '')
-                  _Anecdote(anecdote: c.tripAnecdote_3.value),
-              ],
-              carouselController: _controller,
-              options: CarouselOptions(
-                initialPage: c.anecdoteIndex.value,
-                viewportFraction: 1.0,
-                onPageChanged: (index, _) => c.setAnecdoteIndex(index),
+    return _showCoupons
+        ? _CouponList(
+            showCouponList: showCouponList,
+          )
+        : Column(
+            children: [
+              Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.keyboard_arrow_left),
+                    onPressed: () => _controller.previousPage(
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    ),
+                  ),
+                  Expanded(
+                    child: Obx(
+                      () => CarouselSlider(
+                        items: [
+                          _Anecdote(anecdote: c.tripAnecdote_1.value),
+                          _Anecdote(anecdote: c.tripAnecdote_2.value),
+                          if (c.tripAnecdote_3.value != '')
+                            _Anecdote(anecdote: c.tripAnecdote_3.value),
+                        ],
+                        carouselController: _controller,
+                        options: CarouselOptions(
+                          initialPage: c.anecdoteIndex.value,
+                          viewportFraction: 1.0,
+                          onPageChanged: (index, _) =>
+                              c.setAnecdoteIndex(index),
+                        ),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.keyboard_arrow_right),
+                    onPressed: () => _controller.nextPage(
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ),
-        ),
-        IconButton(
-          icon: Icon(Icons.keyboard_arrow_right),
-          onPressed: () => _controller.nextPage(
-            duration: Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-          ),
-        ),
-      ],
-    );
+              !c.finishedTrip.value ? Container() : Divider(),
+              SizedBox(height: 25.0),
+              !c.finishedTrip.value
+                  ? Container()
+                  : Material(
+                      elevation: 10.0,
+                      child: Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Obx(
+                          () {
+                            String image;
+                            String name;
+                            Widget button;
+                            if (c.chosenCouponName.value != '') {
+                              image = c.chosenCouponImage.value;
+                              name = c.chosenCouponName.value;
+                              button = Container();
+                            } else {
+                              image = null;
+                              name = 'trip_details__choose_coupon'.tr;
+                              button = Container(
+                                decoration: BoxDecoration(
+                                  color: redColor[900],
+                                  shape: BoxShape.circle,
+                                ),
+                                child: IconButton(
+                                  icon: Icon(Icons.add),
+                                  onPressed: () => showCouponList(true),
+                                  color: Colors.white,
+                                ),
+                              );
+                            }
+                            return Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: _CouponImage(image: image),
+                                ),
+                                Text(name),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: button,
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+            ],
+          );
   }
 }
 
@@ -327,7 +440,6 @@ class _Infos extends StatelessWidget {
             for (int i = 0; i < positionListLength - 1; i++) {
               final item = c.positionList[i];
               final nextItem = c.positionList[i + 1];
-              print(item['lat'].runtimeType);
               traveledDistance += Geolocator.distanceBetween(
                 item['lat'],
                 item['lon'],
@@ -393,6 +505,160 @@ class _InfosDivider extends StatelessWidget {
       indent: indent,
       endIndent: indent,
       height: 25.0,
+    );
+  }
+}
+
+class _CouponList extends StatelessWidget {
+  final Function showCouponList;
+
+  const _CouponList({
+    Key key,
+    @required this.showCouponList,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Material(
+        elevation: 10.0,
+        child: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Obx(() {
+            if (c.couponList.length > 0) {
+              return Stack(
+                alignment: Alignment.bottomRight,
+                children: [
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: c.couponList.length,
+                    itemBuilder: (context, index) {
+                      final item = c.couponList[index];
+                      return _Coupon(
+                        coupon: item,
+                        showCouponList: showCouponList,
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return Divider(indent: 25, endIndent: 25);
+                    },
+                  ),
+                  ClipOval(
+                    child: Container(
+                      color: redColor[900],
+                      child: IconButton(
+                        icon: Icon(Icons.remove),
+                        onPressed: () => showCouponList(false),
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }
+            return CircularProgressIndicator.adaptive();
+          }),
+        ),
+      ),
+    );
+  }
+}
+
+class _Coupon extends StatelessWidget {
+  final Map<String, dynamic> coupon;
+  final Function showCouponList;
+
+  const _Coupon({Key key, this.coupon, this.showCouponList}) : super(key: key);
+
+  void addToWallet() async {
+    var response = await dio.post('coupon/add_to_wallet.php', data: {
+      'user_id': c.userId.value,
+      'coupon_id': coupon['id'],
+    });
+    var data = response.data;
+    Get.back();
+    String title;
+    String text;
+    if (data['error']) {
+      title = 'error_title';
+      text = data['message'];
+    } else {
+      title = 'sucess_title';
+      text = 'trip_details__added_coupon_text'.tr;
+      c.setChosenCoupon(coupon['image'], coupon['name']);
+      showCouponList(false);
+    }
+    Get.defaultDialog(
+      title: title.tr,
+      content: Text(
+        text,
+        textAlign: TextAlign.center,
+      ),
+      textConfirm: 'ok'.tr,
+      confirmTextColor: Colors.white,
+      buttonColor: redColor[900],
+      onConfirm: () => Get.back(),
+    );
+    logger.wtf(response.data);
+  }
+
+  void selectCoupon() {
+    Get.defaultDialog(
+      title: 'trip_details__select_coupon_title'.tr,
+      content: Text(
+        'trip_details__select_coupon_text'.tr,
+        textAlign: TextAlign.center,
+      ),
+      textConfirm: 'trip_details__select_confirm'.tr,
+      textCancel: 'trip_details__select_cancel'.tr,
+      confirmTextColor: Colors.white,
+      cancelTextColor: redColor[900],
+      buttonColor: redColor[900],
+      onConfirm: () => addToWallet(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => selectCoupon(),
+      child: Padding(
+        padding: EdgeInsets.all(10.0),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: _CouponImage(image: coupon['image']),
+            ),
+            Text(coupon['name']),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CouponImage extends StatelessWidget {
+  final String image;
+  final double _imageSize = 50.0;
+
+  const _CouponImage({Key key, this.image}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(5.0),
+      child: SizedBox(
+        width: _imageSize,
+        height: _imageSize,
+        child: image == null
+            ? Placeholder()
+            : LoadImageWithLoader(
+                url: 'coupons/$image',
+              ),
+      ),
     );
   }
 }

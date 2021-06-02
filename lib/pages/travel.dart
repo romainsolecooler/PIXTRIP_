@@ -9,15 +9,13 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong/latlong.dart';
 
 import 'package:pixtrip/common/app_bar.dart';
+import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/components/travel/pixtrip_map_bottom_bar.dart';
 import 'package:pixtrip/components/travel/zone.dart';
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/views/travel/compass.dart';
 
 Controller c = Get.find();
-
-double tripDiameter = (c.tripDistance.value + 1.0) * 1000;
-double tripRadius = tripDiameter / 2;
 
 class PixtripMap extends StatefulWidget {
   @override
@@ -30,6 +28,9 @@ class _PixtripMapState extends State<PixtripMap> {
   double _zoom = 14.0;
 
   StreamSubscription<Position> _stream;
+
+  double tripRadius =
+      c.tripDistance.value == 0 ? 500.0 : (c.tripDistance.value * 1000.0);
 
   @override
   void initState() {
@@ -71,7 +72,6 @@ class _PixtripMapState extends State<PixtripMap> {
   @override
   Widget build(BuildContext context) {
     Color color = Theme.of(context).primaryColor;
-    print(_zoom);
 
     double iconSize = (tripRadius / 57465) * pow(2, _zoom); // en mètres
     return Scaffold(
@@ -85,10 +85,10 @@ class _PixtripMapState extends State<PixtripMap> {
                     center: LatLng(_latitude, _longitude),
                     zoom: _zoom,
                     maxZoom: 18.4,
-                    /* onTap: (data) {
+                    onTap: (data) {
                       _stream.cancel();
                       Get.offAll(() => Compass());
-                    }, */
+                    },
                     onPositionChanged: (data, changed) => _setZoom(data.zoom),
                   ),
                   children: [
@@ -125,7 +125,7 @@ class _PixtripMapState extends State<PixtripMap> {
                             LatLng(c.tripLatitude.value, c.tripLongitude.value),
                         color: Colors.green.withOpacity(0.8),
                         useRadiusInMeter: true,
-                        radius: 1500,
+                        radius: 1000,
                       ),
                     ]), */
                   ],

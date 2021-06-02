@@ -35,7 +35,7 @@ class _ValidateProfilChangeState extends State<ValidateProfilChange> {
           c.setUserMail(c.profilEmail.value);
           c.setUserPseudo(c.profilPseudo.value);
           c.setUserAge(c.profilAge.value);
-          final box = GetStorage();
+          /* final box = GetStorage();
           Map<String, dynamic> user = box.read('user');
           if (user != null) {
             box.write('user', {
@@ -45,7 +45,7 @@ class _ValidateProfilChangeState extends State<ValidateProfilChange> {
               'image': c.userImage.value,
               'age': c.userAge.value
             });
-          }
+          } */
         });
   }
 

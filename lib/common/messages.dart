@@ -6,6 +6,7 @@ class Messages extends Translations {
         'fr_FR': {
           'error_title': 'Erreur',
           'sucess_title': 'Succés !',
+          'ok': 'Ok',
           'permissions__error':
               'Pixtrip a besoin des autorisations demandées précédemment pour pouvoir fonctionner.',
           'permissions__change_permissions': 'Changer les autorisations',
@@ -27,6 +28,9 @@ class Messages extends Translations {
           'forgot_password__title': 'Entrez votre adresse mail',
           'forgot_password__placeholder': 'Adresse mail',
           'forgot_password__get_back_password': 'Récupérer mon mot de passe',
+          'forgot_password__error_text': 'Aucune adresse mail trouvée.',
+          'forgot_password__sucess_text':
+              "Un mail vient d'être envoyé à votre adresse mail. Merci de suivre les instructions.",
           'app__home': 'Home',
           'app__trip': 'Trip',
           'app__profil': 'Profil',
@@ -78,6 +82,7 @@ class Messages extends Translations {
           'slider__difficulty_4': 'Difficulté : Dur',
           'slider__difficulty_5': 'Difficulté : Très dur',
           'trips__go': 'GO !',
+          'profil__empty_list': "Vous n'avez terminé aucun trip.",
           'profil__age_placeholder': 'Age',
           'profil__validate_changes': 'VALIDER',
           'profil__old_password': 'Ancien mot de passe',
@@ -123,6 +128,14 @@ class Messages extends Translations {
           'trip_details__steps': 'Nombre de pas',
           'trip_details__traveled_distance': 'Distance parcourue',
           'trip_details__travel_realised': 'Parcours réalisé',
+          'trip_details__choose_coupon': 'Choisis ta récompense !',
+          'trip_details__select_coupon_title': 'Attention !',
+          'trip_details__select_coupon_text':
+              'Es tu sûr de vouloir choisir ce coupon ?',
+          'trip_details__select_confirm': 'Oui',
+          'trip_details__select_cancel': 'Non',
+          'trip_details__added_coupon_text':
+              'Ce coupon a bien été ajouté à ton Wallet !',
         },
       };
 }

@@ -23,7 +23,7 @@ class _TripsListState extends State<TripsList> {
     if (c.tripsList.length == 0) {
       c.checkHttpResponse(
           url: 'trip/get_all_trips.php',
-          data: {'user_id': c.userId.value},
+          data: {},
           loading: () => setState(() => _loading = true),
           error: () => setState(() => _loading = false),
           callBack: (data) {
@@ -75,7 +75,7 @@ class Element extends StatelessWidget {
   void onTap() {
     c.setTrip(element);
     Get.dialog(
-      Trip(element: element),
+      Trip(),
       barrierColor: Colors.transparent,
     );
   }
@@ -94,7 +94,7 @@ class Element extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           child: LoadImageWithLoader(
             url: 'trips/${element['image']}',
-            blurred: element['user_id'] != null ? false : true,
+            blurred: true,
           ),
         ),
       ),
@@ -103,13 +103,6 @@ class Element extends StatelessWidget {
 }
 
 class Trip extends StatelessWidget {
-  final Map<String, dynamic> element;
-
-  const Trip({
-    Key key,
-    @required this.element,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -131,23 +124,23 @@ class Trip extends StatelessWidget {
                   width: Get.width * 0.8,
                   height: Get.height * 0.25,
                   child: LoadImageWithLoader(
-                    url: 'trips/${element['image']}',
-                    blurred: element['user_id'] != null ? false : true,
+                    url: 'trips/${c.tripImage.value}',
+                    blurred: true,
                   ),
                 ),
               ),
               SizedBox(height: 30.0),
               Text(
-                element['city'],
+                c.tripCity.value,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline6,
               ),
               SizedBox(height: 30.0),
-              Text('slider__distance_${element['distance']}'.tr),
+              Text('slider__distance_${c.tripDistance.value}'.tr),
               _CustomDivider(),
-              Text('slider__time_${element['time']}'.tr),
+              Text('slider__time_${c.tripTime.value}'.tr),
               _CustomDivider(),
-              Text('slider__difficulty_${element['difficulty']}'.tr),
+              Text('slider__difficulty_${c.tripDifficulty.value}'.tr),
               SizedBox(height: 30.0),
               _GoButton(),
             ],

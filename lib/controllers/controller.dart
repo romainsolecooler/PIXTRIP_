@@ -4,18 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:pixtrip/common/utils.dart';
 
 class Controller extends GetxController {
   var fetch = GetConnect();
 
-  void checkHttpResponse(
-      {String url,
-      dynamic data,
-      Function loading,
-      Function callBack,
-      Function error}) {
+  void checkHttpResponse({
+    String url,
+    dynamic data,
+    Function loading,
+    Function callBack,
+    Function error,
+  }) {
     loading();
     fetch.post(url, data).then((value) {
+      // logger.wtf(value.body);
       if (value.body is List) {
         callBack(value.body);
         return;
@@ -70,7 +73,9 @@ class Controller extends GetxController {
 
   void setUserImage(String image) {
     if (image != '') {
-      userImage.value = 'https://pixtrip.fr/images/users/$image';
+      userImage.value = image.contains('https://')
+          ? image
+          : 'https://pixtrip.fr/images/users/$image';
     }
   }
 
@@ -154,6 +159,11 @@ class Controller extends GetxController {
   // TUTORIAL CONTROLLER //
   /////////////////////////
   final carouselController = CarouselController().obs;
+  final tutorialStep = 0.obs;
+
+  void setTutorialStep(int newValue) {
+    tutorialStep.value = newValue;
+  }
 
   //////////
   // TRIP //
@@ -171,6 +181,7 @@ class Controller extends GetxController {
   final tripAnecdote_1 = ''.obs;
   final tripAnecdote_2 = ''.obs;
   final tripAnecdote_3 = ''.obs;
+  final tripUserId = ''.obs;
   final finishedTrip = false.obs;
   final currentUserLatitude = 0.0.obs;
   final currentUserLongitude = 0.0.obs;
@@ -195,6 +206,7 @@ class Controller extends GetxController {
     tripAnecdote_1.value = trip['anecdote_1'];
     tripAnecdote_2.value = trip['anecdote_2'];
     tripAnecdote_3.value = trip['anecdote_3'];
+    tripUserId.value = trip['user_id'];
   }
 
   void setFinishedTrip(bool finished) {
@@ -262,6 +274,7 @@ class Controller extends GetxController {
   final profilAge = 0.obs;
   final profilOldPassword = ''.obs;
   final profilNewPassword = ''.obs;
+  final profilList = <dynamic>[].obs;
 
   void setProfilPseudo(String pseudo) {
     profilPseudo.value = pseudo;
@@ -281,6 +294,10 @@ class Controller extends GetxController {
 
   void setProfilNewPassword(String newPassword) {
     profilNewPassword.value = newPassword;
+  }
+
+  void setProfilList(List<dynamic> trips) {
+    profilList.value = trips;
   }
 
   //////////////
@@ -392,8 +409,15 @@ class Controller extends GetxController {
   // TRIP DETAILS //
   //////////////////
   final anecdoteIndex = 0.obs;
+  final chosenCouponImage = ''.obs;
+  final chosenCouponName = ''.obs;
 
   void setAnecdoteIndex(int index) {
     anecdoteIndex.value = index;
+  }
+
+  void setChosenCoupon(String image, String name) {
+    chosenCouponImage.value = image;
+    chosenCouponName.value = name;
   }
 }

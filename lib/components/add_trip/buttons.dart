@@ -68,8 +68,8 @@ class _AddTripButtonState extends State<AddTripButton> {
           'add_trip__sucess'.tr,
         ),
       );
-      c.setAppBarController(0);
       c.deletedAddTripInfos();
+      c.setAppBarController(0);
     }
     return;
     //final image = MultipartFile(c.addTripImage.value, filename: 'image');

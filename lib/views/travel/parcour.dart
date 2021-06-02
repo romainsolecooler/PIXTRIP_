@@ -23,7 +23,7 @@ class Parcour extends StatelessWidget {
     Widget child = FlutterMap(
       options: MapOptions(
         center: LatLng(c.tripLatitude.value, c.tripLongitude.value),
-        zoom: 15.0,
+        zoom: little ? 13.6 : 15.0,
         maxZoom: 18.4,
         onTap: (_) => little ? Get.to(() => Parcour()) : null,
       ),

@@ -15,8 +15,11 @@ class LoadImageWithLoader extends StatelessWidget {
   final String url;
   final bool blurred;
 
-  const LoadImageWithLoader({Key key, this.url, this.blurred = false})
-      : super(key: key);
+  const LoadImageWithLoader({
+    Key key,
+    this.url,
+    this.blurred = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

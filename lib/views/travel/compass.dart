@@ -7,6 +7,7 @@ import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:pixtrip/common/app_bar.dart';
+import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/components/travel/compass_navigation_bar.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
@@ -22,7 +23,7 @@ class Compass extends StatefulWidget {
 
 class _CompassState extends State<Compass> {
   Artboard _artboard;
-  StateMachineController _controller;
+  // StateMachineController _controller;
   SMIInput<double> _levelInput;
   StreamSubscription<Position> _positionStream;
 
@@ -43,6 +44,8 @@ class _CompassState extends State<Compass> {
     print('rounded : $rounded');
     if (rounded > -1) {
       _levelInput.value = rounded;
+    } else {
+      _levelInput.value = 0.0;
     }
   }
 
@@ -50,7 +53,7 @@ class _CompassState extends State<Compass> {
   void initState() {
     super.initState();
     rootBundle
-        .load('assets/animations/boussole_pixtrip.riv')
+        .load('assets/animations/boussole_pixtrip2.riv')
         .then((data) async {
       final file = RiveFile.import(data);
 
@@ -60,7 +63,7 @@ class _CompassState extends State<Compass> {
       if (controller != null) {
         artboard.addController(controller);
         _levelInput = controller.findInput('Number 1');
-        _levelInput.value = 0.0;
+        //_levelInput.value = 3.0;
       }
       setState(() {
         _artboard = artboard;
@@ -98,8 +101,9 @@ class _CompassState extends State<Compass> {
 
   @override
   void dispose() {
+    print('canceled compass stream');
     _positionStream.cancel();
-    _controller.dispose();
+    // _controller.dispose();
     super.dispose();
   }
 
@@ -140,7 +144,7 @@ class _CompassState extends State<Compass> {
                               fit: BoxFit.contain,
                             ),
                           ),
-                          if (_distance > 10.0)
+                          if (_distance > 20.0)
                             StreamBuilder<CompassEvent>(
                                 stream: FlutterCompass.events,
                                 builder: (context, snapshot) {

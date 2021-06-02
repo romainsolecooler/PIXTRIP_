@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:pixtrip/common/utils.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
 
@@ -81,10 +82,12 @@ class NextButton extends StatelessWidget {
 
     Controller c = Get.find();
 
-    void closeTutorial() {
+    void closeTutorial() async {
       Get.back();
-      final box = GetStorage();
-      box.write('tutorial', true);
+      c.setTutorialStep(1);
+      await dio.post('user/set_tutorial.php', data: {
+        'u_id': c.userId.value,
+      });
     }
 
     return ElevatedButton(
@@ -139,10 +142,17 @@ class TutorialContent extends StatelessWidget {
   final String titleText;
   final String imagePath;
   final String tutorialText;
+  final String subText;
+  final bool last;
 
-  const TutorialContent(
-      {Key key, this.titleText, this.imagePath, this.tutorialText})
-      : super(key: key);
+  const TutorialContent({
+    Key key,
+    this.titleText,
+    this.imagePath,
+    this.tutorialText,
+    this.subText,
+    this.last = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -164,8 +174,10 @@ class TutorialContent extends StatelessWidget {
                 ),
                 Divider(height: 80.0),
                 TutorialText(text: tutorialText),
+                if (subText != null) SizedBox(height: 20.0),
+                if (subText != null) TutorialText(text: subText),
                 SizedBox(height: 40.0),
-                NextButton(),
+                NextButton(last: last),
                 SizedBox(height: 40.0),
               ],
             ),
@@ -215,6 +227,17 @@ class TutorialContentWithoutImage extends StatelessWidget {
 class Tuto1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return TutorialContent(
+      titleText: 'tutorial__1_title'.tr,
+      imagePath: 'assets/images/tutorial/1.png',
+      tutorialText: 'tutorial__1_text'.tr,
+    );
+  }
+}
+
+class _Tuto1 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return FractionallySizedBox(
       widthFactor: 0.75,
       child: Column(
@@ -235,7 +258,7 @@ class Tuto2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return TutorialContent(
       titleText: 'tutorial__2_title'.tr,
-      imagePath: 'assets/images/tutorial/1.png',
+      imagePath: 'assets/images/tutorial/2.png',
       tutorialText: 'tutorial__2_text'.tr,
     );
   }
@@ -246,7 +269,7 @@ class Tuto3 extends StatelessWidget {
   Widget build(BuildContext context) {
     return TutorialContent(
       titleText: 'tutorial__3_title'.tr,
-      imagePath: 'assets/images/tutorial/2.png',
+      imagePath: 'assets/images/tutorial/3.png',
       tutorialText: 'tutorial__3_text'.tr,
     );
   }
@@ -275,6 +298,19 @@ class Tuto5 extends StatelessWidget {
 }
 
 class Tuto6 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return TutorialContent(
+      titleText: 'tutorial__6_title'.tr,
+      imagePath: 'assets/images/tutorial/6.png',
+      tutorialText: 'tutorial__6_text'.tr,
+      subText: 'tutorial__6_subtext'.tr,
+      last: true,
+    );
+  }
+}
+
+class _Tuto6 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TutorialContentWithoutImage(

@@ -64,13 +64,7 @@ class _CreateAccountState extends State<CreateAccount> {
           c.setUserPseudo(c.registerPseudo.value);
           if (c.stayConnected.value) {
             final box = GetStorage();
-            box.write('user', {
-              'id': data['u_id'],
-              'mail': data['email'],
-              'pseudo': data['pseudo'],
-              'image': data['image'],
-              'age': data['age'],
-            });
+            box.write('user', data['u_id']);
           }
           Get.offAll(() => App());
         });
