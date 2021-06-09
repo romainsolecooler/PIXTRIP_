@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:pixtrip/common/app_bar.dart';
+import 'package:pixtrip/common/bottom_navigation_bar.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/common/messages.dart';
@@ -41,6 +44,7 @@ void main() async {
     homeWidget = Login();
   }
   // c.fetch.defaultDecoder = (data) => jsonDecode(data);
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(Pixtrip(homeWidget: homeWidget));
 }
 
@@ -118,6 +122,10 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  final controller = PageController(
+    initialPage: 1,
+  );
+
   @override
   void initState() {
     super.initState();
@@ -136,14 +144,33 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    final Color _navBarItemActiveColor =
-        Theme.of(context).textTheme.bodyText1.color;
-    final Color _navBarItemAInactiveColor =
-        Theme.of(context).textTheme.bodyText1.color;
+    return Scaffold(
+      appBar: appBar,
+      body: WillPopScope(
+        onWillPop: () async {
+          print(c.currentIndex.value);
+          if (c.currentIndex.value > 0) {
+            c.goToPage(index: 0);
+            return false;
+          }
+          return true;
+        },
+        child: PageView(
+          controller: c.tabBarController.value,
+          physics: NeverScrollableScrollPhysics(),
+          children: [
+            Home(),
+            Trips(),
+            Profil(),
+            CreateTrip(),
+            Wallet(),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavBar(),
+    );
 
-    Controller c = Get.find();
-
-    return PersistentTabView(
+    /* return PersistentTabView(
       context,
       controller: c.appBarController.value,
       confineInSafeArea: true,
@@ -180,35 +207,35 @@ class _AppState extends State<App> {
       items: [
         PersistentBottomNavBarItem(
           icon: Icon(Icons.home),
-          title: 'app__home'.tr,
+          // title: 'app__home'.tr,
           activeColorPrimary: _navBarItemActiveColor,
           inactiveColorPrimary: _navBarItemAInactiveColor,
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Icons.place),
-          title: 'app__trip'.tr,
+          // title: 'app__trip'.tr,
           activeColorPrimary: _navBarItemActiveColor,
           inactiveColorPrimary: _navBarItemAInactiveColor,
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Icons.person),
-          title: 'app__profil'.tr,
+          // title: 'app__profil'.tr,
           activeColorPrimary: _navBarItemActiveColor,
           inactiveColorPrimary: _navBarItemAInactiveColor,
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Icons.add_location_alt),
-          title: 'app__create_trip'.tr,
+          // title: 'app__create_trip'.tr,
           activeColorPrimary: _navBarItemActiveColor,
           inactiveColorPrimary: _navBarItemAInactiveColor,
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Icons.folder),
-          title: 'app__wallet'.tr,
+          // title: 'app__wallet'.tr,
           activeColorPrimary: _navBarItemActiveColor,
           inactiveColorPrimary: _navBarItemAInactiveColor,
         ),
       ],
-    );
+    ); */
   }
 }

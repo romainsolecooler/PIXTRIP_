@@ -22,6 +22,12 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    print('init home state');
+    if (c.finishedTrip.value) {
+      Future.delayed(Duration.zero, () {
+        c.goToPageWithoutTransition(index: 1, resetFinishedTrip: false);
+      });
+    }
     if (c.tutorialStep.value == 0) {
       Future.delayed(Duration.zero, () {
         Get.dialog(
@@ -63,28 +69,25 @@ class _HomeState extends State<Home> {
         ? Center(child: CircularProgressIndicator.adaptive())
         : Column(children: children);
 
-    return Scaffold(
-      appBar: appBar,
-      body: Column(
-        children: [
-          Flexible(
-            flex: 2,
-            child: hometrips,
+    return Column(
+      children: [
+        Flexible(
+          flex: 2,
+          child: hometrips,
+        ),
+        Flexible(
+          flex: 1,
+          child: Column(
+            children: [
+              _PageDivider(),
+              _ChooseTrip(),
+              SizedBox(
+                height: 10.0,
+              )
+            ],
           ),
-          Flexible(
-            flex: 1,
-            child: Column(
-              children: [
-                _PageDivider(),
-                _ChooseTrip(),
-                SizedBox(
-                  height: 10.0,
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -103,6 +106,7 @@ class HomeTrip extends StatelessWidget {
           onTap: () {
             c.setTripSelectedFromHome(true);
             c.setTrip(element);
+            c.goToPage(index: 1);
             c.setAppBarController(1);
           },
           child: Padding(

@@ -157,6 +157,9 @@ class _CompassState extends State<Compass> {
                                   }
                                   if (snapshot.data.heading != null) {
                                     double heading = snapshot.data.heading;
+                                    if (heading % 2 == 0) {
+                                      print('totot');
+                                    }
                                     double bearing = Geolocator.bearingBetween(
                                         _latitude,
                                         _longitude,

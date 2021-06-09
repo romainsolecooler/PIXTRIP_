@@ -13,11 +13,10 @@ class Trips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Controller c = Get.find();
-    return Scaffold(
-      appBar: appBar,
-      //body: TripDetails(),
-      body: Obx(() => c.finishedTrip.value ? TripDetails() : _AllTrips()),
-    );
+    return Obx(() {
+      print(c.finishedTrip.value);
+      return c.finishedTrip.value ? TripDetails() : _AllTrips();
+    });
   }
 }
 
@@ -26,19 +25,24 @@ class _AllTrips extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          RotatedBox(
-            quarterTurns: 1,
-            child: IconButton(
-              icon: Icon(CupertinoIcons.slider_horizontal_3),
-              onPressed: () => Get.dialog(
-                TripsSettings(),
-                barrierColor: Colors.transparent,
+          Row(
+            children: [
+              Expanded(child: Container()),
+              RotatedBox(
+                quarterTurns: 1,
+                child: IconButton(
+                  icon: Icon(CupertinoIcons.slider_horizontal_3),
+                  onPressed: () => Get.dialog(
+                    TripsSettings(),
+                    barrierColor: Colors.transparent,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
-          Expanded(child: TripsList()),
+          TripsList(),
         ],
       ),
     );

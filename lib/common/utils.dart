@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:get/get.dart';
+import 'package:pixtrip/controllers/controller.dart';
+
+Controller c = Get.find();
 
 var dio = Dio(BaseOptions(
   baseUrl: 'https://pixtrip.fr/api/',
@@ -72,6 +76,44 @@ class LoadAssetsImage extends StatelessWidget {
       height: double.infinity,
       fit: BoxFit.cover,
     );
+  }
+}
+
+class LoadUserImage extends StatelessWidget {
+  final String url;
+
+  const LoadUserImage({Key key, this.url}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return url != ''
+        ? CachedNetworkImage(
+            imageUrl: url,
+            placeholder: (context, url) =>
+                Center(child: CircularProgressIndicator.adaptive()),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+            imageBuilder: (context, imageProvider) {
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(100.0),
+                child: Image(
+                  image: imageProvider,
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              );
+            },
+            fadeOutDuration: Duration.zero,
+          )
+        : CircleAvatar(
+            child: Text(
+              c.userPseudo.value[0].toUpperCase(),
+              style: TextStyle(
+                fontSize: 30.0,
+              ),
+            ),
+            radius: double.infinity,
+          );
   }
 }
 

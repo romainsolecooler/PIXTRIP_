@@ -4,6 +4,9 @@ import 'package:get/get.dart';
 import 'package:pixtrip/components/wallet/coupon.dart';
 import 'package:pixtrip/components/wallet/empty_list.dart';
 import 'package:pixtrip/components/wallet/separator.dart';
+import 'package:pixtrip/controllers/controller.dart';
+
+Controller c = Get.find();
 
 class UnusedCoupons extends StatelessWidget {
   final List<dynamic> unusedCoupons;
@@ -24,6 +27,7 @@ class UnusedCoupons extends StatelessWidget {
                 title: item['name'],
                 data: item['code'],
                 image: item['image'],
+                infosId: item['infos_id'],
               );
             },
             separatorBuilder: (context, index) => Separator(),

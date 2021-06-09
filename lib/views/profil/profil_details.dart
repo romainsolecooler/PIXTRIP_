@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:pixtrip/common/app_bar.dart';
+import 'package:pixtrip/common/bottom_navigation_bar.dart';
 
 import 'package:pixtrip/components/profil/user_image.dart';
 import 'package:pixtrip/components/profil/inputs.dart';

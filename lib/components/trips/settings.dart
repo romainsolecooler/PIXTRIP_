@@ -4,8 +4,10 @@ import 'package:get/get.dart';
 import 'package:pixtrip/components/trips/sliders/sliders.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
+import 'package:pixtrip/controllers/trip_list_controller.dart';
 
 Controller c = Get.find();
+TripListController tripListController = Get.find();
 
 class TripsSettings extends StatelessWidget {
   @override
@@ -110,8 +112,6 @@ class _CurrentPositionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ever(c.settingsCurrentPosition, (_) => print("$_ has been changed"));
-
     return InkWell(
       onTap: () =>
           c.setSettingsCurrentPosition(!c.settingsCurrentPosition.value),
@@ -167,7 +167,15 @@ class __ValidateSettingsState extends State<_ValidateSettings> {
   bool _loading = false;
 
   void updateSettings() {
-    c.checkHttpResponse(
+    tripListController.orderTrips(
+      city: c.settingsCityName.value,
+      currentPosition: c.settingsCurrentPosition.value,
+      distance: c.sliderDistance.value,
+      difficulty: c.sliderDifficulty.value,
+      time: c.sliderTime.value,
+    );
+    Get.back();
+    /* c.checkHttpResponse(
         url: 'trip/get_all_trips.php',
         data: {
           'distance': c.sliderDistance.value,
@@ -180,7 +188,7 @@ class __ValidateSettingsState extends State<_ValidateSettings> {
           c.setTripsList(data);
           Get.back();
           setState(() => _loading = false);
-        });
+        }); */
   }
 
   @override

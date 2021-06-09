@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/instance_manager.dart';
+import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:pixtrip/common/utils.dart';
 
@@ -8,6 +8,8 @@ import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/components/wallet/used_coupons.dart';
 import 'package:pixtrip/views/wallet/coupon_details.dart';
 
+Controller c = Get.find();
+
 class Coupon extends StatelessWidget {
   final bool used;
   final bool opened;
@@ -15,6 +17,7 @@ class Coupon extends StatelessWidget {
   final String title;
   final String data;
   final String image;
+  final int infosId;
 
   const Coupon({
     Key key,
@@ -24,11 +27,12 @@ class Coupon extends StatelessWidget {
     this.title,
     this.data = '',
     this.image,
+    this.infosId,
   }) : super(key: key);
 
   void openCouponDetails(BuildContext context) {
-    pushNewScreen(context,
-        screen: CouponDetails(
+    c.setInfosId(infosId);
+    Get.to(() => CouponDetails(
           coupon: Coupon(
             i: i,
             title: title,

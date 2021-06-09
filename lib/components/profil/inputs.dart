@@ -96,7 +96,7 @@ class Password extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => pushNewScreen(context, screen: ChangePassword()),
+      onTap: () => Get.to(() => ChangePassword()),
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
       child: IgnorePointer(

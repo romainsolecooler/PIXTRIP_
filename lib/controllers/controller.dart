@@ -56,6 +56,7 @@ class Controller extends GetxController {
   final userId = ''.obs;
   final userMail = ''.obs;
   final userPseudo = ''.obs;
+  final loadingUserImage = false.obs;
   final userImage = ''.obs;
   final userAge = 0.obs;
 
@@ -69,6 +70,10 @@ class Controller extends GetxController {
 
   void setUserPseudo(String pseudo) {
     userPseudo.value = pseudo;
+  }
+
+  void setLoadingUserImage(bool newValue) {
+    loadingUserImage.value = newValue;
   }
 
   void setUserImage(String image) {
@@ -133,6 +138,35 @@ class Controller extends GetxController {
 
   void setForgotPasswordMail(String text) {
     forgotPasswordMail.value = text;
+  }
+
+  ///////////////////////////
+  // BOTTOM BAR CONTROLLER //
+  ///////////////////////////
+
+  final tabBarController = PageController(initialPage: 0).obs;
+  final currentIndex = 0.obs;
+
+  void goToPage({int index, bool resetFinishedTrip = true}) {
+    tabBarController.value.animateToPage(
+      index,
+      duration: Duration(
+        milliseconds: 300,
+      ),
+      curve: Curves.easeInOut,
+    );
+    if (resetFinishedTrip) {
+      setFinishedTrip(false);
+    }
+    currentIndex(index);
+  }
+
+  void goToPageWithoutTransition({int index, bool resetFinishedTrip = true}) {
+    tabBarController.value.jumpToPage(index);
+    if (resetFinishedTrip) {
+      setFinishedTrip(false);
+    }
+    currentIndex(index);
   }
 
   //////////////////////////////////
@@ -214,7 +248,10 @@ class Controller extends GetxController {
   }
 
   void setCurrentUserposition(
-      double latitude, double longitude, double altitude) {
+    double latitude,
+    double longitude,
+    double altitude,
+  ) {
     currentUserLatitude.value = latitude;
     currentUserLongitude.value = longitude;
     currentUserAltitude.value = altitude;
@@ -381,6 +418,7 @@ class Controller extends GetxController {
   final unusedCoupons = <dynamic>[].obs;
   final unusedCouponsLoaded = false.obs;
   final couponId = ''.obs;
+  final infosId = 0.obs;
 
   void setUsedCoupons(List<dynamic> couponsList) {
     usedCoupons.value = couponsList;
@@ -394,6 +432,10 @@ class Controller extends GetxController {
 
   void setCouponId(String id) {
     couponId.value = id;
+  }
+
+  void setInfosId(int id) {
+    infosId.value = id;
   }
 
   /////////////

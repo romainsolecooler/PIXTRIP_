@@ -21,7 +21,7 @@ class _AddPhotoState extends State<AddPhoto> {
 
   final _picker = ImagePicker();
 
-  Future getImage() async {
+  void getImage() async {
     print('getting image');
 
     Position position = await Geolocator.getCurrentPosition(

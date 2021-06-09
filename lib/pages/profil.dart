@@ -14,98 +14,83 @@ Controller c = Get.find();
 class Profil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBar,
-      body: Center(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Row(
-                children: [
-                  Obx(
-                    () => CircleAvatar(
-                      backgroundImage: NetworkImage(c.userImage.value),
-                      radius: 35.0,
+    return Center(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Row(
+              children: [
+                /* Obx(
+                  () => CircleAvatar(
+                    backgroundImage: NetworkImage(c.userImage.value),
+                    radius: 35.0,
+                  ),
+                ), */
+                UserImage(isEditable: false),
+                SizedBox(width: 15.0),
+                Expanded(
+                  child: Obx(
+                    () => Text(
+                      c.userPseudo.value,
+                      style: Theme.of(context).textTheme.headline6,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  // UserImage(isEditable: false),
-                  SizedBox(width: 15.0),
-                  Expanded(
-                    child: Obx(
-                      () => Text(
-                        c.userPseudo.value,
-                        style: Theme.of(context).textTheme.headline6,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.settings),
-                    onPressed: () =>
-                        pushNewScreen(context, screen: ProfilDetails()),
-                  ),
-                ],
-              ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.settings),
+                  onPressed: () => Get.to(() => ProfilDetails()),
+                ),
+              ],
             ),
-            ProfilList(),
-          ],
-        ),
+          ),
+          ProfilList(),
+        ],
       ),
     );
   }
 }
 
-class ProfilList extends StatefulWidget {
-  @override
-  _ProfilListState createState() => _ProfilListState();
-}
-
-class _ProfilListState extends State<ProfilList> {
+class ProfilList extends StatelessWidget {
   final double _spacing = 15.0;
-  bool _loading = false;
 
-  @override
-  void initState() {
-    super.initState();
-    print('init profil state');
-    c.checkHttpResponse(
-        url: 'trip/get_profil_trips.php',
-        data: {'user_id': c.userId.value},
-        loading: () => setState(() => _loading = true),
-        error: () => setState(() => _loading = false),
-        callBack: (data) {
-          c.setProfilList(data);
-          setState(() => _loading = false);
-        });
-  }
-
-  @override
-  void dispose() {
-    print('dispose');
-    super.dispose();
+  Future<List<dynamic>> getProfilTrips() async {
+    print('getting profile trips');
+    var response = await dio.post(
+      'trip/get_profil_trips.php',
+      data: {'user_id': c.userId.value},
+    );
+    return response.data;
   }
 
   @override
   Widget build(BuildContext context) {
-    return _loading
-        ? CircularProgressIndicator.adaptive()
-        : Expanded(
-            child: SingleChildScrollView(
-              child: Obx(() {
-                if (c.profilList.length == 0) {
-                  return Text('profil__empty_list'.tr);
-                }
-                return Wrap(
-                  children: c.profilList.map((element) {
-                    return _Element(element: element);
-                  }).toList(),
-                  spacing: _spacing,
-                  runSpacing: _spacing,
-                );
-              }),
+    return FutureBuilder(
+      future: getProfilTrips(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            return Text('error_title'.tr);
+          }
+          List<_Element> children = [];
+          for (final item in snapshot.data) {
+            children.add(_Element(element: item));
+          }
+          if (children.length <= 0) {
+            return Text('profil__empty_list'.tr);
+          }
+          return Expanded(
+            child: Wrap(
+              spacing: _spacing,
+              runSpacing: _spacing,
+              children: children,
             ),
           );
+        }
+        return CircularProgressIndicator.adaptive();
+      },
+    );
   }
 }
 

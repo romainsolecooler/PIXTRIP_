@@ -51,30 +51,28 @@ class _WalletState extends State<Wallet> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: appBar,
-        body: Obx(
-          () {
-            if (c.usedCouponsLoaded.value && c.unusedCouponsLoaded.value) {
-              if (c.unusedCoupons.length == 0 && c.usedCoupons.length == 0) {
-                return EmptyWallet();
-              }
-              return SingleChildScrollView(
-                physics: ScrollPhysics(),
-                child: Column(
-                  children: [
-                    SizedBox(height: 10.0),
-                    UnusedCoupons(unusedCoupons: c.unusedCoupons),
-                    _PageSeparator(),
-                    UsedCoupons(usedCoupons: c.usedCoupons),
-                  ],
-                ),
-              );
-            } else {
-              return Center(child: CircularProgressIndicator.adaptive());
-            }
-          },
-        ));
+    return Obx(
+      () {
+        if (c.usedCouponsLoaded.value && c.unusedCouponsLoaded.value) {
+          if (c.unusedCoupons.length == 0 && c.usedCoupons.length == 0) {
+            return EmptyWallet();
+          }
+          return SingleChildScrollView(
+            physics: ScrollPhysics(),
+            child: Column(
+              children: [
+                SizedBox(height: 10.0),
+                UnusedCoupons(unusedCoupons: c.unusedCoupons),
+                _PageSeparator(),
+                UsedCoupons(usedCoupons: c.usedCoupons),
+              ],
+            ),
+          );
+        } else {
+          return Center(child: CircularProgressIndicator.adaptive());
+        }
+      },
+    );
   }
 }
 

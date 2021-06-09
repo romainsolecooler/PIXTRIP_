@@ -10,32 +10,29 @@ import 'package:pixtrip/components/add_trip/sliders/sliders.dart';
 class CreateTrip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBar,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            children: [
-              AddPhoto(),
-              SizedBox(height: 35),
-              CityName(),
-              SizedBox(height: 25),
-              //AddPosition(),
-              SizedBox(height: 25),
-              DistanceSlider(),
-              TimeSlider(),
-              DifficultySlider(),
-              _CustomDivider(),
-              FirstInfo(),
-              SizedBox(height: 25),
-              SecondInfo(),
-              SizedBox(height: 25),
-              ThirdInfo(),
-              SizedBox(height: 30),
-              AddTripButton(),
-            ],
-          ),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          children: [
+            AddPhoto(),
+            SizedBox(height: 35),
+            CityName(),
+            SizedBox(height: 25),
+            //AddPosition(),
+            SizedBox(height: 25),
+            DistanceSlider(),
+            TimeSlider(),
+            DifficultySlider(),
+            _CustomDivider(),
+            FirstInfo(),
+            SizedBox(height: 25),
+            SecondInfo(),
+            SizedBox(height: 25),
+            ThirdInfo(),
+            SizedBox(height: 30),
+            AddTripButton(),
+          ],
         ),
       ),
     );

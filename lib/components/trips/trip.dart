@@ -2,45 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/controllers/controller.dart';
+import 'package:pixtrip/controllers/trip_list_controller.dart';
 import 'package:pixtrip/pages/travel.dart';
 import 'package:pixtrip/views/travel/trip_details.dart';
 
 Controller c = Get.find();
 
-class TripsList extends StatefulWidget {
-  @override
-  _TripsListState createState() => _TripsListState();
-}
+class TripsList extends StatelessWidget {
+  final double _spacing = 15.0;
+  final TripListController tripListController = Get.put(TripListController());
 
-class _TripsListState extends State<TripsList> {
-  bool _loading = false;
-
-  double _spacing = 15.0;
-
-  @override
-  void initState() {
-    super.initState();
-    if (c.tripsList.length == 0) {
-      c.checkHttpResponse(
-          url: 'trip/get_all_trips.php',
-          data: {},
-          loading: () => setState(() => _loading = true),
-          error: () => setState(() => _loading = false),
-          callBack: (data) {
-            c.setTripsList(data);
-            setState(() => _loading = false);
-          });
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+  Future<List<dynamic>> getTripsList() async {
+    print('getting all trips');
+    var response = await dio.post('trip/get_all_trips.php', data: {});
+    return response.data;
   }
 
   @override
   Widget build(BuildContext context) {
-    return _loading
+    return Obx(() {
+      if (c.tripSelectedFromHome.value) {
+        Future.delayed(Duration.zero, () {
+          Get.dialog(Trip(), barrierColor: Colors.transparent);
+          c.setTripSelectedFromHome(false);
+        });
+      }
+      return tripListController.loading.value
+          ? CircularProgressIndicator.adaptive()
+          : Wrap(
+              spacing: _spacing,
+              runSpacing: _spacing,
+              children: tripListController.tripList.map((element) {
+                return Element(element: element);
+              }).toList(),
+            );
+    });
+    /* return _loading
         ? Center(child: CircularProgressIndicator.adaptive())
         : SingleChildScrollView(
             child: Obx(
@@ -60,7 +57,7 @@ class _TripsListState extends State<TripsList> {
                 );
               },
             ),
-          );
+          ); */
   }
 }
 
@@ -156,6 +153,7 @@ class _GoButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
+        c.setPositionList([]);
         Get.offAll(() => PixtripMap());
       },
       child: Text('trips__go'.tr),
