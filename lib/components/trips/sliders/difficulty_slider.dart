@@ -18,10 +18,13 @@ class DifficultySlider extends StatelessWidget {
                   controller.setSliderDifficulty(value.toInt()),
               value: controller.sliderDifficulty.value.toDouble(),
               min: 0,
-              max: 5,
-              divisions: 5,
+              max: 2,
+              divisions: 2,
             ),
-            Text(label),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+            ),
           ],
         );
       },

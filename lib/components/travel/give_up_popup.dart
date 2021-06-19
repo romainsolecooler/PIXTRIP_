@@ -8,7 +8,6 @@ Controller c = Get.find();
 
 class GiveUpPopup extends StatelessWidget {
   void _giveUpTrip(BuildContext context) {
-    c.setAppBarController(0);
     Get.offAll(() => App());
   }
 

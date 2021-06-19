@@ -82,7 +82,7 @@ class _CreateAccountState extends State<CreateAccount> {
               ignoring: !c.registerAcceptedConditions.value,
               child: ElevatedButton(
                 onPressed: () => addUser(),
-                child: Text('register__create_account'.tr.toUpperCase()),
+                child: Text('register__create_account'.tr),
               ),
             ),
           );

@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:pixtrip/common/app_bar.dart';
 import 'package:pixtrip/common/bottom_navigation_bar.dart';
 
@@ -169,73 +168,5 @@ class _AppState extends State<App> {
       ),
       bottomNavigationBar: BottomNavBar(),
     );
-
-    /* return PersistentTabView(
-      context,
-      controller: c.appBarController.value,
-      confineInSafeArea: true,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      handleAndroidBackButtonPress: true,
-      resizeToAvoidBottomInset: true,
-      stateManagement: false,
-      hideNavigationBarWhenKeyboardShows: true,
-      popAllScreensOnTapOfSelectedTab: true,
-      popActionScreens: PopActionScreensType.all,
-      decoration: NavBarDecoration(
-        colorBehindNavBar: Colors.white,
-      ),
-      itemAnimationProperties: ItemAnimationProperties(
-        duration: Duration(milliseconds: 200),
-        curve: Curves.easeInOut,
-      ),
-      screenTransitionAnimation: ScreenTransitionAnimation(
-        animateTabTransition: true,
-        curve: Curves.easeInOut,
-        duration: Duration(milliseconds: 300),
-      ),
-      navBarStyle: NavBarStyle.style6,
-      onItemSelected: (_) {
-        c.setFinishedTrip(false);
-      },
-      screens: [
-        Home(),
-        Trips(),
-        Profil(),
-        CreateTrip(),
-        Wallet(),
-      ],
-      items: [
-        PersistentBottomNavBarItem(
-          icon: Icon(Icons.home),
-          // title: 'app__home'.tr,
-          activeColorPrimary: _navBarItemActiveColor,
-          inactiveColorPrimary: _navBarItemAInactiveColor,
-        ),
-        PersistentBottomNavBarItem(
-          icon: Icon(Icons.place),
-          // title: 'app__trip'.tr,
-          activeColorPrimary: _navBarItemActiveColor,
-          inactiveColorPrimary: _navBarItemAInactiveColor,
-        ),
-        PersistentBottomNavBarItem(
-          icon: Icon(Icons.person),
-          // title: 'app__profil'.tr,
-          activeColorPrimary: _navBarItemActiveColor,
-          inactiveColorPrimary: _navBarItemAInactiveColor,
-        ),
-        PersistentBottomNavBarItem(
-          icon: Icon(Icons.add_location_alt),
-          // title: 'app__create_trip'.tr,
-          activeColorPrimary: _navBarItemActiveColor,
-          inactiveColorPrimary: _navBarItemAInactiveColor,
-        ),
-        PersistentBottomNavBarItem(
-          icon: Icon(Icons.folder),
-          // title: 'app__wallet'.tr,
-          activeColorPrimary: _navBarItemActiveColor,
-          inactiveColorPrimary: _navBarItemAInactiveColor,
-        ),
-      ],
-    ); */
   }
 }

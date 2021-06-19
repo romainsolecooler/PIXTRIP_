@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:pixtrip/common/utils.dart';
 
@@ -167,17 +166,6 @@ class Controller extends GetxController {
       setFinishedTrip(false);
     }
     currentIndex(index);
-  }
-
-  //////////////////////////////////
-  // PERSISTENT APPBAR CONTROLLER //
-  //////////////////////////////////
-  final appBarController = PersistentTabController(
-    initialIndex: 0,
-  ).obs;
-
-  void setAppBarController(int index) {
-    appBarController.value.index = index;
   }
 
   //////////

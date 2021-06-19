@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
-import 'package:pixtrip/common/app_bar.dart';
 import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/components/home/tutorial.dart';
 import 'package:pixtrip/controllers/controller.dart';
@@ -38,16 +36,15 @@ class _HomeState extends State<Home> {
       });
     }
     if (c.homeTrips.length == 0) {
-      c.checkHttpResponse(
-          url: 'trip/get_home_trips.php',
-          data: {},
-          loading: () => setState(() => _loading = true),
-          error: () => setState(() => _loading = false),
-          callBack: (data) {
-            c.setHomeTrips(data);
-            setState(() => _loading = false);
-          });
+      getHomeTrips();
     }
+  }
+
+  void getHomeTrips() async {
+    setState(() => _loading = true);
+    var response = await dio.post('trip/get_home_trips.php');
+    c.setHomeTrips(response.data);
+    setState(() => _loading = false);
   }
 
   @override
@@ -107,7 +104,6 @@ class HomeTrip extends StatelessWidget {
             c.setTripSelectedFromHome(true);
             c.setTrip(element);
             c.goToPage(index: 1);
-            c.setAppBarController(1);
           },
           child: Padding(
             padding: padding,
@@ -187,15 +183,10 @@ class _PageDivider extends StatelessWidget {
 class _ChooseTrip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Controller c = Get.find();
-
     return Expanded(
       child: Container(
-        margin: EdgeInsets.only(top: 0.0),
         child: InkWell(
-          onTap: () {
-            c.setAppBarController(1);
-          },
+          onTap: () => c.goToPage(index: 1),
           child: Padding(
             padding: padding,
             child: Row(

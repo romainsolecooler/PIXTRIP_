@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,12 +6,10 @@ import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:pixtrip/common/app_bar.dart';
-import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/components/travel/compass_navigation_bar.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:rive/rive.dart';
-import 'package:vector_math/vector_math.dart';
 
 Controller c = Get.find();
 
@@ -157,9 +154,6 @@ class _CompassState extends State<Compass> {
                                   }
                                   if (snapshot.data.heading != null) {
                                     double heading = snapshot.data.heading;
-                                    if (heading % 2 == 0) {
-                                      print('totot');
-                                    }
                                     double bearing = Geolocator.bearingBetween(
                                         _latitude,
                                         _longitude,
@@ -197,26 +191,4 @@ class _CompassState extends State<Compass> {
       bottomNavigationBar: CompassNavigationBar(),
     );
   }
-}
-
-double getBearing(startLatitude, startLongitude, endLatitude, endLongitude) {
-  double startLat = radians(startLatitude);
-  double startLon = radians(startLongitude);
-  double endLat = radians(endLatitude);
-  double endLon = radians(endLongitude);
-
-  double dLong = endLon - startLon;
-
-  double dPhi =
-      log(tan(endLat / 2.0 + pi / 4.0) / tan(startLat / 2.0 + pi / 4.0));
-
-  if (dLong.abs() > pi) {
-    if (dLong > 0.0) {
-      dLong = -(2.0 * pi - dLong);
-    } else {
-      dLong = (2.0 * pi + dLong);
-    }
-  }
-  double bearing = (degrees(atan2(dLong, dPhi)) + 360.0) % 360.0;
-  return bearing;
 }

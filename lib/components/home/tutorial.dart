@@ -142,7 +142,6 @@ class TutorialContent extends StatelessWidget {
   final String titleText;
   final String imagePath;
   final String tutorialText;
-  final String subText;
   final bool last;
 
   const TutorialContent({
@@ -150,7 +149,6 @@ class TutorialContent extends StatelessWidget {
     this.titleText,
     this.imagePath,
     this.tutorialText,
-    this.subText,
     this.last = false,
   }) : super(key: key);
 
@@ -174,8 +172,6 @@ class TutorialContent extends StatelessWidget {
                 ),
                 Divider(height: 80.0),
                 TutorialText(text: tutorialText),
-                if (subText != null) SizedBox(height: 20.0),
-                if (subText != null) TutorialText(text: subText),
                 SizedBox(height: 40.0),
                 NextButton(last: last),
                 SizedBox(height: 40.0),
@@ -304,7 +300,6 @@ class Tuto6 extends StatelessWidget {
       titleText: 'tutorial__6_title'.tr,
       imagePath: 'assets/images/tutorial/6.png',
       tutorialText: 'tutorial__6_text'.tr,
-      subText: 'tutorial__6_subtext'.tr,
       last: true,
     );
   }

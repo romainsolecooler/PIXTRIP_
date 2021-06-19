@@ -9,7 +9,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong/latlong.dart';
 
 import 'package:pixtrip/common/app_bar.dart';
-import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/components/travel/pixtrip_map_bottom_bar.dart';
 import 'package:pixtrip/components/travel/zone.dart';
 import 'package:pixtrip/controllers/controller.dart';

@@ -8,12 +8,10 @@ import 'package:get/get.dart';
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/views/travel/compass.dart';
 import 'package:rive/rive.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vector_math/vector_math.dart';
 import 'package:flutter_compass/flutter_compass.dart';
-import 'package:sensors/sensors.dart';
 
-Controller c = Get.find();
+/* Controller c = Get.find();
 
 class AnimatedCompass extends StatefulWidget {
   @override
@@ -213,3 +211,4 @@ double getOffsetFromNorth(double currentLatitude, double currentLongitude,
   }
   return toDegrees;
 }
+ */

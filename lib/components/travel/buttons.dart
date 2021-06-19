@@ -59,12 +59,14 @@ class TakePhoto extends StatelessWidget {
       double userAltitude = c.currentUserAltitude.value;
       double altitudePaddingBottom = c.tripAltitude.value - 5;
       double altitudePaddingTop = c.tripAltitude.value + 5;
+      print(distance);
       /* c.setPhotoPath(pickedFile.path);
       Get.offAll(() => Success());
       return; */
-      if (distance < 20.0 &&
+      /* if (distance < 20.0 &&
           userAltitude <= altitudePaddingTop &&
-          userAltitude >= altitudePaddingBottom) {
+          userAltitude >= altitudePaddingBottom) { */
+      if (distance < 20.0) {
         c.setPhotoPath(pickedFile.path);
         Get.offAll(() => Success());
       } else {

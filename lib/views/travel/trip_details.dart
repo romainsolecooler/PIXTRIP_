@@ -2,8 +2,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:pixtrip/common/app_bar.dart';
 import 'package:pixtrip/common/custom_colors.dart';
+import 'package:pixtrip/common/social_buttons.dart';
 import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/views/travel/parcour.dart';
@@ -152,6 +154,12 @@ class __ActionsState extends State<_Actions> {
     });
   }
 
+  void showShareOptions() {
+    Get.bottomSheet(
+      ShareOptions(),
+    );
+  }
+
   @override
   void initState() {
     isFaved();
@@ -194,12 +202,103 @@ class __ActionsState extends State<_Actions> {
               ),
               IconButton(
                 icon: Icon(Icons.share),
-                onPressed: () => print('share'),
+                onPressed: () => showShareOptions(),
               ),
             ],
           ),
           SizedBox(height: 15.0),
           info,
+        ],
+      ),
+    );
+  }
+}
+
+class ShareOptions extends StatelessWidget {
+  final FlutterShareMe share = FlutterShareMe();
+
+  ShareOptions({Key key}) : super(key: key);
+
+  Map<String, String> getTripData() {
+    int positionListLength = c.positionList.length;
+    double traveledDistance = 0;
+    for (int i = 0; i < positionListLength - 1; i++) {
+      final item = c.positionList[i];
+      final nextItem = c.positionList[i + 1];
+      traveledDistance += Geolocator.distanceBetween(
+        item['lat'],
+        item['lon'],
+        nextItem['lat'],
+        nextItem['lon'],
+      );
+    }
+    int steps = (traveledDistance / 0.762).floor();
+    String displayDistance = traveledDistance < 1000
+        ? '${traveledDistance.round()} m'
+        : '${(traveledDistance / 1000).toStringAsFixed(3)} km';
+    return {
+      'distance': displayDistance,
+      'steps': steps.toString(),
+      'name': c.tripCity.value,
+    };
+  }
+
+  void shareFacebook() async {
+    Map<String, String> tripData = getTripData();
+    await FlutterShareMe().shareToFacebook(
+      msg: 'trip_details__share_message'.trParams(tripData),
+    );
+  }
+
+  void shareTwitter() async {
+    Map<String, String> tripData = getTripData();
+    await FlutterShareMe().shareToTwitter(
+      msg: 'trip_details__share_message'.trParams(tripData),
+    );
+  }
+
+  void shareWhatsApp() async {
+    Map<String, String> tripData = getTripData();
+    await FlutterShareMe().shareToWhatsApp(
+      msg: 'trip_details__share_message'.trParams(tripData),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Map<String, String> tripData = getTripData();
+    String message = 'trip_details__share_message'.trParams(tripData);
+
+    return Container(
+      color: Colors.white,
+      padding: EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('trip_details__share_title'.tr),
+          SizedBox(height: 25.0),
+          Row(
+            children: [
+              SocialButton(
+                name: 'facebook',
+                function: () => share.shareToFacebook(
+                  msg: message,
+                  url: 'https://www.facebook.com/PixtripApp',
+                ),
+              ),
+              SizedBox(width: 25.0),
+              SocialButton(
+                name: 'twitter',
+                function: () => share.shareToTwitter(msg: message),
+              ),
+              SizedBox(width: 25.0),
+              SocialButton(
+                name: 'whatsapp',
+                function: () => share.shareToWhatsApp(msg: message),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -582,17 +681,17 @@ class _Coupon extends StatelessWidget {
     String text;
     if (data['error']) {
       title = 'error_title';
-      text = data['message'];
+      text = 'trip_details__added_coupon_error';
     } else {
       title = 'sucess_title';
-      text = 'trip_details__added_coupon_text'.tr;
+      text = 'trip_details__added_coupon_text';
       c.setChosenCoupon(coupon['image'], coupon['name']);
       showCouponList(false);
     }
     Get.defaultDialog(
       title: title.tr,
       content: Text(
-        text,
+        text.tr,
         textAlign: TextAlign.center,
       ),
       textConfirm: 'ok'.tr,
@@ -654,7 +753,7 @@ class _CouponImage extends StatelessWidget {
         width: _imageSize,
         height: _imageSize,
         child: image == null
-            ? Placeholder()
+            ? Image.asset('assets/images/tutorial/5.png')
             : LoadImageWithLoader(
                 url: 'coupons/$image',
               ),

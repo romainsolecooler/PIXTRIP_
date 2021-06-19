@@ -31,7 +31,9 @@ class LoadImageWithLoader extends StatelessWidget {
 
     return CachedNetworkImage(
       imageUrl: 'https://pixtrip.fr/images/$url',
-      placeholder: (context, url) => Center(child: LinearProgressIndicator()),
+      progressIndicatorBuilder: (context, url, progress) => Center(
+        child: LinearProgressIndicator(value: progress.progress),
+      ),
       errorWidget: (context, url, error) => Icon(Icons.error),
       imageBuilder: (context, imageProvider) {
         return Stack(

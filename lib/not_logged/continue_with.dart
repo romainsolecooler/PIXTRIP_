@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
-import 'package:auth_buttons/auth_buttons.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:pixtrip/common/utils.dart';
+import 'package:pixtrip/common/social_buttons.dart';
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/main.dart';
-
-import '../common/utils.dart';
 
 Controller c = Get.find();
 
@@ -36,9 +33,6 @@ class OAuthRow extends StatefulWidget {
 
 class _OAuthRowState extends State<OAuthRow> {
   bool _loading = false;
-  final AuthButtonStyle _authButtonStyle = AuthButtonStyle(
-    buttonType: AuthButtonType.icon,
-  );
 
   void oAuthConnect({String email, String pseudo, dynamic id, dynamic image}) {
     c.checkHttpResponse(
@@ -102,14 +96,13 @@ class _OAuthRowState extends State<OAuthRow> {
         : Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              GoogleAuthButton(
-                onPressed: () => signInWithGoogle(),
-                darkMode: false,
-                style: _authButtonStyle,
+              SocialButton(
+                name: 'google',
+                function: signInWithGoogle,
               ),
-              FacebookAuthButton(
-                onPressed: () => signInWithFacebook(),
-                style: _authButtonStyle,
+              SocialButton(
+                name: 'facebook',
+                function: signInWithFacebook,
               ),
             ],
           );

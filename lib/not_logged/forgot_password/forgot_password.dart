@@ -104,8 +104,7 @@ class _GetBackPasswordState extends State<GetBackPassword> {
         child: _loading
             ? CircularProgressIndicator.adaptive()
             : ElevatedButton(
-                child:
-                    Text('forgot_password__get_back_password'.tr.toUpperCase()),
+                child: Text('forgot_password__get_back_password'.tr),
                 onPressed: () => getBackPassword(),
               ),
       ),
