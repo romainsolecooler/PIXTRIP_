@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'package:pixtrip/common/app_bar.dart';
+import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/main.dart';
 
@@ -53,8 +54,39 @@ class Continue extends StatefulWidget {
 class _ContinueState extends State<Continue> {
   bool _loading = false;
 
-  void connectUser() {
-    c.checkHttpResponse(
+  void connectUser() async {
+    setState(() => _loading = true);
+    var response = await dio.post(
+      'user/connect_user.php',
+      data: {
+        'email_pseudo': c.loginPseudoMail.value,
+        'password': c.loginPassword.value,
+      },
+    );
+    var data = response.data;
+    if (data['error'] != null) {
+      Get.defaultDialog(
+        title: 'error_title'.tr,
+        content: Text(
+          'login__failed'.tr,
+          textAlign: TextAlign.center,
+        ),
+      );
+      setState(() => _loading = false);
+    } else {
+      c.setUserId(data['u_id']);
+      c.setUserMail(data['email']);
+      c.setUserPseudo(data['pseudo']);
+      c.setUserImage(data['image']);
+      c.setUserAge(data['age']);
+      c.setTutorialStep(data['tutorial']);
+      if (c.stayConnected.value) {
+        final box = GetStorage();
+        box.write('user', data['u_id']);
+      }
+      Get.offAll(() => App());
+    }
+    /* c.checkHttpResponse(
       url: 'user/connect_user.php',
       data: {
         'email_pseudo': c.loginPseudoMail.value,
@@ -75,7 +107,7 @@ class _ContinueState extends State<Continue> {
         }
         Get.offAll(() => App());
       },
-    );
+    ); */
   }
 
   @override

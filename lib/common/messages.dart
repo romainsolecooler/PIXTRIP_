@@ -29,6 +29,8 @@ class Messages extends Translations {
           'login__continue': 'continuer',
           'login__or_continue_with': 'ou continuer avec',
           'login__forgotten_password': 'mot de passe oublié ?',
+          'login__failed':
+              'Aucun utilisateur trouvé pour cette combinaison adresse email / pseudo et mot de passe.',
           'register__mail': 'adresse email',
           'register__pseudo': 'pseudo',
           'register__password': 'mot de passe',
@@ -150,6 +152,8 @@ class Messages extends Translations {
           'trip_details__share_title': 'Partager sur :',
           'trip_details__share_message':
               "Hey ! Regarde !\nJ'ai fait un trip à @name, j'ai effectué @distance en @steps pas !\nTu penses pouvoir faire mieux ? Rejoins-moi sur Pixtrip !",
+          'measure__meters': '@distance mètres',
+          'measure__kilometers': '@distance km',
         },
       };
 }

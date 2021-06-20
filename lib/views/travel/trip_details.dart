@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:flutter_share_me/flutter_share_me.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:pixtrip/common/app_bar.dart';
 import 'package:pixtrip/common/custom_colors.dart';
 import 'package:pixtrip/common/social_buttons.dart';
@@ -68,18 +68,25 @@ class _TripDetailsState extends State<TripDetails> {
 
   @override
   Widget build(BuildContext context) {
-    Widget child = Padding(
-      padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _Image(),
-          SizedBox(height: 20.0),
-          _Name(),
-          SizedBox(height: 20.0),
-          _Actions(),
-        ],
-      ),
+    Widget child = CustomScrollView(
+      slivers: [
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _Image(),
+                SizedBox(height: 20.0),
+                _Name(),
+                SizedBox(height: 20.0),
+                _Actions(),
+              ],
+            ),
+          ),
+        )
+      ],
     );
 
     return c.finishedTrip.value
@@ -154,6 +161,36 @@ class __ActionsState extends State<_Actions> {
     });
   }
 
+  void share() {
+    int positionListLength = c.positionList.length;
+    double traveledDistance = 0;
+    for (int i = 0; i < positionListLength - 1; i++) {
+      final item = c.positionList[i];
+      final nextItem = c.positionList[i + 1];
+      traveledDistance += Geolocator.distanceBetween(
+        item['lat'],
+        item['lon'],
+        nextItem['lat'],
+        nextItem['lon'],
+      );
+    }
+    int steps = (traveledDistance / 0.762).floor();
+    String displayDistance = traveledDistance < 1000
+        ? 'measure__meters'.trParams({
+            'distance': traveledDistance.round().toString(),
+          })
+        : 'measure__kilometers'.trParams({
+            'distance': (traveledDistance / 1000).toStringAsFixed(3).toString(),
+          });
+    Map<String, String> tripData = {
+      'distance': displayDistance,
+      'steps': steps.toString(),
+      'name': c.tripCity.value,
+    };
+    String message = 'trip_details__share_message'.trParams(tripData);
+    Share.share(message);
+  }
+
   void showShareOptions() {
     Get.bottomSheet(
       ShareOptions(),
@@ -200,10 +237,15 @@ class __ActionsState extends State<_Actions> {
                 onPressed: () =>
                     setState(() => _showAnecdotes = !_showAnecdotes),
               ),
-              IconButton(
-                icon: Icon(Icons.share),
-                onPressed: () => showShareOptions(),
-              ),
+              Obx(() {
+                if (c.positionList.length > 0) {
+                  return IconButton(
+                    icon: Icon(Icons.share),
+                    onPressed: share,
+                  );
+                }
+                return CircularProgressIndicator.adaptive();
+              }),
             ],
           ),
           SizedBox(height: 15.0),
@@ -215,7 +257,7 @@ class __ActionsState extends State<_Actions> {
 }
 
 class ShareOptions extends StatelessWidget {
-  final FlutterShareMe share = FlutterShareMe();
+  //final FlutterShareMe share = FlutterShareMe();
 
   ShareOptions({Key key}) : super(key: key);
 
@@ -243,27 +285,6 @@ class ShareOptions extends StatelessWidget {
     };
   }
 
-  void shareFacebook() async {
-    Map<String, String> tripData = getTripData();
-    await FlutterShareMe().shareToFacebook(
-      msg: 'trip_details__share_message'.trParams(tripData),
-    );
-  }
-
-  void shareTwitter() async {
-    Map<String, String> tripData = getTripData();
-    await FlutterShareMe().shareToTwitter(
-      msg: 'trip_details__share_message'.trParams(tripData),
-    );
-  }
-
-  void shareWhatsApp() async {
-    Map<String, String> tripData = getTripData();
-    await FlutterShareMe().shareToWhatsApp(
-      msg: 'trip_details__share_message'.trParams(tripData),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     Map<String, String> tripData = getTripData();
@@ -282,20 +303,21 @@ class ShareOptions extends StatelessWidget {
             children: [
               SocialButton(
                 name: 'facebook',
-                function: () => share.shareToFacebook(
+                function: () => print(
+                    'toto'), /* share.shareToFacebook(
                   msg: message,
                   url: 'https://www.facebook.com/PixtripApp',
-                ),
+                ), */
               ),
               SizedBox(width: 25.0),
               SocialButton(
                 name: 'twitter',
-                function: () => share.shareToTwitter(msg: message),
+                function: () => print('twitter'),
               ),
               SizedBox(width: 25.0),
               SocialButton(
                 name: 'whatsapp',
-                function: () => share.shareToWhatsApp(msg: message),
+                function: () => print('whatsapp'),
               ),
             ],
           ),

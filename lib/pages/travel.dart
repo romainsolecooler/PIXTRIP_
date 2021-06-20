@@ -84,10 +84,10 @@ class _PixtripMapState extends State<PixtripMap> {
                     center: LatLng(_latitude, _longitude),
                     zoom: _zoom,
                     maxZoom: 18.4,
-                    onTap: (data) {
+                    /* onTap: (data) {
                       _stream.cancel();
                       Get.offAll(() => Compass());
-                    },
+                    }, */
                     onPositionChanged: (data, changed) => _setZoom(data.zoom),
                   ),
                   children: [

@@ -10,6 +10,7 @@ import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/common/messages.dart';
 import 'package:pixtrip/common/custom_colors.dart';
 import 'package:pixtrip/common/utils.dart';
+import 'package:pixtrip/controllers/tab_controller.dart';
 
 import 'package:pixtrip/pages/home.dart';
 import 'package:pixtrip/pages/trips.dart';
@@ -120,10 +121,12 @@ class App extends StatefulWidget {
   _AppState createState() => _AppState();
 }
 
-class _AppState extends State<App> {
+class _AppState extends State<App> with SingleTickerProviderStateMixin {
   final controller = PageController(
     initialPage: 1,
   );
+
+  MyTabController tabController = Get.put(MyTabController(), permanent: true);
 
   @override
   void initState() {
@@ -141,8 +144,68 @@ class _AppState extends State<App> {
     super.dispose();
   }
 
+  List<Tooltip> _buildBottomItems() {
+    Map<String, IconData> tabIcons = {
+      'app__home': Icons.home,
+      'app__trip': Icons.place,
+      'app__profil': Icons.person,
+      'app__create_trip': Icons.add_location_alt,
+      'app__wallet': Icons.folder
+    };
+
+    List<Tooltip> items = [];
+    tabIcons.forEach((key, el) {
+      items.add(
+        Tooltip(
+          message: key.tr,
+          child: Tab(
+            icon: Icon(
+              el,
+              color: Theme.of(context).textTheme.bodyText1.color,
+            ),
+          ),
+        ),
+      );
+    });
+    return items;
+  }
+
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: appBar,
+      body: WillPopScope(
+        onWillPop: () async {
+          if (tabController.tabController.index > 0) {
+            tabController.to(index: 0);
+            return false;
+          }
+          return true;
+        },
+        child: TabBarView(
+          controller: tabController.tabController,
+          physics: NeverScrollableScrollPhysics(),
+          children: [
+            Home(),
+            Trips(),
+            Profil(),
+            CreateTrip(),
+            Wallet(),
+          ],
+        ),
+      ),
+      bottomNavigationBar: SafeArea(
+        child: TabBar(
+          controller: tabController.tabController,
+          indicatorColor: Colors.transparent,
+          labelColor: Theme.of(context).textTheme.bodyText1.color,
+          onTap: (_) {
+            c.setFinishedTrip(false);
+          },
+          tabs: _buildBottomItems(),
+        ),
+      ),
+    );
     return Scaffold(
       appBar: appBar,
       body: WillPopScope(

@@ -18,7 +18,10 @@ class TimeSlider extends StatelessWidget {
               max: 3,
               divisions: 3,
             ),
-            Text(label),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+            ),
           ],
         );
       },

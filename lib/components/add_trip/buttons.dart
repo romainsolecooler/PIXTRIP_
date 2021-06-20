@@ -3,8 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart' as g;
 
 import 'package:pixtrip/controllers/controller.dart';
+import 'package:pixtrip/controllers/tab_controller.dart';
 
 Controller c = g.Get.find();
+MyTabController tabController = g.Get.find();
 
 class AddTripButton extends StatefulWidget {
   @override
@@ -69,7 +71,8 @@ class _AddTripButtonState extends State<AddTripButton> {
         ),
       );
       c.deletedAddTripInfos();
-      c.goToPage(index: 0);
+      //c.goToPage(index: 0);
+      tabController.to(index: 0);
     }
     return;
     //final image = MultipartFile(c.addTripImage.value, filename: 'image');

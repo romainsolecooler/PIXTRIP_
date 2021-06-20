@@ -80,11 +80,5 @@
 		</array>
 		<key>UIStatusBarHidden</key>
 		<false/>
-		<key>LSApplicationQueriesSchemes</key>
-		<array>
-			<string>facebook</string>
-			<string>twitter</string>
-			<string>whatsapp</string>
-		</array>
 	</dict>
 </plist>

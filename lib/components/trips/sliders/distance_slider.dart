@@ -19,7 +19,10 @@ class DistanceSlider extends StatelessWidget {
               max: 6,
               divisions: 6,
             ),
-            Text(label),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+            ),
           ],
         );
       },

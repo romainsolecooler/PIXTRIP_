@@ -5,16 +5,18 @@ import 'package:pixtrip/components/travel/buttons.dart';
 class CompassNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        height: kBottomNavigationBarHeight,
-        color: darkBlueColor[900],
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TakePhoto(),
-            GiveUpTrip(),
-          ],
+    return Container(
+      color: darkBlueColor[900],
+      child: SafeArea(
+        child: Container(
+          height: kBottomNavigationBarHeight,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TakePhoto(),
+              GiveUpTrip(),
+            ],
+          ),
         ),
       ),
     );

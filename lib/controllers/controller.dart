@@ -142,7 +142,6 @@ class Controller extends GetxController {
   ///////////////////////////
   // BOTTOM BAR CONTROLLER //
   ///////////////////////////
-
   final tabBarController = PageController(initialPage: 0).obs;
   final currentIndex = 0.obs;
 

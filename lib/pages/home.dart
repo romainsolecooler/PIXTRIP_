@@ -4,10 +4,12 @@ import 'package:get/get.dart';
 import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/components/home/tutorial.dart';
 import 'package:pixtrip/controllers/controller.dart';
+import 'package:pixtrip/controllers/tab_controller.dart';
 
 const EdgeInsets padding = EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0);
 
 Controller c = Get.find();
+MyTabController tabController = Get.find();
 
 class Home extends StatefulWidget {
   @override
@@ -24,6 +26,7 @@ class _HomeState extends State<Home> {
     if (c.finishedTrip.value) {
       Future.delayed(Duration.zero, () {
         c.goToPageWithoutTransition(index: 1, resetFinishedTrip: false);
+        tabController.to(index: 1, resetFinishedTrip: false);
       });
     }
     if (c.tutorialStep.value == 0) {
@@ -103,7 +106,8 @@ class HomeTrip extends StatelessWidget {
           onTap: () {
             c.setTripSelectedFromHome(true);
             c.setTrip(element);
-            c.goToPage(index: 1);
+            //c.goToPage(index: 1);
+            tabController.to(index: 1);
           },
           child: Padding(
             padding: padding,
@@ -186,7 +190,7 @@ class _ChooseTrip extends StatelessWidget {
     return Expanded(
       child: Container(
         child: InkWell(
-          onTap: () => c.goToPage(index: 1),
+          onTap: () => tabController.to(index: 1),
           child: Padding(
             padding: padding,
             child: Row(
