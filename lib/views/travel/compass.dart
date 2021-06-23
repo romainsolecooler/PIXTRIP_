@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,7 +19,7 @@ class Compass extends StatefulWidget {
   _CompassState createState() => _CompassState();
 }
 
-class _CompassState extends State<Compass> {
+class _CompassState extends State<Compass> with SingleTickerProviderStateMixin {
   Artboard _artboard;
   // StateMachineController _controller;
   SMIInput<double> _levelInput;
@@ -148,10 +149,10 @@ class _CompassState extends State<Compass> {
                                   //print('distance :');
                                   /* print(Geolocator.distanceBetween(_latitude, _longitude,
                           c.tripLatitude.value, c.tripLongitude.value)); */
-                                  if (snapshot.connectionState !=
+                                  /* if (snapshot.connectionState !=
                                       ConnectionState.active) {
                                     return Text('connect');
-                                  }
+                                  } */
                                   if (snapshot.data.heading != null) {
                                     double heading = snapshot.data.heading;
                                     double bearing = Geolocator.bearingBetween(
@@ -159,10 +160,29 @@ class _CompassState extends State<Compass> {
                                         _longitude,
                                         c.tripLatitude.value,
                                         c.tripLongitude.value);
-                                    double rotation = (bearing - heading);
+                                    int rotation = (bearing - heading).round();
+                                    print('bearing $bearing');
                                     //print('rotation : $rotation');
+                                    double rot = rotation * pi / 180;
+                                    print('good $rot');
+                                    int timing =
+                                        rot > 3.5 && rot < 4.5 ? 0 : 75;
                                     //print('heading : $heading');
                                     //print('bearing : $bearing');
+                                    /* return AnimatedContainer(
+                                      width: compassSize,
+                                      height: compassSize,
+                                      duration: Duration(milliseconds: timing),
+                                      alignment: FractionalOffset.center,
+                                      transform: Matrix4.identity()
+                                        ..translate(
+                                            compassSize / 2, compassSize / 2, 0)
+                                        ..rotateZ(rot)
+                                        ..translate(-compassSize / 2,
+                                            -compassSize / 2, 0),
+                                      child: Image.asset(
+                                          'assets/animations/pointeur_cercle.png'),
+                                    ); */
                                     return RotationTransition(
                                       turns: AlwaysStoppedAnimation(
                                           rotation / 360),

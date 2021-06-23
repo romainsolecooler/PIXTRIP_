@@ -49,6 +49,7 @@ dependencies:
   flutter_facebook_auth: ^3.3.3-no-nullsafety
   flutter_native_splash: ^1.1.8+4
   share_plus: ^2.1.4
+  matrix4_transform: ^2.0.0
 
 flutter_native_splash:
   color: "#ffffff"

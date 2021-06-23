@@ -54,7 +54,7 @@ class Messages extends Translations {
           'tutorial__next_last': 'GO !',
           'tutorial__1_title': "Merci d'avoir téléchargé Pixtrip !",
           'tutorial__1_text':
-              "Ceci est une bêta, aide-nous à améliorer Pixtrip.\nVoici de quoi te guider afifn de profiter à 100% de tes trips !",
+              "Ceci est une bêta, aide-nous à améliorer Pixtrip.\nVoici de quoi te guider afin de profiter à 100% de tes trips !",
           'tutorial__2_title': 'Choisis ton Trip !',
           'tutorial__2_text': "Des lieux à découvrir ou à faire découvrir !",
           'tutorial__3_title': 'Trouve le lieu !',
