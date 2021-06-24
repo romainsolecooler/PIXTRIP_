@@ -92,6 +92,7 @@ class Element extends StatelessWidget {
           child: LoadImageWithLoader(
             url: 'trips/${element['image']}',
             blurred: true,
+            fromAdmin: element['from_admin'],
           ),
         ),
       ),
@@ -123,6 +124,7 @@ class Trip extends StatelessWidget {
                   child: LoadImageWithLoader(
                     url: 'trips/${c.tripImage.value}',
                     blurred: true,
+                    fromAdmin: c.tripFromAdmin.value,
                   ),
                 ),
               ),

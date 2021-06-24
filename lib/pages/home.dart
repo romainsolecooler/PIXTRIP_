@@ -120,6 +120,7 @@ class HomeTrip extends StatelessWidget {
                     child: LoadImageWithLoader(
                       url: 'trips/${element['image']}',
                       blurred: true,
+                      fromAdmin: element['from_admin'],
                     ),
                     padding: padding,
                   ),
@@ -197,17 +198,18 @@ class _ChooseTrip extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
-                  flex: 1,
+                  flex: 45,
                   child: Padding(
                     padding: padding,
-                    child: LoadAssetsImage(
-                      source: 'assets/images/google_maps.jpg',
+                    child: Image.asset(
+                      'assets/images/tutorial/2.png',
+                      fit: BoxFit.contain,
                     ),
                   ),
                 ),
                 SizedBox(width: 10),
                 Flexible(
-                  flex: 1,
+                  flex: 55,
                   child: Container(
                     child: Center(
                       child: Column(

@@ -18,11 +18,13 @@ var logger = Logger();
 class LoadImageWithLoader extends StatelessWidget {
   final String url;
   final bool blurred;
+  final bool fromAdmin;
 
   const LoadImageWithLoader({
     Key key,
     this.url,
     this.blurred = false,
+    this.fromAdmin = false,
   }) : super(key: key);
 
   @override
@@ -37,6 +39,7 @@ class LoadImageWithLoader extends StatelessWidget {
       errorWidget: (context, url, error) => Icon(Icons.error),
       imageBuilder: (context, imageProvider) {
         return Stack(
+          alignment: Alignment.center,
           children: [
             Image(
               image: imageProvider,
@@ -57,10 +60,23 @@ class LoadImageWithLoader extends StatelessWidget {
                 ),
               ),
             ),
+            if (fromAdmin) FromAdmin(),
           ],
         );
       },
       fadeOutDuration: Duration.zero,
+    );
+  }
+}
+
+class FromAdmin extends StatelessWidget {
+  const FromAdmin({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FractionallySizedBox(
+      heightFactor: 2 / 3,
+      child: Image.asset('assets/images/from_admin.png'),
     );
   }
 }

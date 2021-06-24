@@ -7,6 +7,7 @@ import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:pixtrip/common/app_bar.dart';
+import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/components/travel/compass_navigation_bar.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
@@ -161,12 +162,12 @@ class _CompassState extends State<Compass> with SingleTickerProviderStateMixin {
                                         c.tripLatitude.value,
                                         c.tripLongitude.value);
                                     int rotation = (bearing - heading).round();
-                                    print('bearing $bearing');
+                                    //print('bearing $bearing');
+                                    //print('heading $heading');
                                     //print('rotation : $rotation');
-                                    double rot = rotation * pi / 180;
-                                    print('good $rot');
-                                    int timing =
-                                        rot > 3.5 && rot < 4.5 ? 0 : 75;
+                                    //double rot = rotation * pi / 180;
+                                    //print('good $rot');
+                                    //int timing = 60;
                                     //print('heading : $heading');
                                     //print('bearing : $bearing');
                                     /* return AnimatedContainer(
@@ -177,6 +178,7 @@ class _CompassState extends State<Compass> with SingleTickerProviderStateMixin {
                                       transform: Matrix4.identity()
                                         ..translate(
                                             compassSize / 2, compassSize / 2, 0)
+                                        //..rotateZ(_rot * pi / 180)
                                         ..rotateZ(rot)
                                         ..translate(-compassSize / 2,
                                             -compassSize / 2, 0),

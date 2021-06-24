@@ -202,6 +202,7 @@ class Controller extends GetxController {
   final tripAnecdote_1 = ''.obs;
   final tripAnecdote_2 = ''.obs;
   final tripAnecdote_3 = ''.obs;
+  final tripFromAdmin = false.obs;
   final tripUserId = ''.obs;
   final finishedTrip = false.obs;
   final currentUserLatitude = 0.0.obs;
@@ -227,6 +228,7 @@ class Controller extends GetxController {
     tripAnecdote_1.value = trip['anecdote_1'];
     tripAnecdote_2.value = trip['anecdote_2'];
     tripAnecdote_3.value = trip['anecdote_3'];
+    tripFromAdmin.value = trip['from_admin'];
     tripUserId.value = trip['user_id'];
   }
 
