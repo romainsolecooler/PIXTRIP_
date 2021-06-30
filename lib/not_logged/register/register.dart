@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'package:pixtrip/common/app_bar.dart';
+import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/controllers/controller.dart';
+import 'package:pixtrip/controllers/register_controller.dart';
 import 'package:pixtrip/main.dart';
 import 'package:pixtrip/not_logged/continue_with.dart';
 import 'package:pixtrip/not_logged/register/inputs.dart';
@@ -12,6 +14,7 @@ import 'package:pixtrip/not_logged/stay_connected.dart';
 Controller c = Get.find();
 
 class Register extends StatelessWidget {
+  final RegisterController registerController = Get.put(RegisterController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,51 +43,16 @@ class Register extends StatelessWidget {
   }
 }
 
-class CreateAccount extends StatefulWidget {
-  @override
-  _CreateAccountState createState() => _CreateAccountState();
-}
-
-class _CreateAccountState extends State<CreateAccount> {
-  bool _loading = false;
-
-  void addUser() {
-    c.checkHttpResponse(
-        url: 'user/add_user.php',
-        data: {
-          'email': c.registerEmail.value,
-          'pseudo': c.registerPseudo.value,
-          'password': c.registerPassword.value,
-        },
-        loading: () => setState(() => _loading = true),
-        error: () => setState(() => _loading = false),
-        callBack: (data) {
-          c.setUserId(data['u_id']);
-          c.setUserMail(c.registerEmail.value);
-          c.setUserPseudo(c.registerPseudo.value);
-          if (c.stayConnected.value) {
-            final box = GetStorage();
-            box.write('user', data['u_id']);
-          }
-          Get.offAll(() => App());
-        });
-  }
-
+class CreateAccount extends GetView<RegisterController> {
   @override
   Widget build(BuildContext context) {
-    print(c.registerEmail.value);
-    print(c.registerPseudo.value);
-    print(c.registerPassword.value);
-    return _loading
-        ? CircularProgressIndicator.adaptive()
-        : Obx(
-            () => IgnorePointer(
-              ignoring: !c.registerAcceptedConditions.value,
-              child: ElevatedButton(
-                onPressed: () => addUser(),
-                child: Text('register__create_account'.tr),
-              ),
+    return Obx(
+      () => controller.loading()
+          ? CircularProgressIndicator.adaptive()
+          : ElevatedButton(
+              onPressed: () => controller.addUser(),
+              child: Text('register__create_account'.tr),
             ),
-          );
+    );
   }
 }

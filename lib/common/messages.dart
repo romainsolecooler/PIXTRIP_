@@ -29,6 +29,8 @@ class Messages extends Translations {
           'login__continue': 'continuer',
           'login__or_continue_with': 'ou continuer avec',
           'login__forgotten_password': 'mot de passe oublié ?',
+          'login__error_empty':
+              'Veuillez renseigner une adresse mail / pseudo et un mot de passe.',
           'login__failed':
               'Aucun utilisateur trouvé pour cette combinaison adresse email / pseudo et mot de passe.',
           'register__mail': 'adresse email',
@@ -36,6 +38,11 @@ class Messages extends Translations {
           'register__password': 'mot de passe',
           'register__accept_conditions': "accepter les conditions",
           'register__create_account': 'créer votre compte',
+          'register__error_accept': 'Veuillez accepter les conditions.',
+          'register__error_empty':
+              'Veuillez remplir tous les champs du formulaire.',
+          'register__error_mail': 'Veuillez renseigner une adresse mail.',
+          'register__error_exist': 'Cet utilisateur existe déjà.',
           'forgot_password__title': 'Entrez votre adresse email',
           'forgot_password__placeholder': 'adresse email',
           'forgot_password__get_back_password': 'récupérer mon mot de passe',
@@ -69,6 +76,7 @@ class Messages extends Translations {
               "Plusieurs trips t'attendent déjà ! Tu as la possibilité d'en créer, ils seront partagés !",
           'trips__or': 'Ou',
           'trips__city_name': "Nom d'une ville",
+          'trips__no_trip_found': 'Aucun trip trouvé.',
           'trips__current_position': 'Ma position',
           'trips__validate': 'VALIDER',
           'slider__distance_label': 'Distance : @distance km',
@@ -99,6 +107,7 @@ class Messages extends Translations {
           'profil__changed_success_text': 'Profil modifié.',
           'profil__changed_password_title': 'Succès !',
           'profil__changed_password_text': 'Mot de passe modifié avec succès.',
+          'profil__changed_error': 'Combinaison email / pseudo déjà utilisée.',
           'add_trip__add_photo': 'AJOUTER UNE PHOTO',
           'add_trip__add_city_placeholder': 'Nom de la ville',
           'add_trip__add_position_placeholder': 'Position',
@@ -108,6 +117,7 @@ class Messages extends Translations {
           'add_trip_add_button': 'VALIDER',
           'add_trip__empty_form':
               'Veuillez remplir tous les champs du formulaire.',
+          'add_trip__error_text': "Erreur lors de l'ajout du trip.",
           'add_trip__sucess':
               "Votre trip va être soumis à validation par l'équipe de Pixtrip.\nIl sera bientôt disponible.",
           'wallet__empty': 'Tu ne possède aucun coupon.',

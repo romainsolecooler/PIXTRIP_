@@ -20,7 +20,6 @@ class _AddTripButtonState extends State<AddTripButton> {
     if (c.addTripImage.value.path == '' ||
         c.addLatitude.value == 0.0 ||
         c.addLongitude.value == 0.0 ||
-        c.addAltitude.value == 0.0 ||
         c.addFirstInfo.value == '' ||
         c.addSecondInfo.value == '' ||
         c.addCityName.value == '') {
@@ -35,7 +34,6 @@ class _AddTripButtonState extends State<AddTripButton> {
     });
     print(c.addLatitude.value);
     print(c.addLongitude.value);
-    print(c.addAltitude.value);
     //final image = MultipartFile(c.addTripImage.value, filename: 'image');
     var formData = FormData.fromMap({
       'image': await MultipartFile.fromFile(c.addTripImage.value.path),
@@ -46,7 +44,6 @@ class _AddTripButtonState extends State<AddTripButton> {
       'difficulty': c.addDifficulty.value,
       'latitude': c.addLatitude.value,
       'longitude': c.addLongitude.value,
-      'altitude': c.addAltitude.value,
       'anecdote_1': c.addFirstInfo.value,
       'anecdote_2': c.addSecondInfo.value,
       'anecdote_3': c.addThirdInfo.value,
@@ -61,7 +58,7 @@ class _AddTripButtonState extends State<AddTripButton> {
     if (data['error']) {
       g.Get.defaultDialog(
         title: 'error_title'.tr,
-        content: Text(data['message']),
+        content: Text('add_trip__error_text'.tr),
       );
     } else {
       g.Get.defaultDialog(

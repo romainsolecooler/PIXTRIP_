@@ -29,13 +29,15 @@ class TripsList extends StatelessWidget {
       }
       return tripListController.loading.value
           ? CircularProgressIndicator.adaptive()
-          : Wrap(
-              spacing: _spacing,
-              runSpacing: _spacing,
-              children: tripListController.tripList.map((element) {
-                return Element(element: element);
-              }).toList(),
-            );
+          : tripListController.tripList.length > 0
+              ? Wrap(
+                  spacing: _spacing,
+                  runSpacing: _spacing,
+                  children: tripListController.tripList.map((element) {
+                    return Element(element: element);
+                  }).toList(),
+                )
+              : Text('trips__no_trip_found'.tr);
     });
     /* return _loading
         ? Center(child: CircularProgressIndicator.adaptive())

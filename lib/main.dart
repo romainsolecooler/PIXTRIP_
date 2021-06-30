@@ -10,6 +10,7 @@ import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/common/messages.dart';
 import 'package:pixtrip/common/custom_colors.dart';
 import 'package:pixtrip/common/utils.dart';
+import 'package:pixtrip/controllers/login_controller.dart';
 import 'package:pixtrip/controllers/tab_controller.dart';
 
 import 'package:pixtrip/pages/home.dart';
@@ -41,6 +42,7 @@ void main() async {
     c.setUserAge(data['age']);
     c.setTutorialStep(data['tutorial']);
   } else {
+    Get.put(LoginController());
     homeWidget = Login();
   }
   // c.fetch.defaultDecoder = (data) => jsonDecode(data);

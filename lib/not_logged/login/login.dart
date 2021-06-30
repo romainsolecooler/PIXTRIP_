@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:pixtrip/common/app_bar.dart';
 import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/controllers/controller.dart';
+import 'package:pixtrip/controllers/login_controller.dart';
 import 'package:pixtrip/main.dart';
 
 import 'package:pixtrip/not_logged/continue_with.dart';
@@ -14,6 +15,7 @@ import 'package:pixtrip/not_logged/login/inputs.dart';
 import 'package:pixtrip/not_logged/register/register.dart';
 import 'package:pixtrip/not_logged/stay_connected.dart';
 
+//LoginController loginController = Get.put(LoginController());
 Controller c = Get.find();
 
 class Login extends StatelessWidget {
@@ -46,88 +48,17 @@ class Login extends StatelessWidget {
   }
 }
 
-class Continue extends StatefulWidget {
-  @override
-  _ContinueState createState() => _ContinueState();
-}
-
-class _ContinueState extends State<Continue> {
-  bool _loading = false;
-
-  void connectUser() async {
-    setState(() => _loading = true);
-    var response = await dio.post(
-      'user/connect_user.php',
-      data: {
-        'email_pseudo': c.loginPseudoMail.value,
-        'password': c.loginPassword.value,
-      },
-    );
-    var data = response.data;
-    if (data['error'] != null) {
-      Get.defaultDialog(
-        title: 'error_title'.tr,
-        content: Text(
-          'login__failed'.tr,
-          textAlign: TextAlign.center,
-        ),
-      );
-      setState(() => _loading = false);
-    } else {
-      c.setUserId(data['u_id']);
-      c.setUserMail(data['email']);
-      c.setUserPseudo(data['pseudo']);
-      c.setUserImage(data['image']);
-      c.setUserAge(data['age']);
-      c.setTutorialStep(data['tutorial']);
-      if (c.stayConnected.value) {
-        final box = GetStorage();
-        box.write('user', data['u_id']);
-      }
-      Get.offAll(() => App());
-    }
-    /* c.checkHttpResponse(
-      url: 'user/connect_user.php',
-      data: {
-        'email_pseudo': c.loginPseudoMail.value,
-        'password': c.loginPassword.value,
-      },
-      loading: () => setState(() => _loading = true),
-      error: () => setState(() => _loading = false),
-      callBack: (data) {
-        c.setUserId(data['u_id']);
-        c.setUserMail(data['email']);
-        c.setUserPseudo(data['pseudo']);
-        c.setUserImage(data['image']);
-        c.setUserAge(data['age']);
-        c.setTutorialStep(data['tutorial']);
-        if (c.stayConnected.value) {
-          final box = GetStorage();
-          box.write('user', data['u_id']);
-        }
-        Get.offAll(() => App());
-      },
-    ); */
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
+class Continue extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
-    return _loading
-        ? CircularProgressIndicator.adaptive()
-        : ElevatedButton(
-            onPressed: () => connectUser(),
-            child: Text('login__continue'.tr),
-          );
+    return Obx(
+      () => controller.loading()
+          ? CircularProgressIndicator.adaptive()
+          : ElevatedButton(
+              onPressed: () => controller.login(),
+              child: Text('login__continue'.tr),
+            ),
+    );
   }
 }
 

@@ -9,18 +9,151 @@ import 'package:get/get.dart';
 import 'package:pixtrip/common/app_bar.dart';
 import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/components/travel/compass_navigation_bar.dart';
+import 'package:pixtrip/controllers/compass_controller.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:rive/rive.dart';
 
 Controller c = Get.find();
 
-class Compass extends StatefulWidget {
+List<int> data = [0];
+double rotate = 0;
+
+class Compass extends GetView<CompassController> {
+  Compass({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    print('rebuilt parent');
+    return Scaffold(
+      appBar: appBar,
+      body: Obx(
+        () {
+          logger.i(controller.loadedArtboard());
+          return controller.loadedArtboard()
+              ? LoadedCompass()
+              : Center(child: CircularProgressIndicator.adaptive());
+        },
+      ),
+      bottomNavigationBar: CompassNavigationBar(),
+    );
+  }
+}
+
+class LoadedCompass extends GetView<CompassController> {
+  LoadedCompass({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    double compassSize = Get.width * 0.9;
+    double factor = 0.7;
+
+    logger.wtf('rebuild tototoo');
+
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Obx(
+              () => Text(
+                controller.distance() > 10.0
+                    ? '${controller.distance()} m'
+                    : '',
+                style: Theme.of(context).textTheme.headline4.copyWith(
+                      color: Theme.of(context).textTheme.bodyText1.color,
+                    ),
+              ),
+            ),
+            SizedBox(height: 15.0),
+            Container(
+              width: compassSize,
+              height: compassSize,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Obx(
+                    () => FractionallySizedBox(
+                      widthFactor: factor,
+                      heightFactor: factor,
+                      child: Rive(
+                        artboard: controller.compassAnimation().artboard,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                  Obx(() => AnimatedOpacity(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                        opacity: controller.showCompass() ? 1 : 0,
+                        child: StreamBuilder<CompassEvent>(
+                            stream: FlutterCompass.events,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Container();
+                              }
+                              if (snapshot.data.heading != null) {
+                                double heading = snapshot.data.heading;
+                                double bearing = Geolocator.bearingBetween(
+                                    controller.latitude(),
+                                    controller.longitude(),
+                                    c.tripLatitude.value,
+                                    c.tripLongitude.value);
+                                int rotation = (bearing - heading).round();
+                                rotation = rotation % 360;
+                                //print('rotation : $rotation');
+                                //data.add(rotation);
+                                //data.removeAt(0);
+                                //int previous = data.last;
+                                int dur =
+                                    rotation < 15 || rotation > 345 ? 0 : 75;
+                                double rot = rotation * pi / 180;
+                                /* return RotationTransition(
+                                  turns: AlwaysStoppedAnimation(rotation / 360),
+                                  child: Image.asset(
+                                      'assets/animations/pointeur_cercle.png'),
+                                ); */
+                                return TweenAnimationBuilder(
+                                  duration: Duration(milliseconds: dur),
+                                  tween: Tween<double>(begin: 0, end: rot),
+                                  builder: (_, angle, __) {
+                                    return Transform.rotate(
+                                      angle: angle,
+                                      child: Image.asset(
+                                        'assets/animations/pointeur_cercle.png',
+                                      ),
+                                    );
+                                  },
+                                );
+                              }
+                              return CircularProgressIndicator.adaptive();
+                            }),
+                      ))
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 10.0),
+              child: Text(
+                'travel__compass_text'.tr,
+                textAlign: TextAlign.center,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _Compass extends StatefulWidget {
   @override
   _CompassState createState() => _CompassState();
 }
 
-class _CompassState extends State<Compass> with SingleTickerProviderStateMixin {
+class _CompassState extends State<_Compass>
+    with SingleTickerProviderStateMixin {
   Artboard _artboard;
   // StateMachineController _controller;
   SMIInput<double> _levelInput;
@@ -46,6 +179,10 @@ class _CompassState extends State<Compass> with SingleTickerProviderStateMixin {
     } else {
       _levelInput.value = 0.0;
     }
+  }
+
+  double normalize(double angle) {
+    return (angle >= 0 ? angle : (360 - ((-angle) % 360))) % 360;
   }
 
   @override
@@ -77,7 +214,6 @@ class _CompassState extends State<Compass> with SingleTickerProviderStateMixin {
       c.setCurrentUserposition(
         position.latitude,
         position.longitude,
-        position.altitude,
       );
       c.addPositionList({
         'lat': position.latitude,
@@ -110,6 +246,8 @@ class _CompassState extends State<Compass> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     double compassSize = Get.width * 0.9;
     double factor = 0.7;
+
+    logger.wtf('rebiuld');
 
     return Scaffold(
       appBar: appBar,
@@ -150,10 +288,10 @@ class _CompassState extends State<Compass> with SingleTickerProviderStateMixin {
                                   //print('distance :');
                                   /* print(Geolocator.distanceBetween(_latitude, _longitude,
                           c.tripLatitude.value, c.tripLongitude.value)); */
-                                  /* if (snapshot.connectionState !=
+                                  if (snapshot.connectionState !=
                                       ConnectionState.active) {
                                     return Text('connect');
-                                  } */
+                                  }
                                   if (snapshot.data.heading != null) {
                                     double heading = snapshot.data.heading;
                                     double bearing = Geolocator.bearingBetween(
@@ -164,9 +302,18 @@ class _CompassState extends State<Compass> with SingleTickerProviderStateMixin {
                                     int rotation = (bearing - heading).round();
                                     //print('bearing $bearing');
                                     //print('heading $heading');
-                                    //print('rotation : $rotation');
-                                    //double rot = rotation * pi / 180;
-                                    //print('good $rot');
+                                    rotation = rotation % 360;
+                                    rotation = (rotation / 10).round() * 10;
+                                    logger.d('rotation : $rotation');
+                                    double rot = rotation * pi / 180;
+                                    int previous = data.last;
+                                    double difference = rot - previous;
+                                    rotate += difference;
+                                    //print(rotate);
+                                    /* print('good $rot');
+                                    print('previous : $previous');
+                                    print(previous - rot); */
+                                    //print('rotate $rotate');
                                     //int timing = 60;
                                     //print('heading : $heading');
                                     //print('bearing : $bearing');
@@ -185,6 +332,20 @@ class _CompassState extends State<Compass> with SingleTickerProviderStateMixin {
                                       child: Image.asset(
                                           'assets/animations/pointeur_cercle.png'),
                                     ); */
+                                    return TweenAnimationBuilder(
+                                      duration: const Duration(
+                                        milliseconds: 75,
+                                      ),
+                                      tween: Tween<double>(begin: 0, end: rot),
+                                      builder: (_, angle, __) {
+                                        return Transform.rotate(
+                                          angle: angle,
+                                          child: Image.asset(
+                                            'assets/animations/pointeur_cercle.png',
+                                          ),
+                                        );
+                                      },
+                                    );
                                     return RotationTransition(
                                       turns: AlwaysStoppedAnimation(
                                           rotation / 360),

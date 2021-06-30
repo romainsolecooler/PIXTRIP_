@@ -7,6 +7,7 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong/latlong.dart';
+import 'package:pixtrip/bindings/compass_binding.dart';
 
 import 'package:pixtrip/common/app_bar.dart';
 import 'package:pixtrip/components/travel/pixtrip_map_bottom_bar.dart';
@@ -48,7 +49,7 @@ class _PixtripMapState extends State<PixtripMap> {
       );
       if (distance < tripRadius) {
         _stream.cancel();
-        Get.offAll(() => Compass());
+        Get.offAll(() => Compass(), binding: CompassBinding());
       }
     });
   }

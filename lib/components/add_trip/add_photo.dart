@@ -40,7 +40,6 @@ class _AddPhotoState extends State<AddPhoto> {
         c.setAddTripImage(_image);
         c.setAddLatitude(position.latitude);
         c.setAddLongitude(position.longitude);
-        c.setAddAltitude(position.altitude);
       });
     } else {
       print('no image selected');

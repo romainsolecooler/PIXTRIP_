@@ -5,6 +5,7 @@ import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/components/home/tutorial.dart';
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/controllers/tab_controller.dart';
+import 'package:pixtrip/views/travel/compass.dart';
 
 const EdgeInsets padding = EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0);
 
@@ -25,7 +26,7 @@ class _HomeState extends State<Home> {
     print('init home state');
     if (c.finishedTrip.value) {
       Future.delayed(Duration.zero, () {
-        c.goToPageWithoutTransition(index: 1, resetFinishedTrip: false);
+        //c.goToPageWithoutTransition(index: 1, resetFinishedTrip: false);
         tabController.to(index: 1, resetFinishedTrip: false);
       });
     }

@@ -90,44 +90,10 @@ class Controller extends GetxController {
   ///////////
   // LOGIN //
   ///////////
-  final loginPseudoMail = ''.obs;
-  final loginPassword = ''.obs;
   final stayConnected = false.obs;
-
-  void setLoginPseudoMail(String text) {
-    loginPseudoMail.value = text;
-  }
-
-  void setLoginPassword(String text) {
-    loginPassword.value = text;
-  }
 
   void setStayConnected(bool newValue) {
     stayConnected.value = newValue;
-  }
-
-  //////////////
-  // REGISTER //
-  //////////////
-  final registerEmail = ''.obs;
-  final registerPseudo = ''.obs;
-  final registerPassword = ''.obs;
-  final registerAcceptedConditions = false.obs;
-
-  void setRegisterEmail(String text) {
-    registerEmail.value = text;
-  }
-
-  void setRegisterPseudo(String text) {
-    registerPseudo.value = text;
-  }
-
-  void setRegisterPassword(String text) {
-    registerPassword.value = text;
-  }
-
-  void setRegisterAcceptedConditions(bool newValue) {
-    registerAcceptedConditions.value = newValue;
   }
 
   /////////////////////
@@ -198,7 +164,6 @@ class Controller extends GetxController {
   final tripDistance = 0.obs;
   final tripLatitude = 0.0.obs;
   final tripLongitude = 0.0.obs;
-  final tripAltitude = 0.0.obs;
   final tripAnecdote_1 = ''.obs;
   final tripAnecdote_2 = ''.obs;
   final tripAnecdote_3 = ''.obs;
@@ -207,7 +172,6 @@ class Controller extends GetxController {
   final finishedTrip = false.obs;
   final currentUserLatitude = 0.0.obs;
   final currentUserLongitude = 0.0.obs;
-  final currentUserAltitude = 0.0.obs;
   final couponList = <dynamic>[].obs;
   final positionList = <dynamic>[].obs;
 
@@ -224,7 +188,6 @@ class Controller extends GetxController {
     tripDistance.value = trip['distance'];
     tripLatitude.value = trip['latitude'];
     tripLongitude.value = trip['longitude'];
-    tripAltitude.value = trip['altitude'];
     tripAnecdote_1.value = trip['anecdote_1'];
     tripAnecdote_2.value = trip['anecdote_2'];
     tripAnecdote_3.value = trip['anecdote_3'];
@@ -239,11 +202,9 @@ class Controller extends GetxController {
   void setCurrentUserposition(
     double latitude,
     double longitude,
-    double altitude,
   ) {
     currentUserLatitude.value = latitude;
     currentUserLongitude.value = longitude;
-    currentUserAltitude.value = altitude;
   }
 
   void addPositionList(dynamic position) {
@@ -265,7 +226,7 @@ class Controller extends GetxController {
   final settingsCurrentPosition = false.obs;
   final sliderDistance = 4.obs;
   final sliderTime = 3.obs;
-  final sliderDifficulty = 2.obs;
+  final sliderDifficulty = 1.obs;
   final tripsList = <dynamic>[].obs;
 
   void setSettingsCurrentPosition(bool newValue) {
@@ -332,11 +293,10 @@ class Controller extends GetxController {
   final addTripImage = File('').obs;
   final addLatitude = 0.0.obs;
   final addLongitude = 0.0.obs;
-  final addAltitude = 0.0.obs;
   final addCityName = ''.obs;
   final addDistance = 2.obs;
   final addTime = 3.obs;
-  final addDifficulty = 2.obs;
+  final addDifficulty = 1.obs;
   final addFirstInfo = ''.obs;
   final addSecondInfo = ''.obs;
   final addThirdInfo = ''.obs;
@@ -351,10 +311,6 @@ class Controller extends GetxController {
 
   void setAddLongitude(double longitude) {
     addLongitude.value = longitude;
-  }
-
-  void setAddAltitude(double longitude) {
-    addAltitude.value = longitude;
   }
 
   void setAddCityName(String city) {
@@ -389,7 +345,6 @@ class Controller extends GetxController {
     addTripImage.value = File('');
     addLatitude.value = 0.0;
     addLongitude.value = 0.0;
-    addAltitude.value = 0.0;
     addCityName.value = '';
     addFirstInfo.value = '';
     addSecondInfo.value = '';

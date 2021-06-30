@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:pixtrip/common/utils.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
 
@@ -14,7 +15,7 @@ class ValidateProfilChange extends StatefulWidget {
 class _ValidateProfilChangeState extends State<ValidateProfilChange> {
   bool _loading = false;
 
-  void sendChanges() {
+  void sendChanges() async {
     c.checkHttpResponse(
         url: 'user/modify_user.php',
         data: {

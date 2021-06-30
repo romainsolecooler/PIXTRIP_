@@ -188,7 +188,11 @@ class __ActionsState extends State<_Actions> {
       'name': c.tripCity.value,
     };
     String message = 'trip_details__share_message'.trParams(tripData);
-    Share.share(message);
+    final RenderBox box = context.findRenderObject();
+    Share.share(
+      message,
+      sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size,
+    );
   }
 
   void showShareOptions() {
