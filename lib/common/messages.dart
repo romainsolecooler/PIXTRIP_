@@ -33,6 +33,8 @@ class Messages extends Translations {
               'Veuillez renseigner une adresse mail / pseudo et un mot de passe.',
           'login__failed':
               'Aucun utilisateur trouvé pour cette combinaison adresse email / pseudo et mot de passe.',
+          'apple_sign_in__no_mail':
+              "Veuillez autoriser l'accès à votre adresse mail.",
           'register__mail': 'adresse email',
           'register__pseudo': 'pseudo',
           'register__password': 'mot de passe',

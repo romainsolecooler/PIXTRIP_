@@ -94,7 +94,7 @@ class LoadedCompass extends GetView<CompassController> {
                                 return Container();
                               }
                               if (snapshot.data.heading != null) {
-                                double heading = snapshot.data.heading;
+                                double heading = snapshot.data.heading + 180;
                                 double bearing = Geolocator.bearingBetween(
                                     controller.latitude(),
                                     controller.longitude(),
@@ -107,7 +107,7 @@ class LoadedCompass extends GetView<CompassController> {
                                 //data.removeAt(0);
                                 //int previous = data.last;
                                 int dur =
-                                    rotation < 15 || rotation > 345 ? 0 : 75;
+                                    rotation < 30 || rotation > 330 ? 0 : 75;
                                 double rot = rotation * pi / 180;
                                 /* return RotationTransition(
                                   turns: AlwaysStoppedAnimation(rotation / 360),
@@ -119,7 +119,7 @@ class LoadedCompass extends GetView<CompassController> {
                                   tween: Tween<double>(begin: 0, end: rot),
                                   builder: (_, angle, __) {
                                     return Transform.rotate(
-                                      angle: angle,
+                                      angle: angle + pi,
                                       child: Image.asset(
                                         'assets/animations/pointeur_cercle.png',
                                       ),

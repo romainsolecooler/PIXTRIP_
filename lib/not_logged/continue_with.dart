@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:pixtrip/common/social_buttons.dart';
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/main.dart';
@@ -60,6 +63,37 @@ class _OAuthRowState extends State<OAuthRow> {
         });
   }
 
+  void signInWithApple() async {
+    print('gonna sign in with apple');
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
+    String email = credential.email;
+    String id = credential.userIdentifier;
+    String familyName = credential.familyName;
+    String firstName = credential.givenName;
+    print(id);
+    if (email == null) {
+      Get.defaultDialog(
+        title: 'error_title'.tr,
+        content: Text(
+          'apple_sign_in__no_mail'.tr,
+          textAlign: TextAlign.center,
+        ),
+      );
+      return;
+    }
+    oAuthConnect(
+        email: email, pseudo: '$firstName $familyName', id: id, image: null);
+  }
+
+  // 001524.ab7bc7cca47d492eb25832645ffa89dd.1418
+  // 001524.ab7bc7cca47d492eb25832645ffa89dd.1418
+  // 001524.ab7bc7cca47d492eb25832645ffa89dd.1418
+
   void signInWithGoogle() async {
     GoogleSignIn oAuth = GoogleSignIn();
     final user = await oAuth.signIn();
@@ -91,14 +125,23 @@ class _OAuthRowState extends State<OAuthRow> {
 
   @override
   Widget build(BuildContext context) {
+    String name;
+    Function function;
+    if (Platform.isIOS) {
+      name = 'apple';
+      function = signInWithApple;
+    } else {
+      name = 'google';
+      function = signInWithGoogle;
+    }
     return _loading
         ? CircularProgressIndicator.adaptive()
         : Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               SocialButton(
-                name: 'google',
-                function: signInWithGoogle,
+                name: name,
+                function: function,
               ),
               SocialButton(
                 name: 'facebook',

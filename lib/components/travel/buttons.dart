@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pixtrip/components/travel/give_up_popup.dart';
+import 'package:pixtrip/controllers/compass_controller.dart';
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/views/travel/fail.dart';
 import 'package:pixtrip/views/travel/photo_check.dart';
@@ -42,7 +43,7 @@ class GiveUpTrip extends StatelessWidget {
   }
 }
 
-class TakePhoto extends StatelessWidget {
+class TakePhoto extends GetView<CompassController> {
   final picker = ImagePicker();
 
   void _takePhoto() async {
@@ -51,12 +52,12 @@ class TakePhoto extends StatelessWidget {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
     if (pickedFile != null) {
       print('getting distance --------');
-      double distance = Geolocator.distanceBetween(
+      /* double distance = Geolocator.distanceBetween(
           c.currentUserLatitude.value,
           c.currentUserLongitude.value,
           c.tripLatitude.value,
-          c.tripLongitude.value);
-      if (distance < 20.0) {
+          c.tripLongitude.value); */
+      if (controller.distance() < 20 && controller.loadedDistance()) {
         c.setPhotoPath(pickedFile.path);
         Get.offAll(() => Success());
       } else {

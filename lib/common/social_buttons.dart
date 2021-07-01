@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 Map<String, int> social = {
+  'apple': 0xff000000,
   'google': 0xffffffff,
   'facebook': 0xff3b5998,
   'twitter': 0xff1da1f2,

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
@@ -15,6 +14,7 @@ class CompassController extends GetxController {
   final latitude = 0.0.obs;
   final longitude = 0.0.obs;
   final distance = 0.obs;
+  final loadedDistance = false.obs;
 
   final compassAnimation = CompassAnimation().obs;
   StreamSubscription<Position> positionStream;
@@ -59,6 +59,7 @@ class CompassController extends GetxController {
       distance(_distance);
       setLevelInput();
       loadedArtboard(true);
+      loadedDistance(true);
       showCompass(distance > 20 ? true : false);
     });
   }
