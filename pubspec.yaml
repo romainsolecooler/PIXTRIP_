@@ -50,6 +50,7 @@ dependencies:
   flutter_native_splash: ^1.1.8+4
   share_plus: ^2.1.4
   sign_in_with_apple: ^3.0.0
+  expandable_page_view: ^1.0.5
 
 flutter_native_splash:
   color: "#ffffff"

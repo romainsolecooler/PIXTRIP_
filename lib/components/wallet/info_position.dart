@@ -49,6 +49,7 @@ class _InfoPositionState extends State<InfoPosition> {
   }
 
   void showInfos() {
+    logger.d(_infos);
     Get.dialog(_Infos(infos: _infos));
   }
 
@@ -123,7 +124,10 @@ class _Infos extends StatelessWidget {
                   info: infos['phone'],
                   canCopy: true,
                 ),
-                _OpenAt(openAt: jsonDecode(infos['open_at'])),
+                _OpenAt(
+                    openAt: infos['open_at'] != null
+                        ? jsonDecode(infos['open_at'])
+                        : null),
                 _InfoString(
                   label: 'merchant_infos__link',
                   info: infos['link'],
@@ -164,6 +168,9 @@ class _InfoString extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (info == null) {
+      return Container();
+    }
     Widget infoText = Text(info);
     Widget child = canCopy
         ? GestureDetector(
@@ -173,16 +180,14 @@ class _InfoString extends StatelessWidget {
         : infoText;
 
     return Container(
-      child: info == null
-          ? null
-          : Column(
-              children: [
-                _Label(label: label),
-                SizedBox(height: 5.0),
-                child,
-                SizedBox(height: 25.0),
-              ],
-            ),
+      child: Column(
+        children: [
+          _Label(label: label),
+          SizedBox(height: 5.0),
+          child,
+          SizedBox(height: 25.0),
+        ],
+      ),
     );
   }
 }
@@ -208,6 +213,9 @@ class _OpenAt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (openAt == null) {
+      return Container();
+    }
     List<Widget> children = [
       _Label(label: 'merchant_infos__open_at'),
     ];

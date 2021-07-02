@@ -10,6 +10,8 @@ import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/views/travel/parcour.dart';
 
+import 'package:expandable_page_view/expandable_page_view.dart';
+
 Controller c = Get.find();
 
 class TripDetails extends StatefulWidget {
@@ -484,51 +486,51 @@ class _Anecdote extends StatelessWidget {
 
 class _ExpandedAnecdotes extends StatelessWidget {
   final CarouselController _controller = CarouselController();
+  final pageController = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 25.0),
+        padding: const EdgeInsets.all(15.0),
         child: Material(
           elevation: 10.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
-          child: Row(
-            children: [
-              IconButton(
-                icon: Icon(Icons.keyboard_arrow_left),
-                onPressed: () => _controller.previousPage(
-                  duration: Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                ),
-              ),
-              Expanded(
-                child: CarouselSlider(
-                  carouselController: _controller,
-                  options: CarouselOptions(
-                    initialPage: c.anecdoteIndex.value,
-                    viewportFraction: 1.0,
-                    height: 300,
-                    onPageChanged: (index, _) => c.setAnecdoteIndex(index),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 25.0),
+            child: Row(
+              children: [
+                Container(
+                  child: IconButton(
+                    icon: Icon(Icons.keyboard_arrow_left),
+                    onPressed: () => pageController.previousPage(
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    ),
                   ),
-                  items: [
-                    _ExpandedAnecdote(anecdote: c.tripAnecdote_1.value),
-                    _ExpandedAnecdote(anecdote: c.tripAnecdote_2.value),
-                    if (c.tripAnecdote_3.value != '')
-                      _ExpandedAnecdote(anecdote: c.tripAnecdote_3.value),
-                  ],
                 ),
-              ),
-              IconButton(
-                icon: Icon(Icons.keyboard_arrow_right),
-                onPressed: () => _controller.nextPage(
-                  duration: Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
+                Expanded(
+                  child: ExpandablePageView(
+                    controller: pageController,
+                    children: [
+                      _ExpandedAnecdote(anecdote: c.tripAnecdote_1.value),
+                      _ExpandedAnecdote(anecdote: c.tripAnecdote_2.value),
+                      if (c.tripAnecdote_3.value != '')
+                        _ExpandedAnecdote(anecdote: c.tripAnecdote_3.value)
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                IconButton(
+                  icon: Icon(Icons.keyboard_arrow_right),
+                  onPressed: () => pageController.nextPage(
+                    duration: Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -543,9 +545,12 @@ class _ExpandedAnecdote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(vertical: 10.0),
-      child: Text(anecdote),
+    return Container(
+      constraints: BoxConstraints(maxHeight: Get.height * 0.75),
+      child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(vertical: 10.0),
+        child: Text(anecdote),
+      ),
     );
   }
 }
