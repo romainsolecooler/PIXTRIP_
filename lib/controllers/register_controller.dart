@@ -53,6 +53,7 @@ class RegisterController extends GetxController {
         final box = GetStorage();
         box.write('user', data['u_id']);
       }
+      loading(false);
       Get.offAll(() => App());
     }
   }

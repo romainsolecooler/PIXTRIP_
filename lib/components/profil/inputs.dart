@@ -1,33 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pixtrip/bindings/profil_password_binding.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
+import 'package:pixtrip/controllers/profil_controller.dart';
+import 'package:pixtrip/controllers/profil_password_controller.dart';
 import 'package:pixtrip/views/profil/change_password.dart';
 
 Controller c = Get.find();
 
-class Pseudo extends StatefulWidget {
-  @override
-  _PseudoState createState() => _PseudoState();
-}
-
-class _PseudoState extends State<Pseudo> {
-  TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController();
-    _controller.text = c.userPseudo.value;
-    c.setProfilPseudo(c.userPseudo.value);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    c.setProfilPseudo('');
-    super.dispose();
-  }
+class Pseudo extends GetView<ProfilController> {
+  final TextEditingController _controller = TextEditingController(
+    text: c.userPseudo(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -39,45 +24,24 @@ class _PseudoState extends State<Pseudo> {
       borderRadius: BorderRadius.circular(50.0),
     );
 
-    return SizedBox(
-      width: Get.width * 0.6,
+    return Expanded(
       child: TextField(
         textAlign: TextAlign.left,
         controller: _controller,
         decoration: InputDecoration(
           suffixIcon: Icon(Icons.create),
           contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
-          focusedBorder: _inputBorder,
-          enabledBorder: _inputBorder,
         ),
-        onChanged: (text) => c.setProfilPseudo(text),
+        onChanged: (text) => controller.pseudo(text),
       ),
     );
   }
 }
 
-class Email extends StatefulWidget {
-  @override
-  _EmailState createState() => _EmailState();
-}
-
-class _EmailState extends State<Email> {
-  TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController();
-    _controller.text = c.userMail.value;
-    c.setProfilEmail(c.userMail.value);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    c.setProfilEmail('');
-    super.dispose();
-  }
+class Email extends GetView<ProfilController> {
+  final TextEditingController _controller = TextEditingController(
+    text: c.userMail(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +50,7 @@ class _EmailState extends State<Email> {
       decoration: InputDecoration(
         suffixIcon: Icon(Icons.create),
       ),
-      onChanged: (text) => c.setProfilEmail(text),
+      onChanged: (text) => controller.email(text),
     );
   }
 }
@@ -95,7 +59,10 @@ class Password extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Get.to(() => ChangePassword()),
+      onTap: () => Get.to(
+        () => ChangePassword(),
+        binding: ProfilPasswordBinding(),
+      ),
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
       child: IgnorePointer(
@@ -111,28 +78,10 @@ class Password extends StatelessWidget {
   }
 }
 
-class Age extends StatefulWidget {
-  @override
-  _AgeState createState() => _AgeState();
-}
-
-class _AgeState extends State<Age> {
-  TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController();
-    _controller.text = c.userAge.value > 0 ? c.userAge.value.toString() : '';
-    c.setProfilAge(c.userAge.value);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    c.setProfilAge(0);
-    super.dispose();
-  }
+class Age extends GetView<ProfilController> {
+  final TextEditingController _controller = TextEditingController(
+    text: c.userAge.value > 0 ? c.userAge.value.toString() : '',
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -147,109 +96,54 @@ class _AgeState extends State<Age> {
             hintText: 'profil__age_placeholder'.tr,
             suffixIcon: Icon(Icons.create),
           ),
-          onChanged: (text) => c.setProfilAge(int.parse(text)),
+          onChanged: (text) {
+            int age = text == '' ? 0 : int.parse(text);
+            controller.age(age);
+          },
         ),
       ),
     );
   }
 }
 
-class OldPassword extends StatefulWidget {
-  @override
-  _OldPasswordState createState() => _OldPasswordState();
-}
-
-class _OldPasswordState extends State<OldPassword> {
-  TextEditingController _controller;
-
-  bool _obscureText = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController();
-    _controller.text = '';
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    c.setProfilOldPassword('');
-    super.dispose();
-  }
-
-  void toggleObscureText() {
-    setState(() {
-      _obscureText = !_obscureText;
-    });
-  }
-
+class OldPassword extends GetView<ProfilPasswordController> {
   @override
   Widget build(BuildContext context) {
-    IconData suffixIcon =
-        _obscureText ? Icons.visibility : Icons.visibility_off;
-
-    return TextField(
-      controller: _controller,
-      decoration: InputDecoration(
-        hintText: 'profil__old_password'.tr,
-        suffixIcon: IconButton(
-          icon: Icon(suffixIcon),
-          onPressed: () => toggleObscureText(),
+    return Obx(() {
+      IconData suffixIcon =
+          !controller.hideOld() ? Icons.visibility : Icons.visibility_off;
+      return TextField(
+        decoration: InputDecoration(
+          hintText: 'profil__old_password'.tr,
+          suffixIcon: IconButton(
+            icon: Icon(suffixIcon),
+            onPressed: controller.hideOld.toggle,
+          ),
         ),
-      ),
-      obscureText: _obscureText,
-      onChanged: (text) => c.setProfilOldPassword(text),
-    );
-  }
-}
-
-class NewPassword extends StatefulWidget {
-  @override
-  _NewPasswordState createState() => _NewPasswordState();
-}
-
-class _NewPasswordState extends State<NewPassword> {
-  TextEditingController _controller;
-
-  bool _obscureText = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController();
-    _controller.text = '';
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    c.setProfilOldPassword('');
-    super.dispose();
-  }
-
-  void toggleObscureText() {
-    setState(() {
-      _obscureText = !_obscureText;
+        obscureText: controller.hideOld(),
+        onChanged: (text) => controller.oldPassword(text),
+      );
     });
   }
+}
 
+class NewPassword extends GetView<ProfilPasswordController> {
   @override
   Widget build(BuildContext context) {
-    IconData suffixIcon =
-        _obscureText ? Icons.visibility : Icons.visibility_off;
-
-    return TextField(
-      controller: _controller,
-      decoration: InputDecoration(
-        hintText: 'profil__new_password'.tr,
-        suffixIcon: IconButton(
-          icon: Icon(suffixIcon),
-          onPressed: () => toggleObscureText(),
+    return Obx(() {
+      IconData suffixIcon =
+          !controller.hideNew() ? Icons.visibility : Icons.visibility_off;
+      return TextField(
+        decoration: InputDecoration(
+          hintText: 'profil__old_password'.tr,
+          suffixIcon: IconButton(
+            icon: Icon(suffixIcon),
+            onPressed: controller.hideNew.toggle,
+          ),
         ),
-      ),
-      obscureText: _obscureText,
-      onChanged: (text) => c.setProfilNewPassword(text),
-    );
+        obscureText: controller.hideNew(),
+        onChanged: (text) => controller.newPassword(text),
+      );
+    });
   }
 }

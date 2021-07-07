@@ -186,7 +186,6 @@ class _AppState extends State<App> with SingleTickerProviderStateMixin {
         },
         child: TabBarView(
           controller: tabController.tabController,
-          physics: NeverScrollableScrollPhysics(),
           children: [
             Home(),
             Trips(),
@@ -199,7 +198,6 @@ class _AppState extends State<App> with SingleTickerProviderStateMixin {
       bottomNavigationBar: SafeArea(
         child: TabBar(
           controller: tabController.tabController,
-          indicatorColor: Colors.transparent,
           labelColor: Theme.of(context).textTheme.bodyText1.color,
           onTap: (_) {
             c.setFinishedTrip(false);

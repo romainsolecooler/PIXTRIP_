@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pixtrip/bindings/profil_binding.dart';
 
 import 'package:pixtrip/common/app_bar.dart';
 import 'package:pixtrip/common/utils.dart';
@@ -39,7 +40,10 @@ class Profil extends StatelessWidget {
                 ),
                 IconButton(
                   icon: Icon(Icons.settings),
-                  onPressed: () => Get.to(() => ProfilDetails()),
+                  onPressed: () => Get.to(
+                    () => ProfilDetails(),
+                    binding: ProfilBinding(),
+                  ),
                 ),
               ],
             ),

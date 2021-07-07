@@ -5,7 +5,10 @@ class Messages extends Translations {
   Map<String, Map<String, String>> get keys => {
         'fr_FR': {
           'error_title': 'Erreur',
-          'sucess_title': 'Succés !',
+          'sucess_title': 'Succès !',
+          'attention_title': 'Attention !',
+          'yes': 'Oui',
+          'no': 'Non',
           'copied_to_clipboard': 'Copié dans le presse papier.',
           'ok': 'Ok',
           'monday': 'Lundi',
@@ -68,9 +71,9 @@ class Messages extends Translations {
           'tutorial__2_text': "Des lieux à découvrir ou à faire découvrir !",
           'tutorial__3_title': 'Trouve le lieu !',
           'tutorial__3_text': "Suis les indications de la boussole PIXTRIP !",
-          'tutorial__4_title': "Informe toi !",
+          'tutorial__4_title': "Informe-toi !",
           'tutorial__4_text':
-              "Prends le lieux en photo et découvre tout ce qu'il y a à savoir sur cet endroit !",
+              "Prends le lieu en photo et découvre tout ce qu'il y a à savoir sur cet endroit !",
           'tutorial__5_title': "Gagne des récompenses !",
           'tutorial__5_text': "Et cumule-les en réalisant plus de trips !",
           'tutorial__6_title': "Deviens\n« pixtripeur » !",
@@ -110,6 +113,20 @@ class Messages extends Translations {
           'profil__changed_password_title': 'Succès !',
           'profil__changed_password_text': 'Mot de passe modifié avec succès.',
           'profil__changed_error': 'Combinaison email / pseudo déjà utilisée.',
+          'profil__logout_text': 'Veux-tu vraiment te déconnecter ?',
+          'change_profil__invalid_age': 'Merci de renseigner un âge valide.',
+          'change_profil__empty':
+              'Merci de renseigner une adresse email et un pseudo.',
+          'change_profil__invalid_email':
+              'Merci de renseigner une adresse email valide.',
+          'change_profil__error':
+              'Combinaison adresse email / pseudo déjà utilisée.',
+          'change_password__error_empty':
+              'Merci de renseigner votre ancien et un nouveau mot de passe.',
+          'change_password__error_same':
+              "L'ancien mot de passe et le nouveau ne peuvent pas être identiques.",
+          'change_password__error_wrong': 'Ancien mot de passe incorrect.',
+          'change_password__success_text': 'Mot de passe modifié.',
           'add_trip__add_photo': 'AJOUTER UNE PHOTO',
           'add_trip__add_city_placeholder': 'Nom de la ville',
           'add_trip__add_position_placeholder': 'Position',
@@ -122,7 +139,7 @@ class Messages extends Translations {
           'add_trip__error_text': "Erreur lors de l'ajout du trip.",
           'add_trip__sucess':
               "Votre trip va être soumis à validation par l'équipe de Pixtrip.\nIl sera bientôt disponible.",
-          'wallet__empty': 'Tu ne possède aucun coupon.',
+          'wallet__empty': 'Tu ne possèdes aucun coupon.',
           'add_trip__fail':
               "Une erreur est survenue lors de l'ajout de votre trip.",
           'wallet__page_separator': 'Déjà utilisé',

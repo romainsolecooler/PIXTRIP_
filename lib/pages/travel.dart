@@ -7,9 +7,11 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong/latlong.dart';
+import 'package:wakelock/wakelock.dart';
 import 'package:pixtrip/bindings/compass_binding.dart';
 
 import 'package:pixtrip/common/app_bar.dart';
+import 'package:pixtrip/components/travel/give_up_popup.dart';
 import 'package:pixtrip/components/travel/pixtrip_map_bottom_bar.dart';
 import 'package:pixtrip/components/travel/zone.dart';
 import 'package:pixtrip/controllers/controller.dart';
@@ -35,6 +37,8 @@ class _PixtripMapState extends State<PixtripMap> {
   @override
   void initState() {
     super.initState();
+    print('gonna wake lock');
+    Wakelock.enable();
     _stream = Geolocator.getPositionStream().listen((position) {
       print('getting position');
       setState(() {
@@ -74,69 +78,79 @@ class _PixtripMapState extends State<PixtripMap> {
     Color color = Theme.of(context).primaryColor;
 
     double iconSize = (tripRadius / 57465) * pow(2, _zoom); // en mètres
-    return Scaffold(
-      appBar: appBar,
-      body: _latitude != null && _longitude != null
-          ? Stack(
-              alignment: Alignment.center,
-              children: [
-                FlutterMap(
-                  options: MapOptions(
-                    center: LatLng(_latitude, _longitude),
-                    zoom: _zoom,
-                    maxZoom: 18.4,
-                    /* onTap: (data) {
-                      _stream.cancel();
-                      Get.offAll(() => Compass());
-                    }, */
-                    onPositionChanged: (data, changed) => _setZoom(data.zoom),
-                  ),
-                  children: [
-                    TileLayerWidget(
-                      options: TileLayerOptions(
-                        urlTemplate:
-                            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                        subdomains: ['a', 'b', 'c'],
-                      ),
+    return WillPopScope(
+      onWillPop: () async {
+        Get.dialog(
+          GiveUpPopup(),
+          barrierColor: Colors.transparent,
+        );
+        return false;
+      },
+      child: Scaffold(
+        appBar: appBar,
+        body: _latitude != null && _longitude != null
+            ? Stack(
+                alignment: Alignment.center,
+                children: [
+                  FlutterMap(
+                    options: MapOptions(
+                      center:
+                          LatLng(c.tripLatitude.value, c.tripLongitude.value),
+                      zoom: _zoom,
+                      maxZoom: 18.4,
+                      /* onTap: (data) {
+                        _stream.cancel();
+                        Get.offAll(() => Compass());
+                      }, */
+                      onPositionChanged: (data, changed) => _setZoom(data.zoom),
                     ),
-                    LocationMarkerLayerWidget(
-                      options: LocationMarkerLayerOptions(
-                        marker: DefaultLocationMarker(
-                          color: color,
+                    children: [
+                      TileLayerWidget(
+                        options: TileLayerOptions(
+                          urlTemplate:
+                              "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                          subdomains: ['a', 'b', 'c'],
                         ),
-                        headingSectorColor: color.withOpacity(0.3),
-                        accuracyCircleColor: color.withOpacity(0.15),
                       ),
-                    ),
-                  ],
-                  layers: [
-                    MarkerLayerOptions(markers: [
-                      Marker(
-                        point:
-                            LatLng(c.tripLatitude.value, c.tripLongitude.value),
-                        width: iconSize,
-                        height: iconSize,
-                        builder: (context) => Zone(size: iconSize),
-                      )
-                    ]),
-                    /* CircleLayerOptions(circles: [
-                      CircleMarker(
-                        point:
-                            LatLng(c.tripLatitude.value, c.tripLongitude.value),
-                        color: Colors.green.withOpacity(0.8),
-                        useRadiusInMeter: true,
-                        radius: 1000,
+                      LocationMarkerLayerWidget(
+                        options: LocationMarkerLayerOptions(
+                          marker: DefaultLocationMarker(
+                            color: color,
+                          ),
+                          headingSectorColor: color.withOpacity(0.3),
+                          accuracyCircleColor: color.withOpacity(0.15),
+                        ),
                       ),
-                    ]), */
-                  ],
-                ),
-                GetInZone(),
-              ],
-            )
-          : Center(
-              child: CircularProgressIndicator.adaptive(),
-            ),
-      bottomNavigationBar: PixtripMapBottomBar(),
+                    ],
+                    layers: [
+                      MarkerLayerOptions(markers: [
+                        Marker(
+                          point: LatLng(
+                              c.tripLatitude.value, c.tripLongitude.value),
+                          width: iconSize,
+                          height: iconSize,
+                          builder: (context) => Zone(size: iconSize),
+                        )
+                      ]),
+                      /* CircleLayerOptions(circles: [
+                        CircleMarker(
+                          point:
+                              LatLng(c.tripLatitude.value, c.tripLongitude.value),
+                          color: Colors.green.withOpacity(0.8),
+                          useRadiusInMeter: true,
+                          radius: 1000,
+                        ),
+                      ]), */
+                    ],
+                  ),
+                  GetInZone(),
+                ],
+              )
+            : Center(
+                child: CircularProgressIndicator.adaptive(),
+              ),
+        bottomNavigationBar: PixtripMapBottomBar(),
+      ),
     );
   }
 }

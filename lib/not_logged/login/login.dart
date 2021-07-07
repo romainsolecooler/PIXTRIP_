@@ -21,6 +21,7 @@ Controller c = Get.find();
 class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Get.put(LoginController());
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(

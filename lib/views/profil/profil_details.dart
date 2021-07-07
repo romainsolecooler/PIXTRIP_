@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'package:pixtrip/common/app_bar.dart';
 import 'package:pixtrip/common/bottom_navigation_bar.dart';
+import 'package:pixtrip/common/custom_colors.dart';
+import 'package:pixtrip/common/utils.dart';
 
 import 'package:pixtrip/components/profil/user_image.dart';
 import 'package:pixtrip/components/profil/inputs.dart';
 import 'package:pixtrip/components/profil/buttons.dart';
+import 'package:pixtrip/controllers/controller.dart';
+import 'package:pixtrip/controllers/login_controller.dart';
+import 'package:pixtrip/controllers/tab_controller.dart';
+import 'package:pixtrip/main.dart';
+import 'package:pixtrip/not_logged/login/login.dart';
 
 const double indent = 15.0;
 const double dividerIndent = indent * 2;
@@ -45,6 +54,29 @@ class ProfilDetails extends StatelessWidget {
 }
 
 class UserRow extends StatelessWidget {
+  void showLogOutPopin() {
+    Get.defaultDialog(
+      title: 'attention_title'.tr,
+      content: Text('profil__logout_text'.tr),
+      textConfirm: 'yes'.tr,
+      textCancel: 'no'.tr,
+      confirmTextColor: Colors.white,
+      cancelTextColor: redColor[900],
+      buttonColor: redColor[900],
+      onConfirm: restart,
+    );
+  }
+
+  void restart() {
+    final box = GetStorage();
+    box.remove('user');
+    Get.delete<Controller>(force: true);
+    Get.delete<MyTabController>(force: true);
+    Get.put(Controller());
+    Get.put(LoginController());
+    Get.offAll(() => Login());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -52,6 +84,10 @@ class UserRow extends StatelessWidget {
         UserImage(),
         SizedBox(width: 15.0),
         Pseudo(),
+        IconButton(
+          onPressed: showLogOutPopin,
+          icon: Icon(Icons.logout),
+        ),
       ],
     );
   }

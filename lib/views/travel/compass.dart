@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:pixtrip/common/app_bar.dart';
 import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/components/travel/compass_navigation_bar.dart';
+import 'package:pixtrip/components/travel/give_up_popup.dart';
 import 'package:pixtrip/controllers/compass_controller.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
@@ -25,17 +26,26 @@ class Compass extends GetView<CompassController> {
   @override
   Widget build(BuildContext context) {
     print('rebuilt parent');
-    return Scaffold(
-      appBar: appBar,
-      body: Obx(
-        () {
-          logger.i(controller.loadedArtboard());
-          return controller.loadedArtboard()
-              ? LoadedCompass()
-              : Center(child: CircularProgressIndicator.adaptive());
-        },
+    return WillPopScope(
+      onWillPop: () async {
+        Get.dialog(
+          GiveUpPopup(),
+          barrierColor: Colors.transparent,
+        );
+        return false;
+      },
+      child: Scaffold(
+        appBar: appBar,
+        body: Obx(
+          () {
+            logger.i(controller.loadedArtboard());
+            return controller.loadedArtboard()
+                ? LoadedCompass()
+                : Center(child: CircularProgressIndicator.adaptive());
+          },
+        ),
+        bottomNavigationBar: CompassNavigationBar(),
       ),
-      bottomNavigationBar: CompassNavigationBar(),
     );
   }
 }
@@ -57,7 +67,7 @@ class LoadedCompass extends GetView<CompassController> {
           children: [
             Obx(
               () => Text(
-                controller.distance() > 10.0
+                controller.distance() > 100.0
                     ? '${controller.distance()} m'
                     : '',
                 style: Theme.of(context).textTheme.headline4.copyWith(
@@ -89,6 +99,7 @@ class LoadedCompass extends GetView<CompassController> {
                         child: StreamBuilder<CompassEvent>(
                             stream: FlutterCompass.events,
                             builder: (context, snapshot) {
+                              //logger.d(snapshot.data);
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return Container();

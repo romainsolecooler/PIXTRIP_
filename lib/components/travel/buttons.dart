@@ -1,15 +1,17 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pixtrip/components/travel/give_up_popup.dart';
 import 'package:pixtrip/controllers/compass_controller.dart';
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/views/travel/fail.dart';
-import 'package:pixtrip/views/travel/photo_check.dart';
 import 'package:pixtrip/views/travel/success.dart';
+
+import 'package:camerawesome/camerapreview.dart';
+import 'package:camerawesome/camerawesome_plugin.dart';
+import 'package:camerawesome/models/capture_modes.dart';
+import 'package:camerawesome/models/sensors.dart';
 
 Controller c = Get.find();
 Color color = Colors.white;
@@ -43,37 +45,63 @@ class GiveUpTrip extends StatelessWidget {
   }
 }
 
-class TakePhoto extends GetView<CompassController> {
-  final picker = ImagePicker();
-
-  void _takePhoto() async {
-    print('taking photo bg');
-    c.setPhotoPath('');
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
-    if (pickedFile != null) {
-      print('getting distance --------');
-      /* double distance = Geolocator.distanceBetween(
-          c.currentUserLatitude.value,
-          c.currentUserLongitude.value,
-          c.tripLatitude.value,
-          c.tripLongitude.value); */
-      if (controller.distance() < 20 && controller.loadedDistance()) {
-        c.setPhotoPath(pickedFile.path);
-        Get.offAll(() => Success());
-      } else {
-        Get.to(() => Fail());
-      }
+class PhotoScreen extends GetView<CompassController> {
+  void takePhoto() async {
+    Get.back();
+    if (controller.distance() < 20 && controller.loadedDistance()) {
+      Get.offAll(() => Success());
+    } else {
+      Get.to(() => Fail());
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        alignment: Alignment.topRight,
+        children: [
+          CameraAwesome(
+            testMode: false,
+            sensor: ValueNotifier(Sensors.BACK),
+            photoSize: ValueNotifier(null),
+            captureMode: ValueNotifier(CaptureModes.PHOTO),
+            orientation: DeviceOrientation.portraitUp,
+            fitted: false,
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 10.0, right: 10.0),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.7),
+            ),
+            child: IconButton(
+              onPressed: Get.back,
+              icon: Icon(Icons.close),
+            ),
+          )
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: takePhoto,
+        child: Icon(Icons.photo_camera),
+        tooltip: 'travel__take_photo'.tr,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+}
+
+class TakePhoto extends GetView<CompassController> {
+  void _takePhoto() async {
+    Get.dialog(PhotoScreen(), barrierColor: Colors.white);
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: TextButton(
-        onPressed: () {
-          print('gonna take photo');
-          _takePhoto();
-        },
+        onPressed: _takePhoto,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:rive/rive.dart';
+import 'package:wakelock/wakelock.dart';
 
 Controller c = Get.find();
 
@@ -68,6 +69,7 @@ class CompassController extends GetxController {
   void onClose() {
     super.onClose();
     print('canceled compass stream');
+    Wakelock.disable();
     positionStream.cancel();
     super.dispose();
   }

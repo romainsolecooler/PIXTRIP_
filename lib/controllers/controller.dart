@@ -42,13 +42,6 @@ class Controller extends GetxController {
     print('user image : ${userImage.value}');
   }
 
-  void printProfilData() {
-    print('user data : ');
-    print('user mail : ${profilEmail.value}');
-    print('user pseudo : ${profilPseudo.value}');
-    print('user age : ${profilAge.value}');
-  }
-
   //////////
   // USER //
   //////////
@@ -251,40 +244,6 @@ class Controller extends GetxController {
 
   void setTripsList(List<dynamic> trips) {
     tripsList.value = trips;
-  }
-
-  ////////////
-  // PROFIL //
-  ////////////
-  final profilPseudo = ''.obs;
-  final profilEmail = ''.obs;
-  final profilAge = 0.obs;
-  final profilOldPassword = ''.obs;
-  final profilNewPassword = ''.obs;
-  final profilList = <dynamic>[].obs;
-
-  void setProfilPseudo(String pseudo) {
-    profilPseudo.value = pseudo;
-  }
-
-  void setProfilEmail(String email) {
-    profilEmail.value = email;
-  }
-
-  void setProfilAge(int age) {
-    profilAge.value = age;
-  }
-
-  void setProfilOldPassword(String oldPassword) {
-    profilOldPassword.value = oldPassword;
-  }
-
-  void setProfilNewPassword(String newPassword) {
-    profilNewPassword.value = newPassword;
-  }
-
-  void setProfilList(List<dynamic> trips) {
-    profilList.value = trips;
   }
 
   //////////////
