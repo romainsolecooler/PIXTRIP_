@@ -47,6 +47,7 @@ class _HomeState extends State<Home> {
   void getHomeTrips() async {
     setState(() => _loading = true);
     var response = await dio.post('trip/get_home_trips.php');
+    logger.d(response.data);
     c.setHomeTrips(response.data);
     setState(() => _loading = false);
   }

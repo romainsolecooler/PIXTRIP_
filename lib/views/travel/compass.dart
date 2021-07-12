@@ -177,8 +177,9 @@ class _CompassState extends State<_Compass>
   void setLevelInput() {
     double remainingDistance = Geolocator.distanceBetween(
         _latitude, _longitude, c.tripLatitude.value, c.tripLongitude.value);
-    double tripDistance = ((c.tripDistance.value + 1) * 1000)
-        .toDouble(); // trip distance in meters
+    double tripDistance = c.tripEnvironment.value == 'urban'
+        ? 1000.0
+        : 2500.0; // trip distance in meters
     double doneDistance = tripDistance - remainingDistance;
     double doneDistanceInPercentage =
         ((doneDistance - remainingDistance) * 100) /

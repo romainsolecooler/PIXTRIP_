@@ -18,7 +18,7 @@ import 'package:pixtrip/not_logged/stay_connected.dart';
 //LoginController loginController = Get.put(LoginController());
 Controller c = Get.find();
 
-class Login extends StatelessWidget {
+class Login extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     Get.put(LoginController());
@@ -35,7 +35,7 @@ class Login extends StatelessWidget {
               SizedBox(height: 25.0),
               Password(),
               SizedBox(height: 20.0),
-              StayConnected(),
+              StayConnected(controller: controller.stayConnected),
               SizedBox(height: 20.0),
               Continue(),
               ContinueWith(),

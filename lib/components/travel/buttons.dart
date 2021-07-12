@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pixtrip/components/travel/give_up_popup.dart';
 import 'package:pixtrip/controllers/compass_controller.dart';
@@ -21,10 +24,8 @@ class GiveUpTrip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: TextButton(
-        onPressed: () => Get.dialog(
-          GiveUpPopup(),
-          barrierColor: Colors.transparent,
-        ),
+        onPressed: () =>
+            Get.dialog(GiveUpPopup(), barrierColor: Colors.transparent),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -46,55 +47,95 @@ class GiveUpTrip extends StatelessWidget {
 }
 
 class PhotoScreen extends GetView<CompassController> {
+  ValueNotifier<CameraFlashes> _switchFlash = ValueNotifier(CameraFlashes.NONE);
+  ValueNotifier<Sensors> _sensor = ValueNotifier(Sensors.BACK);
+  ValueNotifier<CaptureModes> _captureMode = ValueNotifier(CaptureModes.PHOTO);
+  ValueNotifier<Size> _photoSize = ValueNotifier(null);
+
+  // Controllers
+  PictureController _pictureController = new PictureController();
+  VideoController _videoController = new VideoController();
+
   void takePhoto() async {
-    Get.back();
+    final Directory extDir = await getTemporaryDirectory();
+    final testDir =
+        await Directory('${extDir.path}/test').create(recursive: true);
+    final String filePath =
+        '${testDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpg';
+    await _pictureController.takePicture(filePath);
     if (controller.distance() < 20 && controller.loadedDistance()) {
+      c.photoPath(filePath);
       Get.offAll(() => Success());
     } else {
-      Get.to(() => Fail());
+      Get.off(() => Fail());
     }
+  }
+
+  Future<void> load() async {
+    await Future.delayed(Duration(milliseconds: 300));
+    return;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        alignment: Alignment.topRight,
-        children: [
-          CameraAwesome(
-            testMode: false,
-            sensor: ValueNotifier(Sensors.BACK),
-            photoSize: ValueNotifier(null),
-            captureMode: ValueNotifier(CaptureModes.PHOTO),
-            orientation: DeviceOrientation.portraitUp,
-            fitted: false,
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 10.0, right: 10.0),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.7),
-            ),
-            child: IconButton(
-              onPressed: Get.back,
-              icon: Icon(Icons.close),
-            ),
-          )
-        ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: FutureBuilder(
+          future: load(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Container();
+            }
+            return Stack(
+              alignment: Alignment.topRight,
+              children: [
+                CameraAwesome(
+                  testMode: false,
+                  selectDefaultSize: (List<Size> availableSizes) =>
+                      Size(1920, 1080),
+                  sensor: _sensor,
+                  photoSize: _photoSize,
+                  switchFlashMode: _switchFlash,
+                  captureMode: _captureMode,
+                  orientation: DeviceOrientation.portraitUp,
+                  fitted: false,
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 10.0, right: 10.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context)
+                        .scaffoldBackgroundColor
+                        .withOpacity(0.7),
+                  ),
+                  child: IconButton(
+                    onPressed: Get.back,
+                    icon: Icon(Icons.close),
+                  ),
+                )
+              ],
+            );
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: takePhoto,
+          child: Icon(Icons.photo_camera),
+          tooltip: 'travel__take_photo'.tr,
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: takePhoto,
-        child: Icon(Icons.photo_camera),
-        tooltip: 'travel__take_photo'.tr,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
 
 class TakePhoto extends GetView<CompassController> {
   void _takePhoto() async {
-    Get.dialog(PhotoScreen(), barrierColor: Colors.white);
+    Get.to(
+      () => PhotoScreen(),
+      transition: Transition.size,
+      fullscreenDialog: true,
+    );
   }
 
   @override

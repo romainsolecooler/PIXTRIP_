@@ -23,6 +23,7 @@ class CompassController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    Wakelock.enable();
     rootBundle
         .load('assets/animations/boussole_pixtrip2.riv')
         .then((data) async {
@@ -76,9 +77,9 @@ class CompassController extends GetxController {
 
   void setLevelInput() {
     double remainingDistance = distance().toDouble();
-    double tripDistance = c.tripDistance.value == 0
-        ? 500.0
-        : (c.tripDistance.value * 1000.0); // trip distance in meters
+    double tripDistance = c.tripEnvironment.value == 'urban'
+        ? 1000.0
+        : 2500.0; // trip distance in meters
     double doneDistance = tripDistance - remainingDistance;
     double doneDistanceInPercentage = (doneDistance / tripDistance) * 100;
     double rounded = (doneDistanceInPercentage / 10).round().toDouble();

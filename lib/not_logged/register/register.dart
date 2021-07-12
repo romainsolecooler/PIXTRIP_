@@ -13,7 +13,7 @@ import 'package:pixtrip/not_logged/stay_connected.dart';
 
 Controller c = Get.find();
 
-class Register extends StatelessWidget {
+class Register extends GetView<RegisterController> {
   final RegisterController registerController = Get.put(RegisterController());
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class Register extends StatelessWidget {
               SizedBox(height: 20.0),
               Password(),
               SizedBox(height: 25.0),
-              StayConnected(),
+              StayConnected(controller: controller.stayConnected),
               AcceptConditions(),
               SizedBox(height: 20.0),
               CreateAccount(),

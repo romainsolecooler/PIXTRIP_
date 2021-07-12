@@ -55,10 +55,8 @@ class _OAuthRowState extends State<OAuthRow> {
           c.setUserImage(data['image']);
           c.setUserAge(data['age']);
           c.setTutorialStep(data['tutorial']);
-          if (c.stayConnected.value) {
-            final box = GetStorage();
-            box.write('user', data['u_id']);
-          }
+          final box = GetStorage();
+          box.write('user', data['u_id']);
           Get.offAll(() => App());
         });
   }
@@ -89,10 +87,6 @@ class _OAuthRowState extends State<OAuthRow> {
     oAuthConnect(
         email: email, pseudo: '$firstName $familyName', id: id, image: null);
   }
-
-  // 001524.ab7bc7cca47d492eb25832645ffa89dd.1418
-  // 001524.ab7bc7cca47d492eb25832645ffa89dd.1418
-  // 001524.ab7bc7cca47d492eb25832645ffa89dd.1418
 
   void signInWithGoogle() async {
     GoogleSignIn oAuth = GoogleSignIn();

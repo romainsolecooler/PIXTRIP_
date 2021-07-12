@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
 
-class TimeSlider extends StatelessWidget {
+/* class TimeSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetX<Controller>(
@@ -28,4 +28,4 @@ class TimeSlider extends StatelessWidget {
       },
     );
   }
-}
+} */

@@ -14,43 +14,41 @@ Controller c = Get.find();
 class Profil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Row(
-              children: [
-                /* Obx(
-                  () => CircleAvatar(
-                    backgroundImage: NetworkImage(c.userImage.value),
-                    radius: 35.0,
-                  ),
-                ), */
-                UserImage(isEditable: false),
-                SizedBox(width: 15.0),
-                Expanded(
-                  child: Obx(
-                    () => Text(
-                      c.userPseudo.value,
-                      style: Theme.of(context).textTheme.headline6,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Row(
+            children: [
+              /* Obx(
+                () => CircleAvatar(
+                  backgroundImage: NetworkImage(c.userImage.value),
+                  radius: 35.0,
+                ),
+              ), */
+              UserImage(isEditable: false),
+              SizedBox(width: 15.0),
+              Expanded(
+                child: Obx(
+                  () => Text(
+                    c.userPseudo.value,
+                    style: Theme.of(context).textTheme.headline6,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                IconButton(
-                  icon: Icon(Icons.settings),
-                  onPressed: () => Get.to(
-                    () => ProfilDetails(),
-                    binding: ProfilBinding(),
-                  ),
+              ),
+              IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () => Get.to(
+                  () => ProfilDetails(),
+                  binding: ProfilBinding(),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          ProfilList(),
-        ],
-      ),
+        ),
+        ProfilList(),
+      ],
     );
   }
 }

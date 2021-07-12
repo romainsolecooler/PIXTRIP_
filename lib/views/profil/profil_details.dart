@@ -6,6 +6,7 @@ import 'package:pixtrip/common/app_bar.dart';
 import 'package:pixtrip/common/bottom_navigation_bar.dart';
 import 'package:pixtrip/common/custom_colors.dart';
 import 'package:pixtrip/common/utils.dart';
+import 'package:pixtrip/components/home/tutorial.dart';
 
 import 'package:pixtrip/components/profil/user_image.dart';
 import 'package:pixtrip/components/profil/inputs.dart';
@@ -49,6 +50,13 @@ class ProfilDetails extends StatelessWidget {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.lightbulb),
+        onPressed: () => Get.dialog(
+          Tutorial(),
+          barrierColor: Colors.transparent,
+        ),
+      ),
     );
   }
 }
@@ -72,8 +80,9 @@ class UserRow extends StatelessWidget {
     box.remove('user');
     Get.delete<Controller>(force: true);
     Get.delete<MyTabController>(force: true);
+    Get.delete<LoginController>(force: true);
     Get.put(Controller());
-    Get.put(LoginController());
+    Get.lazyPut(() => LoginController());
     Get.offAll(() => Login());
   }
 

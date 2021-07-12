@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:pixtrip/common/app_bar.dart';
 
 import 'package:pixtrip/components/add_trip/add_photo.dart';
+import 'package:pixtrip/components/add_trip/category.dart';
 import 'package:pixtrip/components/add_trip/textfields.dart';
 import 'package:pixtrip/components/add_trip/position.dart';
 import 'package:pixtrip/components/add_trip/buttons.dart';
 import 'package:pixtrip/components/add_trip/sliders/sliders.dart';
+import 'package:pixtrip/components/add_trip/type.dart';
 
 class CreateTrip extends StatelessWidget {
   @override
@@ -21,8 +23,10 @@ class CreateTrip extends StatelessWidget {
             SizedBox(height: 25),
             //AddPosition(),
             SizedBox(height: 25),
-            DistanceSlider(),
-            TimeSlider(),
+            ChooseType(),
+            SizedBox(height: 15.0),
+            Category(),
+            SizedBox(height: 15.0),
             DifficultySlider(),
             _CustomDivider(),
             FirstInfo(),

@@ -27,12 +27,11 @@ class PixtripMap extends StatefulWidget {
 class _PixtripMapState extends State<PixtripMap> {
   double _latitude;
   double _longitude;
-  double _zoom = 14.0;
+  double _zoom = c.tripEnvironment() == 'urban' ? 13.0 : 12.0;
 
   StreamSubscription<Position> _stream;
 
-  double tripRadius =
-      c.tripDistance.value == 0 ? 500.0 : (c.tripDistance.value * 1000.0);
+  double tripRadius = c.tripEnvironment.value == 'urban' ? 1000.0 : 2500.0;
 
   @override
   void initState() {
@@ -61,6 +60,7 @@ class _PixtripMapState extends State<PixtripMap> {
   @override
   void dispose() {
     print('dipose stream');
+    Wakelock.disable();
     _stream.cancel();
     super.dispose();
   }
@@ -98,6 +98,8 @@ class _PixtripMapState extends State<PixtripMap> {
                           LatLng(c.tripLatitude.value, c.tripLongitude.value),
                       zoom: _zoom,
                       maxZoom: 18.4,
+                      interactiveFlags:
+                          InteractiveFlag.pinchZoom | InteractiveFlag.drag,
                       /* onTap: (data) {
                         _stream.cancel();
                         Get.offAll(() => Compass());

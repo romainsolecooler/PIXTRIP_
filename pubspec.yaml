@@ -53,6 +53,7 @@ dependencies:
   expandable_page_view: ^1.0.5
   camerawesome: ^0.3.0+1
   wakelock: ^0.5.2
+  multi_select_flutter: ^4.0.0
 
 flutter_native_splash:
   color: "#ffffff"

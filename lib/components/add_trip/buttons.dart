@@ -32,15 +32,14 @@ class _AddTripButtonState extends State<AddTripButton> {
     setState(() {
       _loading = true;
     });
-    print(c.addLatitude.value);
-    print(c.addLongitude.value);
     //final image = MultipartFile(c.addTripImage.value, filename: 'image');
+    String environment = c.addType.value ? 'country' : 'urban';
     var formData = FormData.fromMap({
       'image': await MultipartFile.fromFile(c.addTripImage.value.path),
       'user_id': c.userId.value,
       'city': c.addCityName.value,
-      'distance': c.addDistance.value,
-      'time': c.addTime.value,
+      'environment': environment,
+      'category': c.addCategory.value,
       'difficulty': c.addDifficulty.value,
       'latitude': c.addLatitude.value,
       'longitude': c.addLongitude.value,

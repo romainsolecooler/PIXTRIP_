@@ -13,6 +13,7 @@ class RegisterController extends GetxController {
   final pseudo = ''.obs;
   final password = ''.obs;
   final obscureText = true.obs;
+  final stayConnected = false.obs;
   final acceptedConditions = false.obs;
 
   void addUser() async {
@@ -49,7 +50,7 @@ class RegisterController extends GetxController {
       c.setUserId(data['u_id']);
       c.setUserMail(_email);
       c.setUserPseudo(_pseudo);
-      if (c.stayConnected.value) {
+      if (stayConnected()) {
         final box = GetStorage();
         box.write('user', data['u_id']);
       }

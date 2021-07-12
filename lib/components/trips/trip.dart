@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/controllers/controller.dart';
@@ -102,7 +103,7 @@ class Element extends StatelessWidget {
   }
 }
 
-class Trip extends StatelessWidget {
+class Trip extends GetView<TripListController> {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -137,9 +138,32 @@ class Trip extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline6,
               ),
               SizedBox(height: 30.0),
-              Text('slider__distance_${c.tripDistance.value}'.tr),
+              Text('environment'.tr + ' : ' + c.tripEnvironment().tr),
               _CustomDivider(),
-              Text('slider__time_${c.tripTime.value}'.tr),
+              Text('category'.tr + ' : ' + c.tripCategory().tr),
+              _CustomDivider(),
+              Obx(() {
+                if (controller.loading()) {
+                  return Text('trip__distance_calculation'.tr);
+                }
+                int distance = Geolocator.distanceBetween(
+                  controller.latitude(),
+                  controller.longitude(),
+                  c.tripLatitude(),
+                  c.tripLongitude(),
+                ).round();
+                String distanceToTrip = distance < 50
+                    ? 'distance_less_than_50'.tr
+                    : distance < 1000
+                        ? 'measure__meters'
+                            .trParams({'distance': distance.toString()})
+                        : 'measure__kilometers'.trParams(
+                            {'distance': (distance / 1000).round().toString()});
+                return Text(
+                  'distance_until_trip'.tr + ' ' + distanceToTrip,
+                  textAlign: TextAlign.center,
+                );
+              }),
               _CustomDivider(),
               Text('slider__difficulty_${c.tripDifficulty.value}'.tr),
               SizedBox(height: 30.0),

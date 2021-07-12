@@ -7,6 +7,7 @@ import 'package:pixtrip/common/app_bar.dart';
 import 'package:pixtrip/components/trips/settings.dart';
 import 'package:pixtrip/components/trips/trip.dart';
 import 'package:pixtrip/controllers/controller.dart';
+import 'package:pixtrip/controllers/settings_controller.dart';
 import 'package:pixtrip/views/travel/trip_details.dart';
 
 class Trips extends StatelessWidget {
@@ -21,6 +22,14 @@ class Trips extends StatelessWidget {
 }
 
 class _AllTrips extends StatelessWidget {
+  void showTripSettings() {
+    Get.put(SettingsController(), permanent: true);
+    Get.dialog(
+      TripsSettings(),
+      barrierColor: Colors.transparent,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -34,10 +43,7 @@ class _AllTrips extends StatelessWidget {
                 quarterTurns: 1,
                 child: IconButton(
                   icon: Icon(CupertinoIcons.slider_horizontal_3),
-                  onPressed: () => Get.dialog(
-                    TripsSettings(),
-                    barrierColor: Colors.transparent,
-                  ),
+                  onPressed: showTripSettings,
                 ),
               ),
             ],

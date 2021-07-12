@@ -12,6 +12,19 @@ class LoginController extends GetxController {
   final pseudoMail = ''.obs;
   final password = ''.obs;
   final obscureText = true.obs;
+  final stayConnected = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    logger.wtf('ininted login controller');
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    logger.wtf('closed login controller');
+  }
 
   void login() async {
     loading(true);
@@ -39,7 +52,7 @@ class LoginController extends GetxController {
       c.setUserImage(data['image']);
       c.setUserAge(data['age']);
       c.setTutorialStep(data['tutorial']);
-      if (c.stayConnected.value) {
+      if (stayConnected()) {
         final box = GetStorage();
         box.write('user', data['u_id']);
       }

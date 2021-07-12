@@ -51,6 +51,8 @@ class Controller extends GetxController {
   final loadingUserImage = false.obs;
   final userImage = ''.obs;
   final userAge = 0.obs;
+  final userLatitude = 0.0.obs;
+  final userLongitude = 0.0.obs;
 
   void setUserId(String id) {
     userId.value = id;
@@ -78,6 +80,11 @@ class Controller extends GetxController {
 
   void setUserAge(int age) {
     userAge.value = age;
+  }
+
+  void setUserPosition(latitude, longitude) {
+    userLatitude(latitude);
+    userLongitude(longitude);
   }
 
   ///////////
@@ -153,8 +160,8 @@ class Controller extends GetxController {
   final tripCity = ''.obs;
   final tripImage = ''.obs;
   final tripDifficulty = 0.obs;
-  final tripTime = 0.obs;
-  final tripDistance = 0.obs;
+  final tripEnvironment = ''.obs;
+  final tripCategory = ''.obs;
   final tripLatitude = 0.0.obs;
   final tripLongitude = 0.0.obs;
   final tripAnecdote_1 = ''.obs;
@@ -177,8 +184,8 @@ class Controller extends GetxController {
     tripCity.value = trip['city'];
     tripImage.value = trip['image'];
     tripDifficulty.value = trip['difficulty'];
-    tripTime.value = trip['time'];
-    tripDistance.value = trip['distance'];
+    tripEnvironment.value = trip['environment'];
+    tripCategory.value = trip['category'];
     tripLatitude.value = trip['latitude'];
     tripLongitude.value = trip['longitude'];
     tripAnecdote_1.value = trip['anecdote_1'];
@@ -212,40 +219,6 @@ class Controller extends GetxController {
     positionList.value = positions;
   }
 
-  ////////////
-  // TRIPS //
-  ///////////
-  final settingsCityName = ''.obs;
-  final settingsCurrentPosition = false.obs;
-  final sliderDistance = 4.obs;
-  final sliderTime = 3.obs;
-  final sliderDifficulty = 1.obs;
-  final tripsList = <dynamic>[].obs;
-
-  void setSettingsCurrentPosition(bool newValue) {
-    settingsCurrentPosition.value = newValue;
-  }
-
-  void setSettingsCityName(String city) {
-    settingsCityName.value = city;
-  }
-
-  void setSliderDistance(int value) {
-    sliderDistance.value = value;
-  }
-
-  void setSliderTime(int value) {
-    sliderTime.value = value;
-  }
-
-  void setSliderDifficulty(int value) {
-    sliderDifficulty.value = value;
-  }
-
-  void setTripsList(List<dynamic> trips) {
-    tripsList.value = trips;
-  }
-
   //////////////
   // ADD TRIP //
   //////////////
@@ -255,7 +228,9 @@ class Controller extends GetxController {
   final addCityName = ''.obs;
   final addDistance = 2.obs;
   final addTime = 3.obs;
-  final addDifficulty = 1.obs;
+  final addType = true.obs;
+  final addCategory = 'architectural'.obs;
+  final addDifficulty = 1.obs; // true = country; false = urban
   final addFirstInfo = ''.obs;
   final addSecondInfo = ''.obs;
   final addThirdInfo = ''.obs;
@@ -296,6 +271,10 @@ class Controller extends GetxController {
     addTime.value = value;
   }
 
+  void setAddType(bool newValue) {
+    addType(newValue);
+  }
+
   void setAddDifficulty(int value) {
     addDifficulty.value = value;
   }
@@ -308,6 +287,7 @@ class Controller extends GetxController {
     addFirstInfo.value = '';
     addSecondInfo.value = '';
     addThirdInfo.value = '';
+    addType.value = true;
     addDistance.value = 2;
     addTime.value = 3;
     addDifficulty.value = 1;

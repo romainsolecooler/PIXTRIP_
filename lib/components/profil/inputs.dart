@@ -16,14 +16,6 @@ class Pseudo extends GetView<ProfilController> {
 
   @override
   Widget build(BuildContext context) {
-    OutlineInputBorder _inputBorder = OutlineInputBorder(
-      borderSide: BorderSide(
-        color: Theme.of(context).dividerColor,
-        width: 1.0,
-      ),
-      borderRadius: BorderRadius.circular(50.0),
-    );
-
     return Expanded(
       child: TextField(
         textAlign: TextAlign.left,
