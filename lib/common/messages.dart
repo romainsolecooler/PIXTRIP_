@@ -30,6 +30,9 @@ class Messages extends Translations {
           'flora_and_fauna': 'Faune et flore',
           'unusual': 'Insolite',
           'instagrammable': 'Instagrammable',
+          'bug_report': 'Signaler un bug',
+          'show_tutorial': 'Afficher le tutoriel',
+          'apply_filter': 'Appliquer ces filtres ?',
           'permissions__error':
               'Pixtrip a besoin des autorisations demandées précédemment pour pouvoir fonctionner.',
           'permissions__change_permissions': 'Changer les autorisations',
@@ -80,15 +83,18 @@ class Messages extends Translations {
               "Ceci est une bêta, aide-nous à améliorer Pixtrip.\nVoici de quoi te guider afin de profiter à 100% de tes trips !",
           'tutorial__2_title': 'Choisis ton Trip !',
           'tutorial__2_text': "Des lieux à découvrir ou à faire découvrir !",
-          'tutorial__3_title': 'Trouve le lieu !',
-          'tutorial__3_text': "Suis les indications de la boussole PIXTRIP !",
-          'tutorial__4_title': "Informe-toi !",
+          'tutorial__3_title': 'Rends-toi dans la zone bleue !',
+          'tutorial__3_text': "Pour commencer le trip !",
+          'tutorial__4_title': 'Trouve le lieu !',
           'tutorial__4_text':
+              "En suivant les indications de la boussole Pixtrip !",
+          'tutorial__5_title': "Informe-toi !",
+          'tutorial__5_text':
               "Prends le lieu en photo et découvre tout ce qu'il y a à savoir sur cet endroit !",
-          'tutorial__5_title': "Gagne des récompenses !",
-          'tutorial__5_text': "Et cumule-les en réalisant plus de trips !",
-          'tutorial__6_title': "Deviens\n« pixtripeur » !",
-          'tutorial__6_text':
+          'tutorial__6_title': "Gagne des récompenses !",
+          'tutorial__6_text': "Et cumule-les en réalisant plus de trips !",
+          'tutorial__7_title': "Deviens\n« pixtripeur » !",
+          'tutorial__7_text':
               "Plusieurs trips t'attendent déjà ! Tu as la possibilité d'en créer, ils seront partagés !",
           'trips__or': 'Ou',
           'trips__city_name': "Nom d'une ville",
@@ -162,7 +168,7 @@ class Messages extends Translations {
           'add_trip__add_position_placeholder': 'Position',
           'add_trip__add_first_info_placeholder': 'Info principale',
           'add_trip__add_second_info_placeholder': 'Anecdote',
-          'add_trip__add_third_info_placeholder': 'Votre avis',
+          'add_trip__add_third_info_placeholder': 'Ma vision sur ce lieu',
           'add_trip_add_button': 'VALIDER',
           'add_trip__empty_form':
               'Veuillez remplir tous les champs du formulaire.',

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:pixtrip/common/utils.dart';
+import 'package:pixtrip/components/home/tutorial_compass.dart';
+import 'package:pixtrip/components/travel/zone.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
 
@@ -29,7 +30,15 @@ class Tutorial extends StatelessWidget {
               viewportFraction: 1.0,
               enableInfiniteScroll: false,
             ),
-            items: [Tuto1(), Tuto2(), Tuto3(), Tuto4(), Tuto5(), Tuto6()],
+            items: [
+              Tuto1(),
+              Tuto2(),
+              Tuto3(),
+              Tuto4(),
+              Tuto5(),
+              Tuto6(),
+              Tuto7(),
+            ],
           ),
         ),
       ),
@@ -261,6 +270,37 @@ class Tuto2 extends StatelessWidget {
 }
 
 class Tuto3 extends StatelessWidget {
+  const Tuto3({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        CanGoBackTitle(text: 'tutorial__3_title'.tr),
+        Expanded(
+          child: FractionallySizedBox(
+            widthFactor: 0.75,
+            child: Column(
+              children: [
+                Divider(),
+                SizedBox(height: 20),
+                Expanded(child: Zone()),
+                Divider(height: 80),
+                TutorialText(text: 'tutorial__3_text'.tr),
+                SizedBox(height: 40.0),
+                NextButton(),
+                SizedBox(height: 40.0),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/* class Tuto3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TutorialContent(
@@ -269,15 +309,35 @@ class Tuto3 extends StatelessWidget {
       tutorialText: 'tutorial__3_text'.tr,
     );
   }
-}
+} */
 
 class Tuto4 extends StatelessWidget {
+  const Tuto4({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return TutorialContent(
-      titleText: 'tutorial__4_title'.tr,
-      imagePath: 'assets/images/tutorial/4.png',
-      tutorialText: 'tutorial__4_text'.tr,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        CanGoBackTitle(text: 'tutorial__4_title'.tr),
+        Expanded(
+          child: Column(
+            children: [
+              Divider(),
+              SizedBox(height: 20),
+              Expanded(child: TutorialCompass()),
+              FractionallySizedBox(
+                widthFactor: 0.75,
+                child: Divider(height: 80),
+              ),
+              TutorialText(text: 'tutorial__4_text'.tr),
+              SizedBox(height: 40.0),
+              NextButton(),
+              SizedBox(height: 40.0),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
@@ -287,7 +347,7 @@ class Tuto5 extends StatelessWidget {
   Widget build(BuildContext context) {
     return TutorialContent(
       titleText: 'tutorial__5_title'.tr,
-      imagePath: 'assets/images/tutorial/5.png',
+      imagePath: 'assets/images/tutorial/4.png',
       tutorialText: 'tutorial__5_text'.tr,
     );
   }
@@ -298,8 +358,19 @@ class Tuto6 extends StatelessWidget {
   Widget build(BuildContext context) {
     return TutorialContent(
       titleText: 'tutorial__6_title'.tr,
-      imagePath: 'assets/images/tutorial/6.png',
+      imagePath: 'assets/images/tutorial/5.png',
       tutorialText: 'tutorial__6_text'.tr,
+    );
+  }
+}
+
+class Tuto7 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return TutorialContent(
+      titleText: 'tutorial__7_title'.tr,
+      imagePath: 'assets/images/tutorial/6.png',
+      tutorialText: 'tutorial__7_text'.tr,
       last: true,
     );
   }

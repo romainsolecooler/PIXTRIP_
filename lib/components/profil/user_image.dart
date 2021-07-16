@@ -11,8 +11,6 @@ import 'package:pixtrip/controllers/controller.dart';
 const radius = 35.0;
 const parentSize = radius * 2;
 
-Controller c = g.Get.find();
-
 class UserImage extends StatelessWidget {
   final bool isEditable;
 
@@ -20,6 +18,7 @@ class UserImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Controller c = g.Get.find();
     return Container(
       width: parentSize,
       height: parentSize,
@@ -41,6 +40,7 @@ class NotTapableUserImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Controller c = g.Get.find();
     return g.Obx(() => LoadUserImage(
           url: c.userImage.value,
         ));
@@ -52,6 +52,7 @@ class TapableUserImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Controller c = g.Get.find();
     return GestureDetector(
       onTap: () => g.Get.bottomSheet(SelectImageSource()),
       child: Stack(
@@ -166,7 +167,10 @@ class SourceChoice extends StatelessWidget {
     if (data['error'] != null) {
       g.Get.defaultDialog(
         title: 'error_title'.tr,
-        content: Text('profil__error_change_image'.tr),
+        content: Text(
+          'profil__error_change_image'.tr,
+          textAlign: TextAlign.center,
+        ),
       );
     } else {
       c.setUserImage(data['image']);

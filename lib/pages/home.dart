@@ -9,7 +9,6 @@ import 'package:pixtrip/views/travel/compass.dart';
 
 const EdgeInsets padding = EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0);
 
-Controller c = Get.find();
 MyTabController tabController = Get.find();
 
 class Home extends StatefulWidget {
@@ -19,6 +18,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool _loading = false;
+  Controller c = Get.find();
 
   @override
   void initState() {
@@ -30,6 +30,7 @@ class _HomeState extends State<Home> {
         tabController.to(index: 1, resetFinishedTrip: false);
       });
     }
+    c.printUserData();
     if (c.tutorialStep.value == 0) {
       Future.delayed(Duration.zero, () {
         Get.dialog(
@@ -101,6 +102,7 @@ class HomeTrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Controller c = Get.find();
     return Expanded(
       child: Container(
         margin: EdgeInsets.only(top: 8.0),

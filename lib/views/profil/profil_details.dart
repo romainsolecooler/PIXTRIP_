@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:pixtrip/common/app_bar.dart';
 import 'package:pixtrip/common/bottom_navigation_bar.dart';
@@ -21,6 +22,12 @@ const double indent = 15.0;
 const double dividerIndent = indent * 2;
 
 class ProfilDetails extends StatelessWidget {
+  final String _url = 'https://forms.gle/kyiuPkNvfHHceFWv6';
+
+  void openForm() async {
+    await canLaunch(_url) ? await launch(_url) : print('could not launch');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,12 +57,27 @@ class ProfilDetails extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.lightbulb),
-        onPressed: () => Get.dialog(
-          Tutorial(),
-          barrierColor: Colors.transparent,
-        ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            heroTag: 'bug_report',
+            onPressed: openForm,
+            child: Icon(Icons.bug_report),
+            backgroundColor: Colors.redAccent,
+            tooltip: 'bug_report'.tr,
+          ),
+          SizedBox(height: 20.0),
+          FloatingActionButton(
+            heroTag: 'show_dialog',
+            child: Icon(Icons.lightbulb),
+            onPressed: () => Get.dialog(
+              Tutorial(),
+              barrierColor: Colors.transparent,
+            ),
+            tooltip: 'show_tutorial'.tr,
+          ),
+        ],
       ),
     );
   }
@@ -65,7 +87,10 @@ class UserRow extends StatelessWidget {
   void showLogOutPopin() {
     Get.defaultDialog(
       title: 'attention_title'.tr,
-      content: Text('profil__logout_text'.tr),
+      content: Text(
+        'profil__logout_text'.tr,
+        textAlign: TextAlign.center,
+      ),
       textConfirm: 'yes'.tr,
       textCancel: 'no'.tr,
       confirmTextColor: Colors.white,
@@ -81,7 +106,7 @@ class UserRow extends StatelessWidget {
     Get.delete<Controller>(force: true);
     Get.delete<MyTabController>(force: true);
     Get.delete<LoginController>(force: true);
-    Get.put(Controller());
+    Get.lazyPut(() => Controller());
     Get.lazyPut(() => LoginController());
     Get.offAll(() => Login());
   }

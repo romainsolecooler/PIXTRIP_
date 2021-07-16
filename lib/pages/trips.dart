@@ -24,9 +24,11 @@ class Trips extends StatelessWidget {
 class _AllTrips extends StatelessWidget {
   void showTripSettings() {
     Get.put(SettingsController(), permanent: true);
-    Get.dialog(
-      TripsSettings(),
-      barrierColor: Colors.transparent,
+    Get.to(
+      () => TripsSettings(),
+      fullscreenDialog: true,
+      opaque: false,
+      transition: Transition.fade,
     );
   }
 

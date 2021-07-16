@@ -25,7 +25,10 @@ class Controller extends GetxController {
       if (value.body['error'] != null && value.body['error']) {
         Get.defaultDialog(
           title: 'error_title'.tr,
-          content: Text(value.body['message']),
+          content: Text(
+            value.body['message'],
+            textAlign: TextAlign.center,
+          ),
         );
         error();
       } else {

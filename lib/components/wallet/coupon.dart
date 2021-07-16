@@ -54,14 +54,16 @@ class Coupon extends StatelessWidget {
             opacity: used ? 0.5 : 1.0,
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-              child: Stack(
-                alignment: Alignment.center,
+              child: Row(
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: CouponImage(image: image),
-                  ),
-                  Text(title),
+                  CouponImage(image: image),
+                  SizedBox(width: 5.0),
+                  Expanded(
+                      child: Text(
+                    title,
+                    textAlign: TextAlign.center,
+                  )),
+                  Container(width: 50),
                 ],
               ),
             ),

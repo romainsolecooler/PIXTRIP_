@@ -10,7 +10,7 @@ class Category extends GetView<Controller> {
     List<DropdownMenuItem<String>> items = <String>[
       'cultural',
       'architectural',
-      'point_of_vue',
+      'point_of_view',
       'artistic',
       'flora_and_fauna',
       'unusual',

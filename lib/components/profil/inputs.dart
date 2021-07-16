@@ -10,16 +10,12 @@ import 'package:pixtrip/views/profil/change_password.dart';
 Controller c = Get.find();
 
 class Pseudo extends GetView<ProfilController> {
-  final TextEditingController _controller = TextEditingController(
-    text: c.userPseudo(),
-  );
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: TextField(
+      child: TextFormField(
         textAlign: TextAlign.left,
-        controller: _controller,
+        initialValue: controller.pseudo(),
         decoration: InputDecoration(
           suffixIcon: Icon(Icons.create),
           contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
@@ -31,14 +27,10 @@ class Pseudo extends GetView<ProfilController> {
 }
 
 class Email extends GetView<ProfilController> {
-  final TextEditingController _controller = TextEditingController(
-    text: c.userMail(),
-  );
-
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: _controller,
+    return TextFormField(
+      initialValue: controller.email(),
       decoration: InputDecoration(
         suffixIcon: Icon(Icons.create),
       ),
@@ -71,18 +63,14 @@ class Password extends StatelessWidget {
 }
 
 class Age extends GetView<ProfilController> {
-  final TextEditingController _controller = TextEditingController(
-    text: c.userAge.value > 0 ? c.userAge.value.toString() : '',
-  );
-
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.centerLeft,
       child: SizedBox(
         width: Get.width * 0.4,
-        child: TextField(
-          controller: _controller,
+        child: TextFormField(
+          initialValue: controller.age() > 0 ? controller.age().toString() : '',
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             hintText: 'profil__age_placeholder'.tr,

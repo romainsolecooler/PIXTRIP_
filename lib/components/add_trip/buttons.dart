@@ -25,7 +25,10 @@ class _AddTripButtonState extends State<AddTripButton> {
         c.addCityName.value == '') {
       g.Get.defaultDialog(
         title: 'error_title'.tr,
-        content: Text('add_trip__empty_form'.tr),
+        content: Text(
+          'add_trip__empty_form'.tr,
+          textAlign: TextAlign.center,
+        ),
       );
       return;
     }
@@ -57,13 +60,17 @@ class _AddTripButtonState extends State<AddTripButton> {
     if (data['error']) {
       g.Get.defaultDialog(
         title: 'error_title'.tr,
-        content: Text('add_trip__error_text'.tr),
+        content: Text(
+          'add_trip__error_text'.tr,
+          textAlign: TextAlign.center,
+        ),
       );
     } else {
       g.Get.defaultDialog(
         title: 'sucess_title'.tr,
         content: Text(
           'add_trip__sucess'.tr,
+          textAlign: TextAlign.center,
         ),
       );
       c.deletedAddTripInfos();

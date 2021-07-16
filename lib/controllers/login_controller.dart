@@ -5,8 +5,6 @@ import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/main.dart';
 
-Controller c = Get.find();
-
 class LoginController extends GetxController {
   final loading = false.obs;
   final pseudoMail = ''.obs;
@@ -46,15 +44,19 @@ class LoginController extends GetxController {
       showErrorMessage('login__failed');
       return;
     } else {
+      logger.d(data);
+      Controller c = Get.find();
       c.setUserId(data['u_id']);
       c.setUserMail(data['email']);
       c.setUserPseudo(data['pseudo']);
       c.setUserImage(data['image']);
       c.setUserAge(data['age']);
       c.setTutorialStep(data['tutorial']);
+      final box = GetStorage();
       if (stayConnected()) {
-        final box = GetStorage();
         box.write('user', data['u_id']);
+      } else {
+        box.remove('user');
       }
       loading(false);
       Get.offAll(() => App());

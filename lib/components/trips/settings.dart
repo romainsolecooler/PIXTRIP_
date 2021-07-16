@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pixtrip/common/custom_colors.dart';
 import 'package:pixtrip/components/trips/category_choice.dart';
 import 'package:pixtrip/components/trips/environment.dart';
 import 'package:pixtrip/components/trips/sliders/sliders.dart';
@@ -14,39 +15,74 @@ import 'sliders/sliders.dart';
 Controller c = Get.find();
 TripListController tripListController = Get.find();
 
-class TripsSettings extends StatelessWidget {
+class TripsSettings extends GetView<TripListController> {
+  void shouldGoBack() {
+    Get.defaultDialog(
+        title: 'apply_filter'.tr,
+        content: Container(),
+        textConfirm: 'yes'.tr,
+        textCancel: 'no'.tr,
+        confirmTextColor: Colors.white,
+        buttonColor: redColor[900],
+        cancelTextColor: redColor[900],
+        onConfirm: () {
+          controller.orderTrips();
+          Get.back(closeOverlays: true);
+        },
+        onCancel: () {
+          Get.back();
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width * 0.9;
 
-    return Center(
-      child: Material(
-        elevation: 10.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        color: Colors.white,
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 25.0),
-          width: _width,
-          height: Get.height * 0.6,
-          constraints: BoxConstraints(maxHeight: Get.height * 0.8),
-          child: ListView(
-            children: [
-              _SettingsTextField(),
-              _SettingsDivider(),
-              _CurrentPositionButton(),
-              SizedBox(height: 25.0),
-              Environment(),
-              SizedBox(height: 10.0),
-              DistanceSlider(),
-              SizedBox(height: 15.0),
-              DifficultyPicker(),
-              SizedBox(height: 20.0),
-              CategoryChoice(),
-              _ValidateSettings(),
-            ],
-          ),
+    return WillPopScope(
+      onWillPop: () async {
+        shouldGoBack();
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          children: [
+            GestureDetector(
+              onTap: shouldGoBack,
+            ),
+            Center(
+              child: Material(
+                elevation: 10.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                color: Colors.white,
+                child: Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 40.0, vertical: 25.0),
+                  width: _width,
+                  height: Get.height * 0.6,
+                  constraints: BoxConstraints(maxHeight: Get.height * 0.8),
+                  child: ListView(
+                    children: [
+                      _SettingsTextField(),
+                      _SettingsDivider(),
+                      _CurrentPositionButton(),
+                      SizedBox(height: 25.0),
+                      Environment(),
+                      SizedBox(height: 10.0),
+                      DistanceSlider(),
+                      SizedBox(height: 15.0),
+                      DifficultyPicker(),
+                      SizedBox(height: 20.0),
+                      CategoryChoice(),
+                      _ValidateSettings(),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -137,45 +173,22 @@ class _CurrentPositionButton extends GetView<SettingsController> {
   }
 }
 
-class _ValidateSettings extends StatefulWidget {
-  @override
-  __ValidateSettingsState createState() => __ValidateSettingsState();
-}
-
-class __ValidateSettingsState extends State<_ValidateSettings> {
-  bool _loading = false;
-
+class _ValidateSettings extends GetView<TripListController> {
   void updateSettings() {
-    tripListController.orderTrips();
+    controller.orderTrips();
     Get.back();
-    /* c.checkHttpResponse(
-        url: 'trip/get_all_trips.php',
-        data: {
-          'distance': c.sliderDistance.value,
-          'difficulty': c.sliderDifficulty.value,
-          'time': c.sliderTime.value,
-        },
-        loading: () => setState(() => _loading = true),
-        error: () => setState(() => _loading = false),
-        callBack: (data) {
-          c.setTripsList(data);
-          Get.back();
-          setState(() => _loading = false);
-        }); */
   }
 
   @override
   Widget build(BuildContext context) {
-    return _loading
-        ? Center(child: CircularProgressIndicator.adaptive())
-        : Center(
-            child: Container(
-              margin: EdgeInsets.only(top: 25.0),
-              child: ElevatedButton(
-                onPressed: () => updateSettings(),
-                child: Text('trips__validate'.tr),
-              ),
-            ),
-          );
+    return Center(
+      child: Container(
+        margin: EdgeInsets.only(top: 25.0),
+        child: ElevatedButton(
+          onPressed: () => updateSettings(),
+          child: Text('trips__validate'.tr),
+        ),
+      ),
+    );
   }
 }

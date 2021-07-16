@@ -21,6 +21,7 @@ class ProfilController extends GetxController {
 
   void updateProfil() async {
     loading(true);
+    Controller c = Get.find();
     String _email = email().trim();
     String _pseudo = pseudo().trim();
     int _age = age();
@@ -53,6 +54,7 @@ class ProfilController extends GetxController {
         title: 'profil__changed_success_title'.tr,
         content: Text(
           'profil__changed_success_text'.tr,
+          textAlign: TextAlign.center,
         ),
         textConfirm: 'ok'.tr,
         confirmTextColor: Colors.white,

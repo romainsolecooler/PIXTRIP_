@@ -87,7 +87,10 @@ class _GetBackPasswordState extends State<GetBackPassword> {
     setState(() => _loading = false);
     Get.defaultDialog(
       title: title.tr,
-      content: Text(text.tr),
+      content: Text(
+        text.tr,
+        textAlign: TextAlign.center,
+      ),
     );
   }
 

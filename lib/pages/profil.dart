@@ -9,11 +9,12 @@ import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/views/profil/profil_details.dart';
 import 'package:pixtrip/views/travel/trip_details.dart';
 
-Controller c = Get.find();
+//Controller c = Get.find();
 
 class Profil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Controller c = Get.find();
     return Column(
       children: [
         Padding(
@@ -55,6 +56,7 @@ class Profil extends StatelessWidget {
 
 class ProfilList extends StatelessWidget {
   final double _spacing = 15.0;
+  final Controller c = Get.find();
 
   Future<List<dynamic>> getProfilTrips() async {
     print('getting profile trips');
@@ -98,7 +100,9 @@ class ProfilList extends StatelessWidget {
 class _Element extends StatelessWidget {
   final Map<String, dynamic> element;
 
-  const _Element({
+  final Controller c = Get.find();
+
+  _Element({
     Key key,
     @required this.element,
   }) : super(key: key);

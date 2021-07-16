@@ -58,37 +58,33 @@ class _TripDetailsState extends State<TripDetails> {
     var response = await dio.post('trip/get_trip_coupons.php', data: {
       'trip_id': c.tripId.value,
     });
-    c.setCouponList(response.data);
+    if (response.data['error'] != null && !response.data['error']) {
+      c.setCouponList(response.data['data']);
+    }
   }
 
   @override
   void dispose() {
-    print('dispose');
+    print('dispose trip details');
+    c.setFinishedTrip(false);
     c.setChosenCoupon('', '');
+    c.setCouponList([]);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget child = CustomScrollView(
-      slivers: [
-        SliverFillRemaining(
-          hasScrollBody: false,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _Image(),
-                SizedBox(height: 20.0),
-                _Name(),
-                SizedBox(height: 20.0),
-                _Actions(),
-              ],
-            ),
-          ),
-        )
-      ],
+    Widget child = Padding(
+      padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 25.0),
+      child: ListView(
+        children: [
+          _Image(),
+          SizedBox(height: 20.0),
+          _Name(),
+          SizedBox(height: 20.0),
+          _Actions(),
+        ],
+      ),
     );
 
     return c.finishedTrip.value
@@ -121,10 +117,9 @@ class _Image extends StatelessWidget {
 class _Name extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: Get.width * 0.45,
+    return Center(
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 2.0),
+        padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
         decoration: BoxDecoration(
           border: Border.all(
             color: Theme.of(context).dividerColor,
@@ -189,7 +184,8 @@ class __ActionsState extends State<_Actions> {
       'steps': steps.toString(),
       'name': c.tripCity.value,
     };
-    String message = 'trip_details__share_message'.trParams(tripData);
+    String message = 'trip_details__share_message'.trParams(tripData) +
+        "\nAndroid : https://play.google.com/store/apps/details?id=com.pixtrip.example\niOS: https://itunes.apple.com/app/id1576183886";
     final RenderBox box = context.findRenderObject();
     Share.share(
       message,
@@ -226,38 +222,35 @@ class __ActionsState extends State<_Actions> {
     Widget info = _showAnecdotes ? _Anecdotes() : _Infos();
     IconData favedIcon = _faved ? Icons.favorite : Icons.favorite_border;
 
-    return Expanded(
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _loadingFaved
-                  ? CircularProgressIndicator.adaptive()
-                  : IconButton(
-                      icon: Icon(favedIcon),
-                      onPressed: () => toggleFaved(),
-                    ),
-              IconButton(
-                icon: Icon(Icons.assignment),
-                onPressed: () =>
-                    setState(() => _showAnecdotes = !_showAnecdotes),
-              ),
-              Obx(() {
-                if (c.positionList.length > 0) {
-                  return IconButton(
-                    icon: Icon(Icons.share),
-                    onPressed: share,
-                  );
-                }
-                return CircularProgressIndicator.adaptive();
-              }),
-            ],
-          ),
-          SizedBox(height: 15.0),
-          info,
-        ],
-      ),
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _loadingFaved
+                ? CircularProgressIndicator.adaptive()
+                : IconButton(
+                    icon: Icon(favedIcon),
+                    onPressed: () => toggleFaved(),
+                  ),
+            IconButton(
+              icon: Icon(Icons.assignment),
+              onPressed: () => setState(() => _showAnecdotes = !_showAnecdotes),
+            ),
+            Obx(() {
+              if (c.positionList.length > 0) {
+                return IconButton(
+                  icon: Icon(Icons.share),
+                  onPressed: share,
+                );
+              }
+              return CircularProgressIndicator.adaptive();
+            }),
+          ],
+        ),
+        SizedBox(height: 15.0),
+        info,
+      ],
     );
   }
 }
@@ -348,6 +341,7 @@ class __AnecdotesState extends State<_Anecdotes> {
 
   @override
   Widget build(BuildContext context) {
+    logger.wtf(c.couponList());
     return _showCoupons
         ? _CouponList(
             showCouponList: showCouponList,
@@ -391,11 +385,12 @@ class __AnecdotesState extends State<_Anecdotes> {
                   ),
                 ],
               ),
-              !c.finishedTrip.value ? Container() : Divider(),
+              c.finishedTrip.value && c.couponList.length > 0
+                  ? Divider()
+                  : Container(),
               SizedBox(height: 25.0),
-              !c.finishedTrip.value
-                  ? Container()
-                  : Material(
+              c.finishedTrip.value && c.couponList.length > 0
+                  ? Material(
                       elevation: 10.0,
                       child: Padding(
                         padding: EdgeInsets.all(10.0),
@@ -423,16 +418,17 @@ class __AnecdotesState extends State<_Anecdotes> {
                                 ),
                               );
                             }
-                            return Stack(
-                              alignment: Alignment.center,
+                            return Row(
                               children: [
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: _CouponImage(image: image),
+                                _CouponImage(image: image),
+                                SizedBox(width: 5.0),
+                                Expanded(
+                                  child: Text(
+                                    name,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
-                                Text(name),
-                                Align(
-                                  alignment: Alignment.centerRight,
+                                Container(
                                   child: button,
                                 ),
                               ],
@@ -440,7 +436,8 @@ class __AnecdotesState extends State<_Anecdotes> {
                           },
                         ),
                       ),
-                    ),
+                    )
+                  : Container(),
             ],
           );
   }
@@ -755,14 +752,14 @@ class _Coupon extends StatelessWidget {
       onTap: () => selectCoupon(),
       child: Padding(
         padding: EdgeInsets.all(10.0),
-        child: Stack(
-          alignment: Alignment.center,
+        child: Row(
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: _CouponImage(image: coupon['image']),
+            _CouponImage(image: coupon['image']),
+            SizedBox(width: 5.0),
+            Expanded(
+              child: Text(coupon['name'], textAlign: TextAlign.center),
             ),
-            Text(coupon['name']),
+            Container(width: 50.0),
           ],
         ),
       ),
