@@ -1,4 +1,4 @@
-package com.example.pixtrip
+package com.pixtrip.pixtrip
 
 import io.flutter.embedding.android.FlutterActivity
 

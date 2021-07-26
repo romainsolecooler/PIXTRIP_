@@ -39,6 +39,10 @@ class Messages extends Translations {
           'image_picker__title': 'Sélectionner depuis :',
           'image_picker__camera': 'Appareil photo',
           'image_picker__gallery': 'Gallerie',
+          'oauth__error':
+              'Utilisateur déjà existant ou créé via le formulaire.',
+          'oauth_error__no_email':
+              "Ce compte ne possède pas d'adresse mail.\nLa connexion est donc impossible.",
           'login__go_register': 'créer un compte',
           'login__pseudo_mail': 'pseudo / adresse email',
           'login__password': 'mot de passe',
@@ -50,8 +54,7 @@ class Messages extends Translations {
               'Veuillez renseigner une adresse mail / pseudo et un mot de passe.',
           'login__failed':
               'Aucun utilisateur trouvé pour cette combinaison adresse email / pseudo et mot de passe.',
-          'apple_sign_in__no_mail':
-              "Veuillez autoriser l'accès à votre adresse mail.",
+          'apple_sign_in__no_mail': "Aucun utilisateur trouvé.",
           'register__mail': 'adresse email',
           'register__pseudo': 'pseudo',
           'register__password': 'mot de passe',
@@ -80,7 +83,7 @@ class Messages extends Translations {
           'tutorial__next_last': 'GO !',
           'tutorial__1_title': "Merci d'avoir téléchargé Pixtrip !",
           'tutorial__1_text':
-              "Ceci est une bêta, aide-nous à améliorer Pixtrip.\nVoici de quoi te guider afin de profiter à 100% de tes trips !",
+              "Voici de quoi te guider afin de profiter à 100% de tes trips !",
           'tutorial__2_title': 'Choisis ton Trip !',
           'tutorial__2_text': "Des lieux à découvrir ou à faire découvrir !",
           'tutorial__3_title': 'Rends-toi dans la zone bleue !',

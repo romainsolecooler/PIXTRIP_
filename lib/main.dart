@@ -84,6 +84,7 @@ class Pixtrip extends StatelessWidget {
     ]);
 
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Pixtrip',
       popGesture: false,
       defaultTransition: Transition.cupertino,

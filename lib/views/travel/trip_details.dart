@@ -58,6 +58,7 @@ class _TripDetailsState extends State<TripDetails> {
     var response = await dio.post('trip/get_trip_coupons.php', data: {
       'trip_id': c.tripId.value,
     });
+    logger.d(response.data);
     if (response.data['error'] != null && !response.data['error']) {
       c.setCouponList(response.data['data']);
     }
@@ -185,7 +186,7 @@ class __ActionsState extends State<_Actions> {
       'name': c.tripCity.value,
     };
     String message = 'trip_details__share_message'.trParams(tripData) +
-        "\nAndroid : https://play.google.com/store/apps/details?id=com.pixtrip.example\niOS: https://itunes.apple.com/app/id1576183886";
+        "\nAndroid : https://play.google.com/store/apps/details?id=com.pixtrip.pixtrip\niOS: https://itunes.apple.com/app/id1576183886";
     final RenderBox box = context.findRenderObject();
     Share.share(
       message,
