@@ -12,6 +12,7 @@ Controller c = Get.find();
 
 var dio = Dio(BaseOptions(
   baseUrl: 'https://pixtrip.fr/api/',
+  headers: {'cookie': 'any'},
 ));
 var logger = Logger();
 

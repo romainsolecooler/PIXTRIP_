@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:get/get.dart';
-import 'package:latlong/latlong.dart';
+// import 'package:latlong/latlong.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:pixtrip/common/app_bar.dart';
 import 'package:pixtrip/controllers/controller.dart';
 
@@ -11,6 +12,12 @@ class Parcour extends StatelessWidget {
   final bool little;
 
   const Parcour({Key key, this.little = false}) : super(key: key);
+
+  void showParcour(_, __) {
+    if (little) {
+      Get.to(() => Parcour());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +32,8 @@ class Parcour extends StatelessWidget {
         center: LatLng(c.tripLatitude.value, c.tripLongitude.value),
         zoom: little ? 13.6 : 15.0,
         maxZoom: 18.4,
-        onTap: (_) => little ? Get.to(() => Parcour()) : null,
+        // onTap: (_) => little ? Get.to(() => Parcour()) : null,
+        onTap: showParcour,
       ),
       layers: [
         TileLayerOptions(

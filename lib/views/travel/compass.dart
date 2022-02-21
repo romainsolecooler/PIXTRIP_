@@ -67,9 +67,7 @@ class LoadedCompass extends GetView<CompassController> {
           children: [
             Obx(
               () => Text(
-                controller.distance() > 100.0
-                    ? '${controller.distance()} m'
-                    : '',
+                controller.distance() > 100 ? '${controller.distance()} m' : '',
                 style: Theme.of(context).textTheme.headline4.copyWith(
                       color: Theme.of(context).textTheme.bodyText1.color,
                     ),
@@ -273,7 +271,7 @@ class _CompassState extends State<_Compass>
                 child: Column(
                   children: [
                     Text(
-                      _distance > 10.0 ? '$_distance m' : '',
+                      _distance > 10 ? '$_distance m' : '',
                       style: Theme.of(context).textTheme.headline4.copyWith(
                             color: Theme.of(context).textTheme.bodyText1.color,
                           ),
@@ -293,7 +291,7 @@ class _CompassState extends State<_Compass>
                               fit: BoxFit.contain,
                             ),
                           ),
-                          if (_distance > 20.0)
+                          if (_distance > 20)
                             StreamBuilder<CompassEvent>(
                                 stream: FlutterCompass.events,
                                 builder: (context, snapshot) {

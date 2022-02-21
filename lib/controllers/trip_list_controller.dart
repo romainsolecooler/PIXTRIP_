@@ -1,9 +1,7 @@
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:geocoder/geocoder.dart';
 
 import 'package:pixtrip/common/utils.dart';
-import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/controllers/settings_controller.dart';
 
 class TripListController extends GetxController {

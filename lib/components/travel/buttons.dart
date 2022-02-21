@@ -4,17 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pixtrip/components/travel/give_up_popup.dart';
 import 'package:pixtrip/controllers/compass_controller.dart';
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/views/travel/fail.dart';
 import 'package:pixtrip/views/travel/success.dart';
 
-import 'package:camerawesome/camerapreview.dart';
 import 'package:camerawesome/camerawesome_plugin.dart';
-import 'package:camerawesome/models/capture_modes.dart';
-import 'package:camerawesome/models/sensors.dart';
 
 Controller c = Get.find();
 Color color = Colors.white;
@@ -54,7 +51,6 @@ class PhotoScreen extends GetView<CompassController> {
 
   // Controllers
   PictureController _pictureController = new PictureController();
-  VideoController _videoController = new VideoController();
 
   void takePhoto() async {
     final Directory extDir = await getTemporaryDirectory();

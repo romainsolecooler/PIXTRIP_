@@ -30,6 +30,8 @@ class Messages extends Translations {
           'flora_and_fauna': 'Faune et flore',
           'unusual': 'Insolite',
           'instagrammable': 'Instagrammable',
+          'cgu': "Conditions générales d'utilisation",
+          'privacy_policy': 'Politique de confidentialité',
           'bug_report': 'Signaler un bug',
           'show_tutorial': 'Afficher le tutoriel',
           'apply_filter': 'Appliquer ces filtres ?',

@@ -55,32 +55,22 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>This app does not need access to Apple Musis.</string>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>This app does not need access to speech bluetooth.</string>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>This app does not need access to bluetooth peripheral.</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>This app does not need access to calendar.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs access to your camera to take a photo that will not be saved. It will be used to display a success screen if you are in the right position.</string>
-	<key>NSContactsUsageDescription</key>
-	<string>This app does not need access to contacts.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This app does not need access to location in the background.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app needs access to location when open to check if you are in the right place, to order trips and to add a trip.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>This app needs access to motion sensors when open to check if the user is moving or not.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app needs access to your files to change your profile picture.</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>This app does not need access to speech recognition.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
 	<key>UIStatusBarHidden</key>
 	<false/>
 	<key>UISupportedInterfaceOrientations</key>

@@ -26,9 +26,7 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - geocoder (0.0.1):
-    - Flutter
-  - geolocator (6.2.0):
+  - geolocator_apple (1.2.0):
     - Flutter
   - google_sign_in (0.0.1):
     - Flutter
@@ -64,8 +62,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_compass (from `.symlinks/plugins/flutter_compass/ios`)
   - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
-  - geocoder (from `.symlinks/plugins/geocoder/ios`)
-  - geolocator (from `.symlinks/plugins/geolocator/ios`)
+  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
@@ -95,10 +92,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_compass/ios"
   flutter_facebook_auth:
     :path: ".symlinks/plugins/flutter_facebook_auth/ios"
-  geocoder:
-    :path: ".symlinks/plugins/geocoder/ios"
-  geolocator:
-    :path: ".symlinks/plugins/geolocator/ios"
+  geolocator_apple:
+    :path: ".symlinks/plugins/geolocator_apple/ios"
   google_sign_in:
     :path: ".symlinks/plugins/google_sign_in/ios"
   image_picker:
@@ -123,13 +118,12 @@ SPEC CHECKSUMS:
   camerawesome: 0f8628efae993cb064ec4f36322e89c237e1064f
   FBSDKCoreKit: a00fe2efd780c195a5e09201bf51c56106245b40
   FBSDKLoginKit: d98498c598ec09de657385a9349a1f21119b7f86
-  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_compass: cbbd285cea1584c7ac9c4e0c3e1f17cbea55e855
   flutter_facebook_auth: 4b170c07b7fce791497093fcc3f134fb215f3f07
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  geocoder: 3cfab70531a0b367e917bafe82df4c30f6d4c45a
-  geolocator: f5e3de65e241caba7ce3e8a618803387bda73384
-  google_sign_in: 6bd214b9c154f881422f5fe27b66aaa7bbd580cc
+  geolocator_apple: b741765c55dc21950e3e106e8b3584e55cf81ce5
+  google_sign_in: c5cecea71f3be43282263550556e311c4cc03582
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
@@ -142,6 +136,6 @@ SPEC CHECKSUMS:
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
 
-PODFILE CHECKSUM: a75497545d4391e2d394c3668e20cfb1c2bbd4aa
+PODFILE CHECKSUM: a7efee4dfe26f600a987f7264d4fcba9ebb7ec5f
 
 COCOAPODS: 1.10.1

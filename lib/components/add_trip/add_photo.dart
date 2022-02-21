@@ -2,9 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:camerawesome/camerawesome_plugin.dart';
-import 'package:camerawesome/models/capture_modes.dart';
-import 'package:camerawesome/models/flashmodes.dart';
-import 'package:camerawesome/models/sensors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -12,6 +9,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_compass/flutter_compass.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/controllers/controller.dart';
 
@@ -124,7 +122,6 @@ class TakePhotoScreen extends StatelessWidget {
 
   // Controllers
   PictureController _pictureController = new PictureController();
-  VideoController _videoController = new VideoController();
 
   void takePhoto() async {
     final Directory extDir = await getTemporaryDirectory();

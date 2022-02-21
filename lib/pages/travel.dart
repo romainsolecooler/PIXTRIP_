@@ -6,7 +6,8 @@ import 'package:get/get.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:latlong/latlong.dart';
+// import 'package:latlong/latlong.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:pixtrip/bindings/compass_binding.dart';
 
@@ -60,7 +61,6 @@ class _PixtripMapState extends State<PixtripMap> {
   @override
   void dispose() {
     print('dipose stream');
-    Wakelock.disable();
     _stream.cancel();
     super.dispose();
   }

@@ -4,9 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:pixtrip/common/app_bar.dart';
-import 'package:pixtrip/common/bottom_navigation_bar.dart';
 import 'package:pixtrip/common/custom_colors.dart';
-import 'package:pixtrip/common/utils.dart';
 import 'package:pixtrip/components/home/tutorial.dart';
 
 import 'package:pixtrip/components/profil/user_image.dart';
@@ -15,7 +13,6 @@ import 'package:pixtrip/components/profil/buttons.dart';
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/controllers/login_controller.dart';
 import 'package:pixtrip/controllers/tab_controller.dart';
-import 'package:pixtrip/main.dart';
 import 'package:pixtrip/not_logged/login/login.dart';
 
 const double indent = 15.0;
@@ -50,6 +47,8 @@ class ProfilDetails extends StatelessWidget {
                 Password(),
                 SizedBox(height: 20.0),
                 Age(),
+                SizedBox(height: 20.0),
+                Cgu(),
                 SizedBox(height: 60.0),
                 ValidateProfilChange(),
               ],
@@ -123,6 +122,28 @@ class UserRow extends StatelessWidget {
           icon: Icon(Icons.logout),
         ),
       ],
+    );
+  }
+}
+
+class Cgu extends StatelessWidget {
+  String _url = 'https://pixtrip.fr/politique-de-confidentialite.pdf';
+
+  void _openCGU() async {
+    await canLaunch(_url) ? await launch(_url) : print('could not open url');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: GestureDetector(
+        onTap: _openCGU,
+        child: Text(
+          'privacy_policy'.tr,
+          style: TextStyle(decoration: TextDecoration.underline),
+        ),
+      ),
     );
   }
 }

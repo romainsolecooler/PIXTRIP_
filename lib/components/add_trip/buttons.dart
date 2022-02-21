@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as g;
+import 'package:pixtrip/common/utils.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/controllers/tab_controller.dart';
@@ -50,8 +51,7 @@ class _AddTripButtonState extends State<AddTripButton> {
       'anecdote_2': c.addSecondInfo.value,
       'anecdote_3': c.addThirdInfo.value,
     });
-    var response = await Dio()
-        .post('https://pixtrip.fr/api/trip/add_trip.php', data: formData);
+    var response = await dio.post('trip/add_trip.php', data: formData);
     print(response.data['message']);
     setState(() {
       _loading = false;

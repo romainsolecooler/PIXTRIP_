@@ -3,11 +3,13 @@ import 'package:get/get.dart';
 import 'package:pixtrip/controllers/controller.dart';
 
 import 'package:pixtrip/main.dart';
+import 'package:wakelock/wakelock.dart';
 
 Controller c = Get.find();
 
 class GiveUpPopup extends StatelessWidget {
   void _giveUpTrip(BuildContext context) {
+    Wakelock.disable();
     Get.offAll(() => App());
   }
 

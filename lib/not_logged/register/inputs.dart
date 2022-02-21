@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import 'package:pixtrip/controllers/controller.dart';
 import 'package:pixtrip/controllers/register_controller.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Mail extends GetView<RegisterController> {
   @override
@@ -55,6 +56,10 @@ class Password extends GetView<RegisterController> {
 }
 
 class AcceptConditions extends GetView<RegisterController> {
+  void _openCGU() async {
+    await launch('https://pixtrip.fr/politique-de-confidentialite.pdf');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -64,7 +69,10 @@ class AcceptConditions extends GetView<RegisterController> {
               onChanged: (value) => controller.acceptedConditions(value),
               value: controller.acceptedConditions(),
             )),
-        Text('register__accept_conditions'.tr),
+        GestureDetector(
+          onTap: _openCGU,
+          child: Text('register__accept_conditions'.tr),
+        ),
       ],
     );
   }
